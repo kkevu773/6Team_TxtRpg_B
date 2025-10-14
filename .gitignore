@@ -596,3 +596,7 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudio,visualstudiocode
 .vscode/launch.json
 .vscode/tasks.json
+6tTxtRpg/6tTxtRpg/.vscode/launch.json
+6tTxtRpg/6tTxtRpg/.vscode/tasks.json
+6tTxtRpg/6tTxtRpg/6tTxtRpg.csproj
+6tTxtRpg/6tTxtRpg/ParkhaSafe
