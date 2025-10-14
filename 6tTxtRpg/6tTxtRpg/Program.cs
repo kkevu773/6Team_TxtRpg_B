@@ -90,7 +90,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.WriteLine($"Exp: {exp}");
             Console.WriteLine($"Gold: {gold}");
         }
-        
+
     }
     internal class TxtR
     {
@@ -100,7 +100,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             var intro = new Intro();
             Character player = intro.IntroA();
-            
+
         }
     }
 
@@ -110,17 +110,19 @@ namespace _6TxtRpg // 이쪽에 만들기
         // 캐릭터를 만들어 반환
         public Character IntroA()
         {
+
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
 
             var player = new Character("", "");
+            MonsterList monList = new MonsterList();//배틀용 몬스터리스트 소환
+            Battle battle = new Battle(player, monList.monsterList);//배틀코드
             player.YourName();
             player.YourJob();
 
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
             return player;
-            MonsterList monList = new MonsterList();//배틀용 몬스터리스트 소환
-            Battle battle = new Battle(player, monList.monsterList);//배틀코드
+
         }
     }
 }
