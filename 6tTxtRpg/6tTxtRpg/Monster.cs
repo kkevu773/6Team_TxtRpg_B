@@ -195,8 +195,9 @@ namespace _6TxtRpg
         public void Use(Monster monster)
         {
             float damage = monster.damage +3;
+            float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
-            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
+            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
             //플레이어 피해를 입는 함수
         }
     }
@@ -207,8 +208,10 @@ namespace _6TxtRpg
         public void Use(Monster monster)
         {
             float damage = monster.damage + 4;
+            float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
-            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
+            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); 
+            
             //플레이어 피해를 입는 함수
         }
     }
@@ -218,9 +221,9 @@ namespace _6TxtRpg
         public void Use(Monster monster)
         {
             float damage = monster.damage + 2;
+            float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
-            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
-            //플레이어 피해를 입는 함수
+            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
             
         }
 
@@ -231,10 +234,10 @@ namespace _6TxtRpg
         public void Use(Monster monster)
         {
             float damage = monster.damage;
+            float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
-            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
-            //플레이어 피해를 입는 함수
-        }
+            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); 
+            
     }
 
 }
