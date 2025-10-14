@@ -132,7 +132,12 @@ namespace _6TxtRpg
                 }
             }
         }
-        void MonsterATK()
-        { }
+        void MonsterATK(Character character)
+        {
+            for(int i = 0; i < monNum ; i++)
+            {
+                character.hp -= (int)fightMonsters[i].damage;
+            }
+        }
     }
 }
