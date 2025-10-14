@@ -12,6 +12,7 @@ namespace _6TxtRpg
 {
     public class Monster
     {
+        
         public string name;
         public float damage;
         public float armor;

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace _6TxtRpg // 이쪽에 만들기
 {
+    
     public class Character
     {
         //기본 인터페이스 구성
@@ -141,12 +142,12 @@ namespace _6TxtRpg // 이쪽에 만들기
     }
     internal class TxtR
     {
-
+        public static Character player;
 
         public static void Main(string[] args)
         {
             var intro = new Intro();
-            Character player = intro.IntroA();
+           player = intro.IntroA();
 
         }
     }
