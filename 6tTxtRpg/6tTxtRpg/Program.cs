@@ -123,6 +123,20 @@ namespace _6TxtRpg // 이쪽에 만들기
             }
             
         }
+        public void ShortInfo() //전투에 사용할 정보창
+        {
+            Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
+        }
+        public void BlowPlayer(Monster monster) //몬스터가 캐릭터를 공격하는 메서드
+        {
+            float actualDamage = monster.damage - this.defense;
+            if (actualDamage < 0)
+            {
+                actualDamage = 0;
+            }
+            this.hp -= (int)actualDamage;
+        }
+        
 
     }
     internal class TxtR
