@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,26 +21,15 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int defense; // 방어력
         public int exp; // 경험치
         public int gold; // 골드
-        public Character(string name, string job) //생성자
+        public Character() //생성자
         {
-            this.name = name;
-            this.job = job;
-            this.level = 1;
-            this.maxHp = 100;
-            this.hp = 100;
-            this.maxMp = 100;
-            this.mp = 100;
-            this.damage = 10;
-            this.defense = 5;
-            this.gold = 1500;
         }
         public void YourName() //이름 정하기
         {
             while (true)
             {
                 Console.Write("이름을 입력해주세요(1~6 글자 제한)");
-                string input = Console.ReadLine();
-                name = input;
+                name = Console.ReadLine();
                 if (name.Length <= 6)
                 {
                     Console.WriteLine($"{name}님 이 맞으십니까?");
@@ -61,44 +51,77 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.Write("직업을 선택해주세요(전사, 마법사, 궁수)");
+                Console.Write("직업을 선택해주세요(전사, 마법사, 도적)");
                 string input = Console.ReadLine();
                 job = input;
-                switch (job)
+                if (job == "전사" || job == "마법사" || job == "도적")
                 {
-                    case "전사":
-                        Console.WriteLine("전사를 선택하셨습니다.");
+                    Console.WriteLine($"{job}이 맞으십니까?");
+                    string yes = Console.ReadLine();
+                    if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
+                    {
+                        Console.WriteLine("확인되었습니다.");
+                        SetState(); //직업을 정함과 동시에 메서드 호출로 스탯 세팅
                         break;
-                    case "마법사":
-                        Console.WriteLine("마법사를 선택하셨습니다.");
-                        break;
-                    case "도적":
-                        Console.WriteLine("도적을 선택하셨습니다.");
-                        break;
-                }
-               Console.WriteLine($"{job}이 맞으십니까?");
-                string yes = Console.ReadLine();
-                 if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
-                 {
-                      Console.WriteLine("확인되었습니다.");
-                      break;
-                 }
-                 else
-                 {
-                      Console.WriteLine("다시 입력해주세요.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("다시 입력해주세요.");
+                    }
                 }
 
             }
+
         }
+        public void SetState() // 스탯 세팅
+        {
+            this.level = 1;
+            this.exp = 0;
+            this.gold = 1500;
+            switch (job)
+            {
+                case "전사": //전사값을 받았을경우 스텟
+                    this.maxHp = 150;
+                    this.hp = 150;
+                    this.maxMp = 100;
+                    this.mp = 100;
+                    this.damage = 30;
+                    this.defense = 20;
+
+                    break;
+                case "마법사": //마법사값을 받았을경우 스텟
+                    this.maxHp = 100;
+                    this.hp = 100;
+                    this.maxMp = 200;
+                    this.mp = 200;
+                    this.damage = 30;
+                    this.defense = 5;
+                    break;
+                case "도적": //도적값을 받았을경우 스텟
+                    this.maxHp = 120;
+                    this.hp = 120;
+                    this.maxMp = 70;
+                    this.mp = 70;
+                    this.damage = 50;
+                    this.defense = 10;
+                    break;
+            }
+        }
+
         public void ShowInfo() //정보창
         {
-            Console.WriteLine($"Name: {name}{job}");
-            Console.WriteLine($"Level: {level}");
-            Console.WriteLine($"Hp: {hp}");
-            Console.WriteLine($"Attack: {damage}");
-            Console.WriteLine($"Defense: {defense}");
-            Console.WriteLine($"Exp: {exp}");
-            Console.WriteLine($"Gold: {gold}");
+            while (true)
+            {
+                Console.WriteLine($"Name: {name}{job}");
+                Console.WriteLine($"Level: {level}");
+                Console.WriteLine($"Hp: {hp}/{maxHp}");
+                Console.WriteLine($"Mp: {mp}/{maxMp}");
+                Console.WriteLine($"Attack: {damage}");
+                Console.WriteLine($"Defense: {defense}");
+                Console.WriteLine($"Exp: {exp}");
+                Console.WriteLine($"Gold: {gold}");
+            }
+            
         }
 
     }
@@ -122,7 +145,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
 
-            var player = new Character("", "");
+            var player = new Character();
             player.YourName();
             player.YourJob();
 
