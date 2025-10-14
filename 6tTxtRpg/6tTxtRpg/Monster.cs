@@ -10,7 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace _6TxtRpg
 {
-    public class Monster
+    public abstract class Monster
     {
 
         public string name;
@@ -41,7 +41,7 @@ namespace _6TxtRpg
             int index = rand.Next(skills.Count);  // 0 ~ skills.Count-1
             skills[index].Use(this);
         }
-
+        public abstract void DropItem();
 
         public virtual void ShowInfo()            //기본 몬스터 정보
         {
@@ -73,11 +73,13 @@ namespace _6TxtRpg
         {
             if (hp <= 0)
             {
+                hp = 0;
                 isDead = true;
                 Console.WriteLine($"{name}이(가) 사망하였습니다.");
+                DropItem();
             }
         }
-
+        
         public class Goblin : Monster
         {
             public Goblin()   // 생성자에서 Random 객체 받기
@@ -92,6 +94,10 @@ namespace _6TxtRpg
                 this.maxHP = this.hp;
                 skills.Add(new NormalAttack());
                 skills.Add(new RockThorw());
+            }
+            public override void DropItem()
+            {
+                Inventory.GetItem(ItemPreset.dropItemList[0]);
             }
         }
 
@@ -109,6 +115,10 @@ namespace _6TxtRpg
                 skills.Add(new NormalAttack());
                 skills.Add(new Nip());
             }
+            public override void DropItem()
+            {
+                Inventory.GetItem(ItemPreset.dropItemList[1]);
+            }
         }
 
         public class Wolf : Monster
@@ -125,6 +135,10 @@ namespace _6TxtRpg
                 skills.Add(new NormalAttack());
                 skills.Add(new Bite());
             }
+            public override void DropItem()
+            {
+                Inventory.GetItem(ItemPreset.dropItemList[2]);
+            }
         }
         public class Boss : Monster
         {
@@ -138,7 +152,10 @@ namespace _6TxtRpg
                 this.hp = 200;
                 this.maxHP = this.hp;
             }
-
+            public override void DropItem()
+            {
+                
+            }
         }
 
     }
