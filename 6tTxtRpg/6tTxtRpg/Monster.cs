@@ -168,9 +168,7 @@ namespace _6TxtRpg
         {
             if (monster != null && monsterList.Contains(monster))
             {
-
                 monsterList.Remove(monster);
-
             }
         }
 
@@ -246,13 +244,11 @@ namespace _6TxtRpg
             float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
-
         }
 
     }
     public class NormalAttack : IMonsterSkill
     {
-
         public string Name => "공격";
         public void Use(Monster monster)
         {
@@ -260,8 +256,6 @@ namespace _6TxtRpg
             float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
-
         }
-
     }
 }
