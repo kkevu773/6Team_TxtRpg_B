@@ -69,6 +69,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Console.WriteLine("다시 입력해주세요.");
                     }
                 }
+
             }
 
         }
