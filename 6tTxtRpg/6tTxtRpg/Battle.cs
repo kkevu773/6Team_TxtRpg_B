@@ -24,7 +24,7 @@ namespace _6TxtRpg
             MonWin,
             Unknown,
         }
-        public Battle(Character character, List<Monster> monsters) //반드시 받아야 되는 인자값을 위해 생성자로 만듬.
+        public Battle(Character character, MonsterList monsters) //반드시 받아야 되는 인자값을 위해 생성자로 만듬.
         { //몬스터 1~4마리의 정보가 필요할 것 같다.
             monNum = (byte)random.Next(0, 4);//등장 몬스터 수. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i >= monNum; ++i)//몬스터 수만큼 반복.
