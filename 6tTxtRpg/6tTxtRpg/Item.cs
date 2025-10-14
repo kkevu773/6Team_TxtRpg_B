@@ -221,7 +221,7 @@ namespace _6TxtRpg
     }
     public static class Inventory
     {
-        public static Dictionary<ItemType, Item> equipments = new Dictionary<ItemType, Item>() {
+        public static Dictionary<ItemType, Item?> equipments = new Dictionary<ItemType, Item?>() {
             { ItemType.Head, null },
             { ItemType.Body, null },
             { ItemType.Weapon, null },
@@ -255,6 +255,26 @@ namespace _6TxtRpg
                 }
             }
             return output;
+        }
+
+        public static void PrintInventory()
+        {
+            //장비 출력
+            Console.WriteLine("================= 장비 ================");
+            foreach (KeyValuePair<ItemType, Item> item in equipments)
+            {
+                Console.WriteLine("[{0}: {1}]", item.Key.ToString(), (item.Value == null ? "빈칸" : item.Value.Name));
+            }
+
+            //인벤 출력
+            Console.WriteLine("================= 인벤토리 ================");
+
+            for (int i = 0; i < Inven.Count; i++)
+            {
+                Item itemInven = Inven[i];
+                Console.WriteLine($"{i + 1}.[{itemInven.Name}]: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")}");
+            }
+
         }
     }
 
