@@ -73,6 +73,7 @@ namespace _6TxtRpg
         {
             if (hp <= 0)
             {
+                hp = 0;
                 isDead = true;
                 Console.WriteLine($"{name}이(가) 사망하였습니다.");
                 DropItem();
