@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace _6TxtRpg // 이쪽에 만들기
 {
+    
     public class Character
     {
         //기본 인터페이스 구성
@@ -121,19 +122,33 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine($"Exp: {exp}");
                 Console.WriteLine($"Gold: {gold}");
             }
-            
+
         }
+        public void ShortInfo() //전투에 사용할 정보창
+        {
+            Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
+        }
+        public void BlowPlayer(float damage) //몬스터가 캐릭터를 공격하는 메서드
+        {
+            float actualDamage = damage - this.defense;
+            if (actualDamage < 0)
+            {
+                actualDamage = 0;
+            }
+            this.hp -= (int)actualDamage;
+        }
+
 
     }
     internal class TxtR
     {
+        public static Character player;
 
-        public static Character player = new Character();
         public static void Main(string[] args)
         {
             var intro = new Intro();
-            player = intro.IntroA();
-            
+           player = intro.IntroA();
+
         }
     }
 
@@ -143,17 +158,19 @@ namespace _6TxtRpg // 이쪽에 만들기
         // 캐릭터를 만들어 반환
         public Character IntroA()
         {
+
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
 
-            var player = new Character();
+            var player = new Character("","");
             player.YourName();
             player.YourJob();
-
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
             return player;
             MonsterList monList = new MonsterList();//배틀용 몬스터리스트 소환
-            Battle battle = new Battle(player, monList.monsterList);//배틀코드
+            Battle battle = new Battle(player, monList);//배틀코드
+
+
         }
     }
 }
