@@ -9,7 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace _6TxtRpg
 {
-    class Monster
+    public class Monster
     {
         public string name;
         public float damage;
@@ -17,7 +17,8 @@ namespace _6TxtRpg
         public float hp;
         public bool isDead = false;
         public int level = 1;
-        public int maxHP;
+        public float maxHP;
+        Random random = new Random();
         public virtual void ShowInfo()            //기본 몬스터 정보
         {
             Console.WriteLine($"Level : {level}");
@@ -48,60 +49,69 @@ namespace _6TxtRpg
                 Console.WriteLine($"{name}이(가) 사망하였습니다.");
             }
         }
+
         public class Goblin : Monster
         {
-
-            public Goblin()             //고블린 몬스터
+            public Goblin()   // 생성자에서 Random 객체 받기
             {
+                this.level = random.Next(1, 4); // 1~3 레벨
                 this.name = "고블린";
-                this.armor = 3;
-                this.damage = 5;
-                this.hp = 20;
-                this.maxHP = 20;
+
+                // 레벨별 스탯 조정
+                this.armor = 3 + level;        // 기본 3 + 레벨
+                this.damage = 5 + level * 2;   // 기본 5 + 레벨*2
+                this.hp = 20 + level * 5;      // 기본 20 + 레벨*5
+                this.maxHP = this.hp;
             }
         }
-        public class Spider : Monster      //거미 몬스터
+
+        public class Spider : Monster
         {
-            public Spider()                
+            public Spider()
             {
+                this.level = random.Next(1, 4);
                 this.name = "거미";
-                this.armor = 1;
-                this.damage = 8;
-                this.hp = 10;
-                this.maxHP = 10;
+
+                this.armor = 1 + level;          // 기본 1 + 레벨
+                this.damage = 8 + level;         // 기본 8 + 레벨
+                this.hp = 10 + level * 3;        // 기본 10 + 레벨*3
+                this.maxHP = this.hp;
             }
         }
-        public class Wolf : Monster         //늑대 몬스터
+
+        public class Wolf : Monster
         {
             public Wolf()
             {
+                this.level = random.Next(1, 4);
                 this.name = "늑대";
-                this.armor = 2;
-                this.damage = 9;
-                this.hp = 15;
-                this.maxHP = 15;
+
+                this.armor = 2 + level;          // 기본 2 + 레벨
+                this.damage = 9 + level * 2;     // 기본 9 + 레벨*2
+                this.hp = 15 + level * 5;        // 기본 15 + 레벨*5
+                this.maxHP = this.hp;
             }
         }
+
     }
-    class MosterList()
+    class MonsterList
     {
         public List<Monster> monsterList = new List<Monster>();        //전투에 사용할 몬스터 리스트
-
+        private Random monsterRandom = new Random();
 
         public void RemoveMonter(Monster monster)   //몬스터 리스트에서 지우기
         {
-            if (monster == null)
+            if (monster != null && monsterList.Contains(monster))
             {
-                if (monsterList.Contains(monster))
-                {
+                
                     monsterList.Remove(monster);
-                }
+                
             }
         }
 
         public void AddMonster(Monster monster)     //몬스터 직접생성
         {
-            if (monster == null)
+            if (monster != null)
             {
                 monsterList.Add(monster);
             }
@@ -113,7 +123,7 @@ namespace _6TxtRpg
         }
         public void AddRandom()   //몬스터 랜덤생성
         {
-            Random monsterRandom = new Random();
+            
             int randomValue = monsterRandom.Next(3);
 
             switch (randomValue)
@@ -129,6 +139,8 @@ namespace _6TxtRpg
                     break;
             }
         }
+
+
     }
 
 }
