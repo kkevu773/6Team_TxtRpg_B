@@ -9,7 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace _6TxtRpg
 {
-    class Monster
+    public class Monster
     {
         public string name;
         public float damage;
@@ -18,6 +18,7 @@ namespace _6TxtRpg
         public bool isDead = false;
         public int level = 1;
         public int maxHP;
+        Random random = new Random();
         public virtual void ShowInfo()            //기본 몬스터 정보
         {
             Console.WriteLine($"Level : {level}");
@@ -48,22 +49,26 @@ namespace _6TxtRpg
                 Console.WriteLine($"{name}이(가) 사망하였습니다.");
             }
         }
+    
         public class Goblin : Monster
         {
 
             public Goblin()             //고블린 몬스터
             {
+                this.level = random.Next(1, 3);
                 this.name = "고블린";
                 this.armor = 3;
                 this.damage = 5;
                 this.hp = 20;
                 this.maxHP = 20;
+                
             }
         }
         public class Spider : Monster      //거미 몬스터
         {
             public Spider()                
             {
+                this.level = random.Next(1, 3);
                 this.name = "거미";
                 this.armor = 1;
                 this.damage = 8;
@@ -75,6 +80,7 @@ namespace _6TxtRpg
         {
             public Wolf()
             {
+                this.level = random.Next(1, 3);
                 this.name = "늑대";
                 this.armor = 2;
                 this.damage = 9;
@@ -83,25 +89,24 @@ namespace _6TxtRpg
             }
         }
     }
-    class MosterList()
+    class MonsterList
     {
         public List<Monster> monsterList = new List<Monster>();        //전투에 사용할 몬스터 리스트
-
+        private Random monsterRandom = new Random();
 
         public void RemoveMonter(Monster monster)   //몬스터 리스트에서 지우기
         {
-            if (monster == null)
+            if (monster != null && monsterList.Contains(monster))
             {
-                if (monsterList.Contains(monster))
-                {
+                
                     monsterList.Remove(monster);
-                }
+                
             }
         }
 
         public void AddMonster(Monster monster)     //몬스터 직접생성
         {
-            if (monster == null)
+            if (monster != null)
             {
                 monsterList.Add(monster);
             }
@@ -113,7 +118,7 @@ namespace _6TxtRpg
         }
         public void AddRandom()   //몬스터 랜덤생성
         {
-            Random monsterRandom = new Random();
+            
             int randomValue = monsterRandom.Next(3);
 
             switch (randomValue)
@@ -129,6 +134,8 @@ namespace _6TxtRpg
                     break;
             }
         }
+
+
     }
 
 }

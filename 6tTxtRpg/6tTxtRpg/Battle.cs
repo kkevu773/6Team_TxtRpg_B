@@ -71,10 +71,10 @@ namespace _6TxtRpg
                 { Console.Write($"{i}."); }
                 if (fightMonsters[i].hp <= 0)//사망시 Dead표시
                 {
-                    //Console.WriteLine($"LV.{fightMonsters[i].level} {fightMonsters[i].name} Hp Dead");//TODO:몬스터 레벨변수 생기면 주석해제
+                    Console.WriteLine($"LV.{fightMonsters[i].level} {fightMonsters[i].name} Hp Dead");//TODO:몬스터 레벨변수 생기면 주석해제
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-                //Console.WriteLine($"LV.{fightMonsters[i].level} {fightMonsters[i].name} Hp {fightMonsters[i].hp}");//배열에 넣은 몬스터 출력
+                Console.WriteLine($"LV.{fightMonsters[i].level} {fightMonsters[i].name} Hp {fightMonsters[i].hp} / {fightMonsters[i].maxHP}");//배열에 넣은 몬스터 출력
             }
         }
         void ShowChar(Character character)//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
@@ -132,7 +132,12 @@ namespace _6TxtRpg
                 }
             }
         }
-        void MonsterATK()
-        { }
+        void MonsterATK(Character character)
+        {
+            for(int i = 0; i < monNum ; i++)
+            {
+                character.hp -= (int)fightMonsters[i].damage;
+            }
+        }
     }
 }
