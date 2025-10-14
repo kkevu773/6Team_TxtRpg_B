@@ -9,24 +9,29 @@ namespace _6TxtRpg // 이쪽에 만들기
     class Character
     {
         //기본 인터페이스 구성
-        public string name;
-        public string job;
-        public int level;
-        public int hp;
-        public int damage;
-        public int defense;
-        public int exp;
-        public int gold;
+        public string name; // 이름
+        public string job; // 직업
+        public int level;  //레벨
+        public int maxHp; // 최대체력
+        public int hp; // 현재체력
+        public int maxMp; // 최대마나
+        public int mp; // 현재마나
+        public int damage; // 공격력
+        public int defense; // 방어력
+        public int exp; // 경험치
+        public int gold; // 골드
         public Character(string name, string job) //생성자
         {
             this.name = name;
             this.job = job;
             this.level = 1;
+            this.maxHp = 100;
             this.hp = 100;
+            this.maxMp = 100;
+            this.mp = 100;
             this.damage = 10;
             this.defense = 5;
             this.gold = 1500;
-            
         }
         public void YourName() //이름 정하기
         {
@@ -75,7 +80,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                 }
             }
         }
-
         public void ShowInfo() //정보창
         {
             Console.WriteLine($"Name: {name}{job}");
@@ -85,6 +89,10 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.WriteLine($"Defense: {defense}");
             Console.WriteLine($"Exp: {exp}");
             Console.WriteLine($"Gold: {gold}");
+        }
+        public void Weapon() //기본 데미지 + 장비에 따른 추가스텟
+        {
+            damage += Item.EffectNum
         }
     }
     internal class TxtR
