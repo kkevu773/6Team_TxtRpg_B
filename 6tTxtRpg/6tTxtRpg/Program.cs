@@ -99,7 +99,8 @@ namespace _6TxtRpg // 이쪽에 만들기
         public static void Main(string[] args)
         {
             var intro = new Intro();
-            Character player = intro.IntroA();              
+            Character player = intro.IntroA();
+            
         }
     }
 
@@ -113,8 +114,8 @@ namespace _6TxtRpg // 이쪽에 만들기
 
             var player = new Character("", "");
             player.YourName();
+            player.YourJob();
 
-            Console.WriteLine("직업을 선택 해주세요.");
 
             return player;
         }
