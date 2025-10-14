@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,41 +21,8 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int defense; // 방어력
         public int exp; // 경험치
         public int gold; // 골드
-        public Character(string name) //생성자
+        public Character() //생성자
         {
-            this.name = name;
-            this.level = 1;
-            this.exp = 0;
-            this.gold = 1500;
-            switch (job)
-            {
-                case "전사":
-                    this.maxHp = 150;
-                    this.hp = 150;
-                    this.maxMp = 100;
-                    this.mp = 100;
-                    this.damage = 30;
-                    this.defense = 20;
-                    
-                    break;
-                case "마법사":
-                    this.maxHp = 100;
-                    this.hp = 100;
-                    this.maxMp = 200;
-                    this.mp = 200;
-                    this.damage = 30;
-                    this.defense = 5;
-                    break;
-                case "도적":
-                    this.maxHp = 120;
-                    this.hp = 120;
-                    this.maxMp = 70;
-                    this.mp = 70;
-                    this.damage = 50;
-                    this.defense = 10;
-                    break;
-            }
-
         }
         public void YourName() //이름 정하기
         {
@@ -94,6 +62,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
                         Console.WriteLine("확인되었습니다.");
+                        SetState(); //직업을 정함과 동시에 메서드 호출로 스탯 세팅
                         break;
                     }
                     else
@@ -102,12 +71,48 @@ namespace _6TxtRpg // 이쪽에 만들기
                     }
                 }
             }
+            
+        }
+        public void SetState() // 스탯 세팅
+        {
+            this.level = 1;
+            this.exp = 0;
+            this.gold = 1500;
+            switch (job)
+            {
+                case "전사": //전사값을 받았을경우 스텟
+                    this.maxHp = 150;
+                    this.hp = 150;
+                    this.maxMp = 100;
+                    this.mp = 100;
+                    this.damage = 30;
+                    this.defense = 20;
+
+                    break;
+                case "마법사": //마법사값을 받았을경우 스텟
+                    this.maxHp = 100;
+                    this.hp = 100;
+                    this.maxMp = 200;
+                    this.mp = 200;
+                    this.damage = 30;
+                    this.defense = 5;
+                    break;
+                case "도적": //도적값을 받았을경우 스텟
+                    this.maxHp = 120;
+                    this.hp = 120;
+                    this.maxMp = 70;
+                    this.mp = 70;
+                    this.damage = 50;
+                    this.defense = 10;
+                    break;
+            }
         }
         public void ShowInfo() //정보창
         {
             Console.WriteLine($"Name: {name}{job}");
             Console.WriteLine($"Level: {level}");
-            Console.WriteLine($"Hp: {hp}");
+            Console.WriteLine($"Hp: {hp}/{maxHp}");
+            Console.WriteLine($"Mp: {mp}/{maxMp}");
             Console.WriteLine($"Attack: {damage}");
             Console.WriteLine($"Defense: {defense}");
             Console.WriteLine($"Exp: {exp}");
