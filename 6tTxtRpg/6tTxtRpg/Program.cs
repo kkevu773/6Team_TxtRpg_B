@@ -90,10 +90,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.WriteLine($"Exp: {exp}");
             Console.WriteLine($"Gold: {gold}");
         }
-        public void Weapon() //기본 데미지 + 장비에 따른 추가스텟
-        {
-            damage += Item.EffectNum
-        }
+        
     }
     internal class TxtR
     {
