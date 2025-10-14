@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -11,6 +12,7 @@ namespace _6TxtRpg
 {
     public class Monster
     {
+        
         public string name;
         public float damage;
         public float armor;
@@ -18,7 +20,24 @@ namespace _6TxtRpg
         public bool isDead = false;
         public int level = 1;
         public float maxHP;
-        Random random = new Random();
+        private static Random random = new Random();
+
+        public List<IMonsterSkill> skills = new List<IMonsterSkill>();
+
+        public void UseSkill(int index)
+        {
+            if (index >= 0 && index < skills.Count)
+            {
+                skills[index].Use(this);
+            }
+            else
+            {
+                Console.WriteLine("잘못된 스킬 번호입니다.");
+            }
+        }
+
+        
+
         public virtual void ShowInfo()            //기본 몬스터 정보
         {
             Console.WriteLine($"Level : {level}");
@@ -38,6 +57,10 @@ namespace _6TxtRpg
                 this.hp -= damage - this.armor;
                 Console.WriteLine($"{name}이(가) {damage - this.armor}의 피해를 받았습니다");
                 CheckHp();
+            }
+            else
+            {
+                Console.WriteLine($"{name}이(가) 방어했습니다.");
             }
 
         }
@@ -62,6 +85,8 @@ namespace _6TxtRpg
                 this.damage = 5 + level * 2;   // 기본 5 + 레벨*2
                 this.hp = 20 + level * 5;      // 기본 20 + 레벨*5
                 this.maxHP = this.hp;
+                skills.Add(new NormalAttack());
+                skills.Add(new RockThorw());
             }
         }
 
@@ -76,6 +101,8 @@ namespace _6TxtRpg
                 this.damage = 8 + level;         // 기본 8 + 레벨
                 this.hp = 10 + level * 3;        // 기본 10 + 레벨*3
                 this.maxHP = this.hp;
+                skills.Add(new NormalAttack());
+                skills.Add(new Nip());
             }
         }
 
@@ -90,7 +117,23 @@ namespace _6TxtRpg
                 this.damage = 9 + level * 2;     // 기본 9 + 레벨*2
                 this.hp = 15 + level * 5;        // 기본 15 + 레벨*5
                 this.maxHP = this.hp;
+                skills.Add(new NormalAttack());
+                skills.Add(new Bite());
             }
+        }
+        public class Boss : Monster
+        {
+            public Boss()
+            {
+                this.level = 20;
+                this.name = "보스(임시)";
+
+                this.armor = 20;
+                this.damage = 40;
+                this.hp = 200;  
+                this.maxHP = this.hp;
+            }
+
         }
 
     }
@@ -139,8 +182,59 @@ namespace _6TxtRpg
                     break;
             }
         }
+    }
 
+    public interface IMonsterSkill
+    {
+        string Name { get; }
+        void Use(Monster monster);
+    }
+    public class RockThorw : IMonsterSkill
+    {
+        public string Name => "돌던지기";
+        public void Use(Monster monster)
+        {
+            float damage = monster.damage +3;
+            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
+            //플레이어 피해를 입는 함수
+        }
+    }
 
+    public class Bite : IMonsterSkill
+    {
+        public string Name => "물기";
+        public void Use(Monster monster)
+        {
+            float damage = monster.damage + 4;
+            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
+            //플레이어 피해를 입는 함수
+        }
+    }
+    public class Nip : IMonsterSkill
+    {
+        public string Name => "깨물기";
+        public void Use(Monster monster)
+        {
+            float damage = monster.damage + 2;
+            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
+            //플레이어 피해를 입는 함수
+            
+        }
+
+    }
+    public class NormalAttack : IMonsterSkill {
+
+        public string Name => "공격";
+        public void Use(Monster monster)
+        {
+            float damage = monster.damage;
+            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"플레이어는 -- 데미지를 입었습니다"); // 추후수정
+            //플레이어 피해를 입는 함수
+        }
     }
 
 }
