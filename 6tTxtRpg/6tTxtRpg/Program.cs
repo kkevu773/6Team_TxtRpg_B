@@ -128,7 +128,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
         }
-        public void BlowPlayer(float damage) //몬스터가 캐릭터를 공격하는 메서드
+        public float BlowPlayer(float damage) //몬스터가 캐릭터를 공격하는 메서드
         {
             float actualDamage = damage - this.defense;
             if (actualDamage < 0)
@@ -136,6 +136,8 @@ namespace _6TxtRpg // 이쪽에 만들기
                 actualDamage = 0;
             }
             this.hp -= (int)actualDamage;
+
+            return actualDamage;
         }
 
 
