@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace _6TxtRpg
 {
     public enum ItemType { Head, Body, Weapon, ExtraWeapon, HpPotion, MpPotion, Etc }
-    public enum Status { Hp, Mp, Exp, Level, Atk, Def, BonusHp, BonusMp, BonusAtk, BonusDef }
+    public enum Status { Hp, Mp, Exp, Level, Atk, Def, BonusHp, BonusMp, BonusAtk, BonusDef , None}
 
     public class Item
     {
@@ -37,7 +37,7 @@ namespace _6TxtRpg
         }
 
         //아이템 사용
-        public void UseItem()
+        public void UseItem(Character player)
         {
             Item? temp = null;
             switch (Type)   //아이템 타입에 따라 구별
@@ -100,24 +100,37 @@ namespace _6TxtRpg
             switch (EffectStatus)
             {
                 case Status.Hp:
+                    player.hp += EffectNum;
+                    if(player.hp > player.maxHp) player.hp = player.maxHp;
                     break;
                 case Status.Mp:
+                    player.mp += EffectNum;
+                    if (player.hp > player.maxMp) player.mp = player.maxMp;
                     break;
                 case Status.Exp:
+                    // 여기에 케릭터 경험치 획득 메소드 연결
                     break;
                 case Status.Level:
+                    // 사용 미정
                     break;
                 case Status.Atk:
+                    // 사용 미정
                     break;
                 case Status.Def:
+                    // 사용 미정
                     break;
                 case Status.BonusMp:
+                    player.maxMp += EffectNum;
                     break;
                 case Status.BonusHp:
+                    player.maxHp += EffectNum;
                     break;
                 case Status.BonusAtk:
+                    // 미구현
                     break;
                 case Status.BonusDef:
+                    //
+                    // 미구현
                     break;
             }
 
@@ -149,8 +162,10 @@ namespace _6TxtRpg
                     case Status.Def:
                         break;
                     case Status.BonusMp:
+                        player.maxMp -= temp.EffectNum;
                         break;
                     case Status.BonusHp:
+                        player.maxHp -= temp.EffectNum;
                         break;
                     case Status.BonusAtk:
                         break;
@@ -219,7 +234,7 @@ namespace _6TxtRpg
         }
 
     }
-    public static class Inventory
+    public class Inventory
     {
         public static Dictionary<ItemType, Item?> equipments = new Dictionary<ItemType, Item?>() {
             { ItemType.Head, null },
@@ -257,7 +272,7 @@ namespace _6TxtRpg
             return output;
         }
 
-        public static void PrintInventory()
+        public void PrintInventory()
         {
             //장비 출력
             Console.WriteLine("================= 장비 ================");
@@ -276,12 +291,48 @@ namespace _6TxtRpg
             }
 
         }
+
+        public void InventoryInput(Character player)
+        {
+            bool flag = true;
+            while (flag)
+            {
+                Console.WriteLine("사용 할 아이템의 번호를 입력해주세요.");
+
+                string inpuString = Console.ReadLine();
+                int input = (int.TryParse(inpuString, out int value)) ? value : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
+
+                if(input == 0)
+                {
+                    // 인벤토리 떠나기
+                    flag = false;
+                    break;
+                }
+                else if (input <= Inventory.Inven.Count)
+                {
+                    //인벤토리의 아이템 사용
+                    Inventory.Inven[input - 1].UseItem(player);
+                    //이후 인벤토리 출력갱신 필요
+                }
+                else
+                {
+                    // 인벤토리 아이템 수를 넘어가는 수, 이외의 값들
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+            }      
+        }
     }
 
     public class ItemPreset
     {
         public static List<Item> itemList = new List<Item>() {
             new Item("TestItem", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다.")
+        };
+
+        public static List<Item> dropItemList = new List<Item>() {
+            new Item("고블린드랍", Status.None, 0, 1, ItemType.Etc, 0, "고블린의 드랍아이템"),
+            new Item("거미드랍", Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
+            new Item("늑대드랍", Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템")
         };
     }
 }
