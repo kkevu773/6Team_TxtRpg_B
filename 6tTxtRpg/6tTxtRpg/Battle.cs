@@ -201,7 +201,7 @@ namespace _6TxtRpg
             if (isMsgOn)
             { TypeMsg(); }
             else
-            { Console.Write{ ">> "}; }
+            { Console.Write(">> "); }
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.D0:
