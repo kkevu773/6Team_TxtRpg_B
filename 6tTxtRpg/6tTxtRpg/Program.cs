@@ -160,7 +160,7 @@ namespace _6TxtRpg // 이쪽에 만들기
 
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
 
-            var player = new Character("", "");
+            var player = new Character();
             player.YourName();
             player.YourJob();
 
