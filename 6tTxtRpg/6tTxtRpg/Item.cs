@@ -173,50 +173,50 @@ namespace _6TxtRpg
             }
         }
 
-        //public void BuyItem()
-        //{
-        //    if (Price <= Program.gamePlayer.Gold)
-        //    {
-        //        if (Inventory.Inven.Contains(this))
-        //        {
-        //            int idx = Inventory.Inven.FindIndex(n => n == this);
-        //            Inventory.Inven[idx].Amount++;
-        //        }
-        //        else
-        //        {
-        //            Inventory.Inven.Add(this);
-        //        }
-        //        Program.gamePlayer.Gold -= Price;
-        //        Console.WriteLine($"{this.Name} 구매 , 남은 골드 {Program.gamePlayer.Gold}G");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("골드가 부족합니다.");
-        //    }
-        //}
+        public void BuyItem(Character character)
+        {
+            if (Price <= character.gold)
+            {
+                if (Inventory.Inven.Contains(this))
+                {
+                    int idx = Inventory.Inven.FindIndex(n => n == this);
+                    Inventory.Inven[idx].Amount++;
+                }
+                else
+                {
+                    Inventory.Inven.Add(this);
+                }
+                character.gold -= Price;
+                Console.WriteLine($"{this.Name} 구매 , 남은 골드 {character.gold}G");
+            }
+            else
+            {
+                Console.WriteLine("골드가 부족합니다.");
+            }
+        }
 
-        //public void SellItem()
-        //{
-        //    if (Inventory.Inven.Contains(this))
-        //    {
-        //        int idx = Inventory.Inven.FindIndex(n => n == this);
-        //        if (Inventory.Inven[idx].Amount > 1)
-        //        {
-        //            Inventory.Inven[idx].Amount--;
-        //        }
-        //        else
-        //        {
-        //            Inventory.Inven.Remove(Inventory.Inven[idx]);
-        //        }
-        //        Program.gamePlayer.Gold += (int)(Price * 0.8f);
-        //        Console.WriteLine($"{this.Name} 판매 , 보유 골드 {Program.gamePlayer.Gold}G");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("오류 : 보유하고 있지 않은 아이템입니다.");
-        //    }
+        public void SellItem(Character character)
+        {
+            if (Inventory.Inven.Contains(this))
+            {
+                int idx = Inventory.Inven.FindIndex(n => n == this);
+                if (Inventory.Inven[idx].Amount > 1)
+                {
+                    Inventory.Inven[idx].Amount--;
+                }
+                else
+                {
+                    Inventory.Inven.Remove(Inventory.Inven[idx]);
+                }
+                character.gold += (int)(Price * 0.8f);
+                Console.WriteLine($"{this.Name} 판매 , 보유 골드 {character.gold}G");
+            }
+            else
+            {
+                Console.WriteLine("오류 : 보유하고 있지 않은 아이템입니다.");
+            }
 
-        //}
+        }
 
     }
     public static class Inventory
