@@ -27,10 +27,12 @@ namespace _6TxtRpg
         public Battle(Character character, MonsterList monsters) //반드시 받아야 되는 인자값을 위해 생성자로 만듬.
         { //몬스터 1~4마리의 정보가 필요할 것 같다.
             monNum = (byte)random.Next(0, 4);//등장 몬스터 수. 작은 수니까 byte로 처리했다. 0~3까지 계산.
+            for (int i = 0; i <= monNum; ++i)//몬스터 수만큼 반복.
+            { monsters.AddRandom(); }
             for (int i = 0; i >= monNum; ++i)//몬스터 수만큼 반복.
             {
-                monsters.OrderBy(monsters => random.Next());//몬스터 리스트 한번 섞어줌.
-                fightMonsters.Add(monsters[0]);//0번 몬스터만 리스트에 추가한다.
+                monsters.monsterList.OrderBy(monsters => random.Next());//몬스터 리스트 한번 섞어줌.
+                fightMonsters.Add(monsters.monsterList[0]);//0번 몬스터만 리스트에 추가한다.
             }
             startHp = character.hp;
             isBattle = true;
@@ -83,7 +85,7 @@ namespace _6TxtRpg
         }
         void ShowMon()//몬스터 정보 출력 함수 //TODO:띄어쓰기 처리 안해놨음. 나중에 디버깅하면서 수정해야 됨.
         {
-            for (int i = 0; i >= monNum; ++i)
+            for (int i = 0; i <= monNum; ++i)
             {
                 if (fightMonsters[i].hp <= 0)//사망시 색 바꿈
                 { Console.ForegroundColor = ConsoleColor.DarkGray; }
