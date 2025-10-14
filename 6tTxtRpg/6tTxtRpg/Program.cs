@@ -128,11 +128,11 @@ namespace _6TxtRpg // 이쪽에 만들기
     internal class TxtR
     {
 
-
+        public static Character player = new Character();
         public static void Main(string[] args)
         {
             var intro = new Intro();
-            Character player = intro.IntroA();
+            player = intro.IntroA();
             
         }
     }
