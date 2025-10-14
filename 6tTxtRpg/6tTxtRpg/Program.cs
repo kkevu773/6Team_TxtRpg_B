@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _6TxtRpg // 이쪽에 만들기
 {
-    class Character
+    public class Character
     {
         //기본 인터페이스 구성
         public string name;
@@ -69,18 +69,25 @@ namespace _6TxtRpg // 이쪽에 만들기
 
         public static void Main(string[] args)
         {
-            Intro.IntroA();
-
+            var intro = new Intro();
+            Character player = intro.IntroA();              
         }
     }
 
 
-    public static class Intro
+    public class Intro
     {
-        public static void IntroA()
+        // 캐릭터를 만들어 반환
+        public Character IntroA()
         {
+            Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
 
+            var player = new Character("", "");
+            player.YourName();
 
+            Console.WriteLine("직업을 선택 해주세요.");
+
+            return player;
         }
     }
 }
