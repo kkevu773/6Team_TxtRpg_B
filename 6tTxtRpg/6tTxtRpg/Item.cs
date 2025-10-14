@@ -37,7 +37,7 @@ namespace _6TxtRpg
         }
 
         //아이템 사용
-        public void UseItem()
+        public void UseItem(Character player)
         {
             Item? temp = null;
             switch (Type)   //아이템 타입에 따라 구별
@@ -100,24 +100,37 @@ namespace _6TxtRpg
             switch (EffectStatus)
             {
                 case Status.Hp:
+                    player.hp += EffectNum;
+                    if(player.hp > player.maxHp) player.hp = player.maxHp;
                     break;
                 case Status.Mp:
+                    player.mp += EffectNum;
+                    if (player.hp > player.maxMp) player.mp = player.maxMp;
                     break;
                 case Status.Exp:
+                    // 여기에 케릭터 경험치 획득 메소드 연결
                     break;
                 case Status.Level:
+                    // 사용 미정
                     break;
                 case Status.Atk:
+                    // 사용 미정
                     break;
                 case Status.Def:
+                    // 사용 미정
                     break;
                 case Status.BonusMp:
+                    player.maxMp += EffectNum;
                     break;
                 case Status.BonusHp:
+                    player.maxHp += EffectNum;
                     break;
                 case Status.BonusAtk:
+                    // 미구현
                     break;
                 case Status.BonusDef:
+                    //
+                    // 미구현
                     break;
             }
 
@@ -219,7 +232,7 @@ namespace _6TxtRpg
         }
 
     }
-    public static class Inventory
+    public class Inventory
     {
         public static Dictionary<ItemType, Item?> equipments = new Dictionary<ItemType, Item?>() {
             { ItemType.Head, null },
@@ -257,7 +270,7 @@ namespace _6TxtRpg
             return output;
         }
 
-        public static void PrintInventory()
+        public void PrintInventory()
         {
             //장비 출력
             Console.WriteLine("================= 장비 ================");
@@ -274,6 +287,11 @@ namespace _6TxtRpg
                 Item itemInven = Inven[i];
                 Console.WriteLine($"{i + 1}.[{itemInven.Name}]: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")}");
             }
+
+        }
+
+        public void InventoryInput()
+        {
 
         }
     }
