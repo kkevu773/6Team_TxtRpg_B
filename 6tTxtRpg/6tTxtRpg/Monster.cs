@@ -17,6 +17,7 @@ namespace _6TxtRpg
         public float hp;
         public bool isDead = false;
         public int level = 1;
+        public int maxHP;
         public virtual void ShowInfo()            //기본 몬스터 정보
         {
             Console.WriteLine($"Level : {level}");
@@ -56,16 +57,18 @@ namespace _6TxtRpg
                 this.armor = 3;
                 this.damage = 5;
                 this.hp = 20;
+                this.maxHP = 20;
             }
         }
         public class Spider : Monster      //거미 몬스터
         {
-            public Spider()
+            public Spider()                
             {
                 this.name = "거미";
                 this.armor = 1;
                 this.damage = 8;
                 this.hp = 10;
+                this.maxHP = 10;
             }
         }
         public class Wolf : Monster         //늑대 몬스터
@@ -76,6 +79,7 @@ namespace _6TxtRpg
                 this.armor = 2;
                 this.damage = 9;
                 this.hp = 15;
+                this.maxHP = 15;
             }
         }
     }
