@@ -86,7 +86,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                  else
                  {
                       Console.WriteLine("다시 입력해주세요.");
-                }
+                 }
 
             }
         }
