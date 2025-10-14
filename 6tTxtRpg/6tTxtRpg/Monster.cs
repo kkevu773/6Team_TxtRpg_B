@@ -18,6 +18,7 @@ namespace _6TxtRpg
         public bool isDead = false;
         public int level = 1;
         public int maxHP;
+        Random random = new Random();
         public virtual void ShowInfo()            //기본 몬스터 정보
         {
             Console.WriteLine($"Level : {level}");
@@ -54,17 +55,20 @@ namespace _6TxtRpg
 
             public Goblin()             //고블린 몬스터
             {
+                this.level = random.Next(1, 3);
                 this.name = "고블린";
                 this.armor = 3;
                 this.damage = 5;
                 this.hp = 20;
                 this.maxHP = 20;
+                
             }
         }
         public class Spider : Monster      //거미 몬스터
         {
             public Spider()                
             {
+                this.level = random.Next(1, 3);
                 this.name = "거미";
                 this.armor = 1;
                 this.damage = 8;
@@ -76,6 +80,7 @@ namespace _6TxtRpg
         {
             public Wolf()
             {
+                this.level = random.Next(1, 3);
                 this.name = "늑대";
                 this.armor = 2;
                 this.damage = 9;
