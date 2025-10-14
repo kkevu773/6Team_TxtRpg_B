@@ -243,7 +243,7 @@ namespace _6TxtRpg
         public void Use(Monster monster)
         {
             float damage = monster.damage + 2;
-            float actualDamage = TxtR.player.BlowPlayer(damage);
+            float actualDamage = TxtR.player.BlowPlayer(damage);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
 

@@ -22,6 +22,7 @@ namespace _6TxtRpg
         }
         public Battle(Character character, MonsterList monsters) //반드시 받아야 되는 인자값을 위해 생성자로 만듬.
         { //몬스터 1~4마리의 정보가 필요할 것 같다.
+            Console.ForegroundColor = ConsoleColor.White;
             monsters.monsterList.Clear();
             monNum = (byte)random.Next(1, 5);//등장 몬스터 수. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
@@ -62,6 +63,7 @@ namespace _6TxtRpg
                 else if (currentPhase == Phase.MonsterATK)
                 {
                     MonATK(character, monsters);
+                    currentPhase = Phase.Waiting;
                 }
                 MonDead(monsters, monNum);//몬스터가 죽었는지 확인
                 if (character.hp <= 0)//플레이어가 죽었는지 확인
@@ -99,7 +101,7 @@ namespace _6TxtRpg
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 else
-                { Console.WriteLine($"LV.{monsters.monsterList[i].level} {monsters.monsterList[i].name} Hp {monsters.monsterList[i].hp} / {monsters.monsterList[i].maxHP}"); }//배열에 넣은 몬스터 출력
+                { monsters.monsterList[i].ShortInfo(); }//배열에 넣은 몬스터 출력
             }
         }
         void ShowChar(Character character)//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
@@ -176,16 +178,18 @@ namespace _6TxtRpg
                 {
                     Console.Clear();
                     BattleMsg("Battle!!", ConsoleColor.DarkRed);
+                    float beforehit = monsters.monsterList[num].hp;
                     int error = (int)Math.Ceiling((float)character.damage * 0.1f); //오차범위 처리.
                     int charDamage = random.Next(character.damage - error, character.damage + error + 1);
                     Console.WriteLine($"{character.name}의 공격!");
                     Console.WriteLine($"Lv.{monsters.monsterList[num].level} {monsters.monsterList[num].name}을 맞췄습니다. (데미지 : {charDamage})");
                     Console.WriteLine();
+                    monsters.monsterList[num].Damaged(charDamage);
+                    Console.WriteLine();
                     Console.WriteLine($"Lv.{monsters.monsterList[num].level} {monsters.monsterList[num].name}");
-                    Console.Write($"HP {monsters.monsterList[num].hp} -> ");
-                    monsters.monsterList[num].hp -= charDamage;
+                    Console.Write($"HP {beforehit} -> ");
                     if (monsters.monsterList[num].hp <= 0)
-                    { Console.Write("Dead"); }
+                    { Console.Write("Dead");}
                     else
                     { Console.Write($"Hp {monsters.monsterList[num].hp} "); }
                     Console.WriteLine();
@@ -234,7 +238,7 @@ namespace _6TxtRpg
             for (int i = 0; i < monNum; i++)
             {
                 if (monsters.monsterList[i].hp > 0)//안 죽었을때만 플레이어 공격.
-                { MonAtkMsg(character, monsters.monsterList[i]); }
+                { MonAtkMsg(character, monsters.monsterList[i]);}
             }
         }
         void MonAtkMsg(Character character, Monster monster)//몬스터 공격시 나오는 메세지
@@ -242,6 +246,7 @@ namespace _6TxtRpg
             Console.Clear();
             BattleMsg("Battle!!", ConsoleColor.DarkRed);
             Console.WriteLine($"{monster.name}의 공격!");
+            //monster.RandomAttack();
             Console.WriteLine($"Lv.{character.level} {character.name}을 맞췄습니다. (데미지 : {monster.damage})");
             Console.WriteLine();
             Console.WriteLine($"Lv.{character.level} {character.name}");
