@@ -20,18 +20,41 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int defense; // 방어력
         public int exp; // 경험치
         public int gold; // 골드
-        public Character(string name, string job) //생성자
+        public Character(string name) //생성자
         {
             this.name = name;
-            this.job = job;
             this.level = 1;
-            this.maxHp = 100;
-            this.hp = 100;
-            this.maxMp = 100;
-            this.mp = 100;
-            this.damage = 10;
-            this.defense = 5;
+            this.exp = 0;
             this.gold = 1500;
+            switch (job)
+            {
+                case "전사":
+                    this.maxHp = 150;
+                    this.hp = 150;
+                    this.maxMp = 100;
+                    this.mp = 100;
+                    this.damage = 30;
+                    this.defense = 20;
+                    
+                    break;
+                case "마법사":
+                    this.maxHp = 100;
+                    this.hp = 100;
+                    this.maxMp = 200;
+                    this.mp = 200;
+                    this.damage = 30;
+                    this.defense = 5;
+                    break;
+                case "도적":
+                    this.maxHp = 120;
+                    this.hp = 120;
+                    this.maxMp = 70;
+                    this.mp = 70;
+                    this.damage = 50;
+                    this.defense = 10;
+                    break;
+            }
+
         }
         public void YourName() //이름 정하기
         {
@@ -61,10 +84,10 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.Write("직업을 선택해주세요(전사, 마법사, 궁수)");
+                Console.Write("직업을 선택해주세요(전사, 마법사, 도적)");
                 string input = Console.ReadLine();
                 job = input;
-                if (job == "전사" || job == "마법사" || job == "궁수")
+                if (job == "전사" || job == "마법사" || job == "도적")
                 {
                     Console.WriteLine($"{job}이 맞으십니까?");
                     string yes = Console.ReadLine();
