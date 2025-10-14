@@ -12,7 +12,7 @@ namespace _6TxtRpg
 {
     public class Monster
     {
-        
+
         public string name;
         public float damage;
         public float armor;
@@ -35,8 +35,13 @@ namespace _6TxtRpg
                 Console.WriteLine("잘못된 스킬 번호입니다.");
             }
         }
+        public void RandomAttack()
+        {
+            Random rand = new Random();
+            int index = rand.Next(skills.Count);  // 0 ~ skills.Count-1
+            skills[index].Use(this);
+        }
 
-        
 
         public virtual void ShowInfo()            //기본 몬스터 정보
         {
@@ -130,7 +135,7 @@ namespace _6TxtRpg
 
                 this.armor = 20;
                 this.damage = 40;
-                this.hp = 200;  
+                this.hp = 200;
                 this.maxHP = this.hp;
             }
 
@@ -146,9 +151,9 @@ namespace _6TxtRpg
         {
             if (monster != null && monsterList.Contains(monster))
             {
-                
-                    monsterList.Remove(monster);
-                
+
+                monsterList.Remove(monster);
+
             }
         }
 
@@ -166,7 +171,7 @@ namespace _6TxtRpg
         }
         public void AddRandom()   //몬스터 랜덤생성
         {
-            
+
             int randomValue = monsterRandom.Next(3);
 
             switch (randomValue)
@@ -194,7 +199,7 @@ namespace _6TxtRpg
         public string Name => "돌던지기";
         public void Use(Monster monster)
         {
-            float damage = monster.damage +3;
+            float damage = monster.damage + 3;
             float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
@@ -210,8 +215,8 @@ namespace _6TxtRpg
             float damage = monster.damage + 4;
             float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); 
-            
+            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+
             //플레이어 피해를 입는 함수
         }
     }
@@ -224,11 +229,12 @@ namespace _6TxtRpg
             float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
-            
+
         }
 
     }
-    public class NormalAttack : IMonsterSkill {
+    public class NormalAttack : IMonsterSkill
+    {
 
         public string Name => "공격";
         public void Use(Monster monster)
@@ -236,8 +242,9 @@ namespace _6TxtRpg
             float damage = monster.damage;
             float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); 
-            
-    }
+            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
 
+        }
+
+    }
 }
