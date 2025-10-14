@@ -16,14 +16,21 @@ namespace _6TxtRpg
         public float armor;
         public float hp;
         public bool isDead = false;
-        public virtual void ShowInfo()
+        public int level = 1;
+        public int maxHP;
+        public virtual void ShowInfo()            //기본 몬스터 정보
         {
+            Console.WriteLine($"Level : {level}");
             Console.WriteLine($"몬스터 이름 : {name}");
             Console.WriteLine($"공격력(DMG) : {damage}");
             Console.WriteLine($"방어력(DEF) : {armor}");
             Console.WriteLine($"체력(HP) : {hp}");
         }
-        public void Damaged(float damage)
+        public void ShortInfo()                     //전투에 사용할 몬스터 정보
+        {
+            Console.WriteLine($"Lv.{level} {name}  HP {hp}");
+        }
+        public void Damaged(float damage)       //몬스터 데미지 받는 함수 사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
         {
             if (damage > this.armor)
             {
@@ -33,7 +40,7 @@ namespace _6TxtRpg
             }
 
         }
-        public void CheckHp()
+        public void CheckHp()          //몬스터 체력체크
         {
             if (hp <= 0)
             {
@@ -41,28 +48,30 @@ namespace _6TxtRpg
                 Console.WriteLine($"{name}이(가) 사망하였습니다.");
             }
         }
-        class Goblin : Monster
+        public class Goblin : Monster
         {
 
-            public Goblin()
+            public Goblin()             //고블린 몬스터
             {
                 this.name = "고블린";
                 this.armor = 3;
                 this.damage = 5;
                 this.hp = 20;
+                this.maxHP = 20;
             }
         }
-        class Spider : Monster
+        public class Spider : Monster      //거미 몬스터
         {
-            public Spider()
+            public Spider()                
             {
                 this.name = "거미";
                 this.armor = 1;
                 this.damage = 8;
                 this.hp = 10;
+                this.maxHP = 10;
             }
         }
-        class Wolf : Monster
+        public class Wolf : Monster         //늑대 몬스터
         {
             public Wolf()
             {
@@ -70,15 +79,16 @@ namespace _6TxtRpg
                 this.armor = 2;
                 this.damage = 9;
                 this.hp = 15;
+                this.maxHP = 15;
             }
         }
     }
     class MosterList()
     {
-        public List<Monster> monsterList = new List<Monster>();
+        public List<Monster> monsterList = new List<Monster>();        //전투에 사용할 몬스터 리스트
 
 
-        public void RemoveMonter(Monster monster)
+        public void RemoveMonter(Monster monster)   //몬스터 리스트에서 지우기
         {
             if (monster == null)
             {
@@ -89,23 +99,35 @@ namespace _6TxtRpg
             }
         }
 
-        public void AddMonster(Monster monster)
+        public void AddMonster(Monster monster)     //몬스터 직접생성
         {
             if (monster == null)
             {
                 monsterList.Add(monster);
             }
         }
-        public List<Monster> GetMonsters()
+        public List<Monster> GetMonsters()          //몬스터 리스트 직접가져오기
         {
 
             return monsterList;
         }
-        public void AddRandom()
+        public void AddRandom()   //몬스터 랜덤생성
         {
             Random monsterRandom = new Random();
+            int randomValue = monsterRandom.Next(3);
 
-            monsterRandom.Next(3);
+            switch (randomValue)
+            {
+                case 0:
+                    this.AddMonster(new Monster.Wolf());
+                    break;
+                case 1:
+                    this.AddMonster(new Monster.Goblin());
+                    break;
+                case 2:
+                    this.AddMonster(new Monster.Spider());
+                    break;
+            }
         }
     }
 
