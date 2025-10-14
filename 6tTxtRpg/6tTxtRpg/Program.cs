@@ -64,20 +64,30 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.Write("직업을 선택해주세요(전사, 마법사, 궁수)");
                 string input = Console.ReadLine();
                 job = input;
-                if (job == "전사" || job == "마법사" || job == "궁수")
+                switch (job)
                 {
-                    Console.WriteLine($"{job}이 맞으십니까?");
-                    string yes = Console.ReadLine();
-                    if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
-                    {
-                        Console.WriteLine("확인되었습니다.");
+                    case "전사":
+                        Console.WriteLine("전사를 선택하셨습니다.");
                         break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("다시 입력해주세요.");
-                    }
+                    case "마법사":
+                        Console.WriteLine("마법사를 선택하셨습니다.");
+                        break;
+                    case "도적":
+                        Console.WriteLine("도적을 선택하셨습니다.");
+                        break;
                 }
+               Console.WriteLine($"{job}이 맞으십니까?");
+                string yes = Console.ReadLine();
+                 if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
+                 {
+                      Console.WriteLine("확인되었습니다.");
+                      break;
+                 }
+                 else
+                 {
+                      Console.WriteLine("다시 입력해주세요.");
+                }
+
             }
         }
         public void ShowInfo() //정보창
@@ -90,7 +100,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.WriteLine($"Exp: {exp}");
             Console.WriteLine($"Gold: {gold}");
         }
-        
+
     }
     internal class TxtR
     {
