@@ -17,7 +17,7 @@ namespace _6TxtRpg
         public float hp;
         public bool isDead = false;
         public int level = 1;
-        public virtual void ShowInfo()
+        public virtual void ShowInfo()            //기본 몬스터 정보
         {
             Console.WriteLine($"Level : {level}");
             Console.WriteLine($"몬스터 이름 : {name}");
@@ -25,11 +25,11 @@ namespace _6TxtRpg
             Console.WriteLine($"방어력(DEF) : {armor}");
             Console.WriteLine($"체력(HP) : {hp}");
         }
-        public void ShortInfo()
+        public void ShortInfo()                     //전투에 사용할 몬스터 정보
         {
             Console.WriteLine($"Lv.{level} {name}  HP {hp}");
         }
-        public void Damaged(float damage)
+        public void Damaged(float damage)       //몬스터 데미지 받는 함수 사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
         {
             if (damage > this.armor)
             {
@@ -39,7 +39,7 @@ namespace _6TxtRpg
             }
 
         }
-        public void CheckHp()
+        public void CheckHp()          //몬스터 체력체크
         {
             if (hp <= 0)
             {
@@ -50,7 +50,7 @@ namespace _6TxtRpg
         public class Goblin : Monster
         {
 
-            public Goblin()
+            public Goblin()             //고블린 몬스터
             {
                 this.name = "고블린";
                 this.armor = 3;
@@ -58,7 +58,7 @@ namespace _6TxtRpg
                 this.hp = 20;
             }
         }
-        public class Spider : Monster
+        public class Spider : Monster      //거미 몬스터
         {
             public Spider()
             {
@@ -68,7 +68,7 @@ namespace _6TxtRpg
                 this.hp = 10;
             }
         }
-        public class Wolf : Monster
+        public class Wolf : Monster         //늑대 몬스터
         {
             public Wolf()
             {
@@ -81,10 +81,10 @@ namespace _6TxtRpg
     }
     class MosterList()
     {
-        public List<Monster> monsterList = new List<Monster>();
+        public List<Monster> monsterList = new List<Monster>();        //전투에 사용할 몬스터 리스트
 
 
-        public void RemoveMonter(Monster monster)
+        public void RemoveMonter(Monster monster)   //몬스터 리스트에서 지우기
         {
             if (monster == null)
             {
@@ -95,19 +95,19 @@ namespace _6TxtRpg
             }
         }
 
-        public void AddMonster(Monster monster)
+        public void AddMonster(Monster monster)     //몬스터 직접생성
         {
             if (monster == null)
             {
                 monsterList.Add(monster);
             }
         }
-        public List<Monster> GetMonsters()
+        public List<Monster> GetMonsters()          //몬스터 리스트 직접가져오기
         {
 
             return monsterList;
         }
-        public void AddRandom()
+        public void AddRandom()   //몬스터 랜덤생성
         {
             Random monsterRandom = new Random();
             int randomValue = monsterRandom.Next(3);
