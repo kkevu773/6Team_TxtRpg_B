@@ -16,12 +16,18 @@ namespace _6TxtRpg
         public float armor;
         public float hp;
         public bool isDead = false;
+        public int level = 1;
         public virtual void ShowInfo()
         {
+            Console.WriteLine($"Level : {level}");
             Console.WriteLine($"몬스터 이름 : {name}");
             Console.WriteLine($"공격력(DMG) : {damage}");
             Console.WriteLine($"방어력(DEF) : {armor}");
             Console.WriteLine($"체력(HP) : {hp}");
+        }
+        public void ShortInfo()
+        {
+            Console.WriteLine($"Lv.{level} {name}  HP {hp}");
         }
         public void Damaged(float damage)
         {
@@ -41,7 +47,7 @@ namespace _6TxtRpg
                 Console.WriteLine($"{name}이(가) 사망하였습니다.");
             }
         }
-        class Goblin : Monster
+        public class Goblin : Monster
         {
 
             public Goblin()
@@ -52,7 +58,7 @@ namespace _6TxtRpg
                 this.hp = 20;
             }
         }
-        class Spider : Monster
+        public class Spider : Monster
         {
             public Spider()
             {
@@ -62,7 +68,7 @@ namespace _6TxtRpg
                 this.hp = 10;
             }
         }
-        class Wolf : Monster
+        public class Wolf : Monster
         {
             public Wolf()
             {
@@ -104,8 +110,20 @@ namespace _6TxtRpg
         public void AddRandom()
         {
             Random monsterRandom = new Random();
+            int randomValue = monsterRandom.Next(3);
 
-            monsterRandom.Next(3);
+            switch (randomValue)
+            {
+                case 0:
+                    this.AddMonster(new Monster.Wolf());
+                    break;
+                case 1:
+                    this.AddMonster(new Monster.Goblin());
+                    break;
+                case 2:
+                    this.AddMonster(new Monster.Spider());
+                    break;
+            }
         }
     }
 
