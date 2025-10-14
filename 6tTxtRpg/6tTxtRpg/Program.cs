@@ -163,7 +163,7 @@ namespace _6TxtRpg // 이쪽에 만들기
 
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
 
-            var player = new Character("","");
+            var player = new Character();
             player.YourName();
             player.YourJob();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작");
