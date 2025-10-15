@@ -268,10 +268,12 @@ namespace _6TxtRpg
         }
         void MonAtkMsg(Character character, Monster monster)//몬스터 공격시 나오는 메세지
         {
+            int beforehit = character.hp;
             Console.Clear();
             BattleMsg("Battle!!", ConsoleColor.DarkRed);
             Console.WriteLine($"{monster.name}의 공격!");
-            //monster.RandomAttack();
+            Console.WriteLine();
+            monster.RandomAttack(character);
             Console.Write($"Lv.{character.level} {Tool.Josa(character.name, "을", "를")} 맞췄습니다. (데미지 : ");
             Tool.ColorTxt(monster.damage.ToString(), Tool.color2);
             Console.Write(")");
@@ -279,9 +281,9 @@ namespace _6TxtRpg
             Console.WriteLine();
             Console.WriteLine($"Lv.{character.level} {character.name}");
             Console.Write($"HP ");
-            Tool.ColorTxt(character.hp.ToString(), Tool.color4);
+            Tool.ColorTxt(beforehit.ToString(), Tool.color4);
             Console.Write(" -> ");
-            character.hp -= (int)monster.damage;
+            //character.hp -= (int)monster.damage;
             if (character.hp <= 0)
             { Tool.ColorTxt("Dead", Tool.color2); }
             else
