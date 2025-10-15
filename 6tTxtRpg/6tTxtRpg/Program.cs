@@ -108,7 +108,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                     break;
             }
         }
-
         public void ShowInfo() //정보창
         {
             while (true)
