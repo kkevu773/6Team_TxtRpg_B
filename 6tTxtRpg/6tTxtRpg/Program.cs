@@ -126,14 +126,14 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.WriteLine($"Name: {name} {job}");
-                Console.WriteLine($"Level: {level}");
-                Console.WriteLine($"Hp: {hp}/{maxHp}");
-                Console.WriteLine($"Mp: {mp}/{maxMp}");
-                Console.WriteLine($"Attack: {damage}");
-                Console.WriteLine($"Defense: {defense}");
-                Console.WriteLine($"Exp: {exp}");
-                Console.WriteLine($"Gold: {gold}");
+                Console.WriteLine($"Name: {name} {job}"); //이름, 직업
+                Console.WriteLine($"Level: {level}"); //레벨
+                Console.WriteLine($"Hp: {hp}/{maxHp}"); //체력/최대체력
+                Console.WriteLine($"Mp: {mp}/{maxMp}"); //마나/최대마나
+                Console.WriteLine($"Attack: {damage}"); //공격력
+                Console.WriteLine($"Defense: {defense}"); //방어력
+                Console.WriteLine($"Exp: {exp}"); //경험치
+                Console.WriteLine($"Gold: {gold}"); //골드
                 Console.WriteLine();
                 Console.WriteLine("나가시려면 0을 입력해주세요.");
                 string output = Console.ReadLine();
