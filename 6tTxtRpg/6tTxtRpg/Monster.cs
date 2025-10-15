@@ -236,7 +236,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage + 3;
             float actualDamage = player.BlowPlayer(damage, player);
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name,"을","를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
             //플레이어 피해를 입는 함수
         }
@@ -249,7 +249,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage + 4;
             float actualDamage = player.BlowPlayer(damage,player);
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
 
             //플레이어 피해를 입는 함수
@@ -261,8 +261,8 @@ namespace _6TxtRpg
         public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 2;
-            float actualDamage = player.BlowPlayer(damage,player);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            float actualDamage = player.BlowPlayer(damage,player);
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
     }
@@ -273,7 +273,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage;
             float actualDamage = player.BlowPlayer(damage,player);
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
     }
