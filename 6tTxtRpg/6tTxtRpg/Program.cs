@@ -77,6 +77,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int defense; // 방어력
         public int exp; // 경험치
         public int gold; // 골드
+        public int CriticalChance; // 치명타 확률
         public Character() //생성자
         {
         }
@@ -139,12 +140,13 @@ namespace _6TxtRpg // 이쪽에 만들기
             switch (job)
             {
                 case "전사": //전사값을 받았을경우 스텟
-                    this.maxHp = 150;
-                    this.hp = 150;
+                    this.maxHp = 200;
+                    this.hp = 200;
                     this.maxMp = 100;
                     this.mp = 100;
-                    this.damage = 30;
+                    this.damage = 50;
                     this.defense = 20;
+                    this.CriticalChance = 10;
 
                     break;
                 case "마법사": //마법사값을 받았을경우 스텟
@@ -153,18 +155,59 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.maxMp = 200;
                     this.mp = 200;
                     this.damage = 30;
-                    this.defense = 5;
+                    this.defense = 10;
+                    this.CriticalChance = 20;
                     break;
                 case "도적": //도적값을 받았을경우 스텟
                     this.maxHp = 120;
                     this.hp = 120;
                     this.maxMp = 70;
                     this.mp = 70;
-                    this.damage = 50;
+                    this.damage = 70;
                     this.defense = 10;
+                    this.CriticalChance = 20;
                     break;
             }
         }
+        public void levelUp()
+        {
+            if (exp >= level * 30) //경험치가 레벨*100이상이면 레벨업
+            {
+                exp -= level * 30;
+                level++;
+                if(job == "전사")
+                {
+                    maxHp += 50;
+                    hp = maxHp;
+                    maxMp += 20;
+                    mp = maxMp;
+                    damage += 20;
+                    defense += 10;
+                    Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
+                }
+                else if(job == "마법사")
+                {
+                    maxHp += 20;
+                    hp = maxHp;
+                    maxMp += 50;
+                    mp = maxMp;
+                    damage += 10;
+                    defense += 2;
+                    Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
+                }
+                else if(job == "도적")
+                {
+                    maxHp += 20;
+                    hp = maxHp;
+                    maxMp += 10;
+                    mp = maxMp;
+                    damage += 25;
+                    defense += 3;
+                    Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
+                }
+            }
+        }
+
         public void ShowInfo() //정보창
         {
             while (true)
@@ -203,6 +246,16 @@ namespace _6TxtRpg // 이쪽에 만들기
             player.hp -= (int)actualDamage;
 
             return actualDamage;
+        }
+        public void PlayerCri()
+        {
+            Random random = new Random();
+            int shit = random.Next(0, 101);
+            if (CriticalChance >= shit )
+            {
+                Console.WriteLine("치명적인 일격으로 공격했습니다!");
+                damage = damage * 2;
+            }
         }
 
 
