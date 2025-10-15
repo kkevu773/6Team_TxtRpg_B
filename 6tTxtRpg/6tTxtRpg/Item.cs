@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _6tTxtRpg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Xml.Linq;
 
 namespace _6TxtRpg
 {
-    public enum ItemType { Head, Body, Weapon, ExtraWeapon, HpPotion, MpPotion, Etc }
+    public enum ItemType { Head, Body, Weapon, ExtraWeapon, HpPotion, MpPotion, Buff, Etc }
     public enum Status { Hp, Mp, Exp, Level, Atk, Def, BonusHp, BonusMp, BonusAtk, BonusDef , None}
 
     public class Item
@@ -100,6 +101,10 @@ namespace _6TxtRpg
 
                 case ItemType.MpPotion:
                     AddAmount(-1);
+                    break;
+
+                case ItemType.Buff:
+                    BuffList.GetBuff(this, Enchant);
                     break;
             }
 
