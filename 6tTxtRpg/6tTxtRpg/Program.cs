@@ -1,6 +1,8 @@
-﻿using System;
+﻿using _6tTxtRpg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,28 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             var intro = new Intro();
             player = intro.IntroA();
+
+            MonsterList monsterList = new MonsterList();
+            switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+            {
+                case ConsoleKey.D2:
+                    Battle battle = new Battle(player, monsterList);
+                    break;
+                case ConsoleKey.D3:
+                    player.level = 1;
+                    player.gold = 10000;
+                    Shop.ShopInput();
+                    break;
+                case ConsoleKey.D4:
+                    Inventory.GetItem(ItemPreset.itemList[1]);
+                    Inventory.GetItem(ItemPreset.itemList[2]);
+                    Inventory.GetItem(ItemPreset.itemList[3]);
+                    Inventory.GetItem(ItemPreset.itemList[4]);
+                    Inventory.InventoryInput();
+                    break;
+                default:
+                    break;
+            }
             /*/Battle 사용법
             MonsterList monsterList = new MonsterList(); //캐릭터와 몬스터 리스트의 인자값이 필요해서 선행으로 생성해줘야 합니다.
             //그 외 다른 방법으로도 인자값을 넣을 수 있으면 상관없음.
@@ -45,6 +69,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Write("이름을 입력해주세요(1~6 글자 제한)");
+                Console.WriteLine();
                 name = Console.ReadLine();
                 if (name.Length <= 6)
                 {
@@ -52,11 +77,12 @@ namespace _6TxtRpg // 이쪽에 만들기
                     string yes = Console.ReadLine();
                     if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
-                        Console.WriteLine("확인되었습니다.");
+                        Console.Clear();
                         break;
                     }
                     else
                     {
+                        Console.Clear();
                         Console.WriteLine("다시 입력해주세요.");
                     }
                 }
@@ -67,6 +93,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Write("직업을 선택해주세요(전사, 마법사, 도적)");
+                Console.WriteLine();
                 string input = Console.ReadLine();
                 job = input;
                 if (job == "전사" || job == "마법사" || job == "도적")
@@ -75,7 +102,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     string yes = Console.ReadLine();
                     if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
-                        Console.WriteLine("확인되었습니다.");
+                        Console.Clear();
                         SetState(); //직업을 정함과 동시에 메서드 호출로 스탯 세팅
                         break;
                     }
@@ -126,14 +153,14 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.WriteLine($"Name: {name} {job}");
-                Console.WriteLine($"Level: {level}");
-                Console.WriteLine($"Hp: {hp}/{maxHp}");
-                Console.WriteLine($"Mp: {mp}/{maxMp}");
-                Console.WriteLine($"Attack: {damage}");
-                Console.WriteLine($"Defense: {defense}");
-                Console.WriteLine($"Exp: {exp}");
-                Console.WriteLine($"Gold: {gold}");
+                Console.WriteLine($"Name: {name} {job}"); //이름, 직업
+                Console.WriteLine($"Level: {level}"); //레벨
+                Console.WriteLine($"Hp: {hp}/{maxHp}"); //체력/최대체력
+                Console.WriteLine($"Mp: {mp}/{maxMp}"); //마나/최대마나
+                Console.WriteLine($"Attack: {damage}"); //공격력
+                Console.WriteLine($"Defense: {defense}"); //방어력
+                Console.WriteLine($"Exp: {exp}"); //경험치
+                Console.WriteLine($"Gold: {gold}"); //골드
                 Console.WriteLine();
                 Console.WriteLine("나가시려면 0을 입력해주세요.");
                 string output = Console.ReadLine();
@@ -171,17 +198,8 @@ namespace _6TxtRpg // 이쪽에 만들기
             var player = new Character();
             player.YourName();
             player.YourJob();
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작");
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
-            MonsterList monsterList = new MonsterList();
-            switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
-            {
-                case ConsoleKey D2:
-                    Battle battle = new Battle(player, monsterList);
-                    break;
-                default:
-                    break;
-            }
+            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4.인벤토리");
+            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");            
             return player;
         }
     }
