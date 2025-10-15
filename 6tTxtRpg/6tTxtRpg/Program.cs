@@ -13,36 +13,42 @@ namespace _6TxtRpg // 이쪽에 만들기
     {
         public static Character player;
 
+        
         public static void Main(string[] args)
         {
+
+
             var intro = new Intro();
             player = intro.IntroA();
 
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
-            switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+            while (true)
             {
-                case ConsoleKey.D2:
-                    battle.RunBattle();
-                    break;
-                case ConsoleKey.D3:
-                    player.level = 1;
-                    player.gold = 10000;
-                    Inventory.GetItem(ItemPreset.itemList[1]);
-                    Inventory.GetItem(ItemPreset.dropItemList[0]);
-                    Inventory.GetItem(ItemPreset.dropItemList[0]);
-                    Inventory.GetItem(ItemPreset.dropItemList[0]);
-                    Shop.ShopInput();
-                    break;
-                case ConsoleKey.D4:
-                    Inventory.GetItem(ItemPreset.itemList[1]);
-                    Inventory.GetItem(ItemPreset.itemList[2]);
-                    Inventory.GetItem(ItemPreset.itemList[3]);
-                    Inventory.GetItem(ItemPreset.itemList[4]);
-                    Inventory.InventoryInput();
-                    break;
-                default:
-                    break;
+                switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                {
+                    case ConsoleKey.D2:
+                        battle.RunBattle();
+                        break;
+                    case ConsoleKey.D3:
+                        player.level = 1;
+                        player.gold = 10000;
+                        Inventory.GetItem(ItemPreset.itemList[1]);
+                        Inventory.GetItem(ItemPreset.dropItemList[0]);
+                        Inventory.GetItem(ItemPreset.dropItemList[0]);
+                        Inventory.GetItem(ItemPreset.dropItemList[0]);
+                        Shop.ShopInput();
+                        break;
+                    case ConsoleKey.D4:
+                        Inventory.GetItem(ItemPreset.itemList[1]);
+                        Inventory.GetItem(ItemPreset.itemList[2]);
+                        Inventory.GetItem(ItemPreset.itemList[3]);
+                        Inventory.GetItem(ItemPreset.itemList[4]);
+                        Inventory.InventoryInput();
+                        break;
+                    default:
+                        break;
+                }
             }
             /*/Battle 사용법
             MonsterList monsterList = new MonsterList(); //캐릭터와 몬스터 리스트의 인자값이 필요해서 선행으로 생성해줘야 합니다.
