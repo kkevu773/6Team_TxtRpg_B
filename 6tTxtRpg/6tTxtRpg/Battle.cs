@@ -88,7 +88,6 @@ namespace _6TxtRpg
                     currentPhase = Phase.MonWin;
                     isBattle = false;
                 }
-                character_.levelUp();
                 Console.Clear();//반복구문 끝날때마다 삭제
             }
             Console.Clear();
@@ -258,6 +257,10 @@ namespace _6TxtRpg
                     {
                         Tool.ColorTxt("Dead", Tool.color2);
                         battleMon[num].DropItem();//죽을때 아이템 드롭
+                        character_.exp += battleMon[num].level;
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        character_.levelUp();
                     }
                     else
                     {
