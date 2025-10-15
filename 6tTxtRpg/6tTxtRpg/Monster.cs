@@ -1,6 +1,8 @@
-﻿using System;
+﻿using _6tTxtRpg;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -40,7 +42,7 @@ namespace _6TxtRpg
                 Console.WriteLine("잘못된 스킬 번호입니다.");
             }
         }
-        public void RandomAttack()      //몬스터가 가지고 있는 스킬을 랜덤하게 사용
+        public void RandomAttack()      //몬스터가 가지고 있는 스킬을 랜덤하게 사
         {
             if (skills == null || skills.Count == 0)
             {
@@ -63,14 +65,21 @@ namespace _6TxtRpg
         }
         public void ShortInfo()                                 //전투에 사용할 몬스터 정보
         {
-            Console.WriteLine($"Lv.{level} {name}  HP {hp}");
+
+            Console.Write($"Lv. ");
+            Tool.ColorTxt(level.ToString(), Tool.color4);
+            Console.Write($" {name}  HP ");
+            Tool.ColorTxt(hp.ToString(),Tool.color4);
+            Console.WriteLine();
         }
         public void Damaged(float damage)                   //몬스터 데미지 받는 함수       사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
         {
             if (damage > this.armor)
             {
                 this.hp -= damage - this.armor;
-                Console.WriteLine($"{name}이(가) {damage - this.armor}의 피해를 받았습니다");
+                Console.Write($"{name}이(가) ");
+                Tool.ColorTxt((damage - this.armor).ToString(), Tool.color2);
+                Console.WriteLine("의 피해를 받았습니다");
                 CheckHp();
             }
             else
