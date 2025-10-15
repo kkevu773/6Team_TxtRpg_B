@@ -332,10 +332,10 @@ namespace _6TxtRpg
             Console.WriteLine($"{battleMon[num].name}의 공격!");
             Console.WriteLine();
             battleMon[num].RandomAttack(character_);
-            //ㄴConsole.WriteLine();
+            //Console.WriteLine();
             //Console.Write($"Lv.{character.level} {Tool.Josa(character.name, "을", "를")} 맞췄습니다. (데미지 : ");
             //Tool.ColorTxt(monster.damage.ToString(), Tool.color2);
-            Console.Write(")");
+            //Console.Write(")");
             Console.WriteLine();
             Console.WriteLine();
             Console.Write($"Lv.");
