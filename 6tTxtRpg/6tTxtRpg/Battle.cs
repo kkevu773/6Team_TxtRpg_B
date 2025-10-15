@@ -18,6 +18,7 @@ namespace _6TxtRpg
             MonsterATK,
             CharWin,
             MonWin,
+            CharRun,
             Unknown,
         }
         private readonly Character character_;
@@ -62,6 +63,8 @@ namespace _6TxtRpg
                     Console.WriteLine(". 관찰");
                     Tool.ColorTxt("2", Tool.color5);
                     Console.WriteLine(". 공격");
+                    Tool.ColorTxt("4", Tool.color5);
+                    Console.WriteLine(". 도망");
                     Console.WriteLine();
                     BattleMenuKey();
                 }
@@ -85,6 +88,7 @@ namespace _6TxtRpg
                     currentPhase = Phase.MonWin;
                     isBattle = false;
                 }
+                character_.levelUp();
                 Console.Clear();//반복구문 끝날때마다 삭제
             }
             Console.Clear();
@@ -99,6 +103,12 @@ namespace _6TxtRpg
             else if (currentPhase == Phase.MonWin)
             {
                 BattleMsg("You Lose", Tool.color2);
+                BattleResult();
+            }
+            else if (currentPhase == Phase.CharRun)
+            {
+                Console.WriteLine($"{Tool.Josa(character_.name,"은","는")} 열심히 도망갔다!");
+                Console.WriteLine();
                 BattleResult();
             }
             for (byte i = 0; i < battleMon.Count(); ++i)//전투가 끝나면 리스트를 한번 순회한다.
@@ -128,15 +138,17 @@ namespace _6TxtRpg
         }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
-            Console.Write($" LV.");
-            Tool.ColorTxt(character_.level.ToString(), Tool.color4);
-            Console.WriteLine($" {character_.name} ({character_.job})");
-            Console.Write($" Hp ");
-            Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-            Console.Write(" / ");
-            Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-            Console.WriteLine();
-            Console.WriteLine();
+            /* Console.Write($" LV.");
+             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
+             Console.WriteLine($" {character_.name} ({character_.job})");
+             Console.Write($" Hp ");
+             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
+             Console.Write(" / ");
+             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
+             Console.WriteLine();*/
+            character_.ShortInfo();
+            if (currentPhase != Phase.CharATKFin)
+            { Console.WriteLine(); }
         }
         void BattleMsg(string msg, ConsoleColor color)
         {
@@ -159,9 +171,9 @@ namespace _6TxtRpg
         void BattleMenuKey()//배틀 매뉴 함수. 역시 가독성을 위해 뺐다.
         {
             TypeMsg("원하시는 행동을 입력해주세요.");
-            switch (Console.ReadKey().Key) //숫자만 눌러도 작동하게 ReadKey로 처리했습니다.
+            switch (Console.ReadKey().KeyChar) //숫자만 눌러도 작동하게 ReadKey로 처리했습니다.
             {
-                case ConsoleKey.D1://관찰키
+                case '1'://관찰키
                     Console.Clear();
                     for (int i = 0; i < monNum; ++i)
                     {
@@ -172,8 +184,13 @@ namespace _6TxtRpg
                     Console.Write(">> ");
                     Console.ReadKey(true);
                     break;
-                case ConsoleKey.D2://공격키
+                case '2'://공격키
                     currentPhase = Phase.CharATK;//몬스터 이름앞에 숫자가 나옴.
+                    break;
+                case '3'://아이템 사용
+                case '4'://도망
+                    currentPhase = Phase.CharRun;
+                    isBattle = false;
                     break;
                 default:
                     WrongMsg();
@@ -183,21 +200,21 @@ namespace _6TxtRpg
         void AtkMenu()//몬스터 공격 선택 함수
         {
             TypeMsg("대상을 선택해주세요.");
-            switch (Console.ReadKey().Key)
+            switch (Console.ReadKey().KeyChar)
             {
-                case ConsoleKey.D1:
+                case '1':
                     CharAtk(0);
                     break;
-                case ConsoleKey.D2:
+                case '2':
                     CharAtk(1);
                     break;
-                case ConsoleKey.D3:
+                case '3':
                     CharAtk(2);
                     break;
-                case ConsoleKey.D4:
+                case '4':
                     CharAtk(3);
                     break;
-                case ConsoleKey.D0:
+                case '0':
                     currentPhase = Phase.Waiting;
                     break;
                 default:
@@ -219,6 +236,7 @@ namespace _6TxtRpg
                     int error = (int)Math.Ceiling((float)character_.damage * 0.1f); //오차범위 처리.
                     int charDamage = random.Next(character_.damage - error, character_.damage + error + 1);
                     Console.WriteLine($"{character_.name}의 공격!");
+                    character_.PlayerCri();
                     Console.WriteLine();
                     Console.Write($"Lv.");
                     Tool.ColorTxt(battleMon[num].level.ToString(), Tool.color4);
@@ -247,7 +265,7 @@ namespace _6TxtRpg
                         Tool.ColorTxt(battleMon[num].hp.ToString(), Tool.color2);
                     }
                     Console.WriteLine();
-                    Console.WriteLine();
+                    //Console.WriteLine();
                     NextButton("다음", "", Phase.CharATKFin);
                 }
             }
@@ -256,25 +274,27 @@ namespace _6TxtRpg
         }
         void NextButton(string message, string typeMsg, Phase nextPhase)
         {
-            Tool.ColorTxt("0", Tool.color5);
-            Console.Write(". ");
-            Console.WriteLine(message);
+            //Tool.ColorTxt("0", Tool.color5);
+            //Console.Write(". ");
+            //Console.WriteLine(message);
             TypeMsg(typeMsg);
-            switch (Console.ReadKey().Key)
+            Console.ReadKey(true);
+            currentPhase = nextPhase;
+            /*switch (Console.ReadKey().KeyChar)
             {
-                case ConsoleKey.D0:
+                case '0':
                     currentPhase = nextPhase;
                     break;
                 default:
                     WrongMsg();
                     break;
-            }
+            }*/
         }
         void NextButton(string message, bool isMsgOn)
         {
-            Tool.ColorTxt("0", Tool.color5);
-            Console.Write(". ");
-            Console.WriteLine(message);
+            //Tool.ColorTxt("0", Tool.color5);
+            //Console.Write(". ");
+            //Console.WriteLine(message);
             if (isMsgOn)
             {
                 Console.WriteLine();
@@ -282,14 +302,15 @@ namespace _6TxtRpg
             }
             else
             { Console.Write(">> "); }
-            switch (Console.ReadKey().Key)
+            Console.ReadKey(true);
+            /*switch (Console.ReadKey().KeyChar)
             {
-                case ConsoleKey.D0:
+                case '0':
                     break;
                 default:
                     WrongMsg();
                     break;
-            }
+            }*/
         }
         void MonATK()//몬스터 순서대로 공격 메서드
         {
@@ -313,7 +334,9 @@ namespace _6TxtRpg
             Console.Write(")");
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine($"Lv.{character_.level} {character_.name}");
+            Console.Write($"Lv.");
+            Tool.ColorTxt(character_.level.ToString(), Tool.color4);
+            Console.WriteLine($" {character_.name}");
             Console.Write($"HP ");
             Tool.ColorTxt(beforehit.ToString(), Tool.color4);
             Console.Write(" -> ");
@@ -326,7 +349,7 @@ namespace _6TxtRpg
                 Tool.ColorTxt(character_.hp.ToString(), Tool.color2);
             }
             Console.WriteLine();
-            Console.WriteLine();
+            //Console.WriteLine();
             NextButton("다음", false);
         }
         void MonDead(byte num)
@@ -361,7 +384,9 @@ namespace _6TxtRpg
         }
         void BattleResult()
         {
-            Console.WriteLine($"LV.{character_.level} {character_.name}");
+            Console.Write($"LV. ");
+            Tool.ColorTxt(character_.level.ToString(),Tool.color4);
+            Console.WriteLine($" {character_.name}");
             Console.Write($"HP {startHp} -> ");
             if (startHp == character_.hp)
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color3); }

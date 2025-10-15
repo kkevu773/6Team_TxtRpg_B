@@ -48,6 +48,7 @@ namespace _6tTxtRpg
                 {
                     // 상점 떠나기
                     flag = false;
+                    Console.Clear();
                 }
                 else if (input == 1)
                 {
@@ -158,14 +159,16 @@ namespace _6tTxtRpg
 
                 if(inputString == "1")
                 {
+                    Console.Clear();
+                    Console.WriteLine($"{item.Name} 강화 성공! 능력치 {item.EffectNum} -> {(int)(item.EffectNum * 1.2f)}");
                     item.EnchantItem();
 
                     for (int i = 0; i < reqAmount; i++)
                     {
                         Inventory.LoseItem(reqItem);
                     }
-                    Console.Clear();
-                    Console.WriteLine($"{item.Name} 강화 성공! 능력치 {item.EffectNum} -> {(int)(item.EffectNum * 1.2f)}");
+                    
+                    
                 }
                 else
                 {

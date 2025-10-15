@@ -20,21 +20,23 @@ namespace _6TxtRpg // 이쪽에 만들기
             player.YourJob();
             var intro = new Intro();
 
-
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
+            Quest quest = new Quest();
+
             while (true)
             {
+                Console.Clear();
                 intro.IntroA();
-                switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                switch (Console.ReadKey(true).KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
-                    case ConsoleKey.D1:
+                    case '1':
                         player.ShowInfo();
                         break;
-                    case ConsoleKey.D2:
+                    case '2':
                         battle.RunBattle();
                         break;
-                    case ConsoleKey.D3:
+                    case '3':
                         player.level = 1;
                         player.gold = 10000;
                         Inventory.GetItem(ItemPreset.itemList[1]);
@@ -43,12 +45,15 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.GetItem(ItemPreset.dropItemList[0]);
                         Shop.ShopInput();
                         break;
-                    case ConsoleKey.D4:
+                    case '4':
                         Inventory.GetItem(ItemPreset.itemList[1]);
                         Inventory.GetItem(ItemPreset.itemList[2]);
                         Inventory.GetItem(ItemPreset.itemList[3]);
                         Inventory.GetItem(ItemPreset.itemList[4]);
                         Inventory.InventoryInput();
+                        break;
+                    case '5':
+                        quest.ShowQuest();
                         break;
                     default:
                         break;
@@ -300,7 +305,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public void IntroA()
         {
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4. 인벤토리");
+            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4. 인벤토리\n5. 퀘스트");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
         }
     }
