@@ -113,7 +113,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.WriteLine($"Name: {name}{job}");
+                Console.WriteLine($"Name: {name} {job}");
                 Console.WriteLine($"Level: {level}");
                 Console.WriteLine($"Hp: {hp}/{maxHp}");
                 Console.WriteLine($"Mp: {mp}/{maxMp}");
@@ -121,6 +121,13 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine($"Defense: {defense}");
                 Console.WriteLine($"Exp: {exp}");
                 Console.WriteLine($"Gold: {gold}");
+                Console.WriteLine();
+                Console.WriteLine("나가시려면 0을 입력해주세요.");
+                string output = Console.ReadLine();
+                if (output == "0")
+                {
+                    break;
+                }
             }
 
         }
@@ -128,14 +135,14 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
         }
-        public float BlowPlayer(float damage) //몬스터가 캐릭터를 공격하는 메서드
+        public float BlowPlayer(Character player) //몬스터가 캐릭터를 공격하는 메서드
         {
-            float actualDamage = damage - this.defense;
+            float actualDamage = damage - player.defense;
             if (actualDamage < 0)
             {
                 actualDamage = 0;
             }
-            this.hp -= (int)actualDamage;
+            player.hp -= (int)actualDamage;
 
             return actualDamage;
         }
