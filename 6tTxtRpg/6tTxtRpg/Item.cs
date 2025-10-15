@@ -150,6 +150,7 @@ namespace _6TxtRpg
                 switch (temp.EffectStatus)
                 {
                     case Status.Hp:
+                        //TxtR.player.hp += EffectNum;
                         break;
                     case Status.Mp:
                         break;
