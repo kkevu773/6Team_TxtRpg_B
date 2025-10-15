@@ -12,15 +12,12 @@ namespace _6TxtRpg
     public class Item
     {
         public string Name { get; private set; }            //아이템 이름
-
         public Status EffectStatus { get; private set; }    //아이템 효과 대상 스테이터스
         public int EffectNum { get; private set; }          //아이템 효과 적용 수치
         public int Amount { get; set; }                     //보유중인 아이템 수
         public ItemType Type { get; private set; }          //아이템 타입
-
         public int Price { get; private set; }              // 아이템 가격
         public bool IsUsing { get; set; }                   //아이템(장비) 장착 여부
-
         public string ItemScript { get; private set; }      //아이템 스크립트
 
         //생성
@@ -37,7 +34,7 @@ namespace _6TxtRpg
         }
 
         //아이템 사용
-        public void UseItem(Character player)
+        public void UseItem()
         {
             Item? temp = null;
             switch (Type)   //아이템 타입에 따라 구별
@@ -49,7 +46,7 @@ namespace _6TxtRpg
                     }
                     else
                     {
-                        temp = Inventory.equipments[ItemType.Head];
+                        temp = Inventory.equipments[ItemType.Head]; //이전에 장착된 장비
                     }
                     break;
 
@@ -100,12 +97,12 @@ namespace _6TxtRpg
             switch (EffectStatus)
             {
                 case Status.Hp:
-                    player.hp += EffectNum;
-                    if(player.hp > player.maxHp) player.hp = player.maxHp;
+                    TxtR.player.hp += EffectNum;
+                    if(TxtR.player.hp > TxtR.player.maxHp) TxtR.player.hp = TxtR.player.maxHp;
                     break;
                 case Status.Mp:
-                    player.mp += EffectNum;
-                    if (player.hp > player.maxMp) player.mp = player.maxMp;
+                    TxtR.player.mp += EffectNum;
+                    if (TxtR.player.hp > TxtR.player.maxMp) TxtR.player.mp = TxtR.player.maxMp;
                     break;
                 case Status.Exp:
                     // 여기에 케릭터 경험치 획득 메소드 연결
@@ -120,10 +117,10 @@ namespace _6TxtRpg
                     // 사용 미정
                     break;
                 case Status.BonusMp:
-                    player.maxMp += EffectNum;
+                    TxtR.player.maxMp += EffectNum;
                     break;
                 case Status.BonusHp:
-                    player.maxHp += EffectNum;
+                    TxtR.player.maxHp += EffectNum;
                     break;
                 case Status.BonusAtk:
                     // 미구현
@@ -163,10 +160,10 @@ namespace _6TxtRpg
                     case Status.Def:
                         break;
                     case Status.BonusMp:
-                        player.maxMp -= temp.EffectNum;
+                        TxtR.player.maxMp -= temp.EffectNum;
                         break;
                     case Status.BonusHp:
-                        player.maxHp -= temp.EffectNum;
+                        TxtR.player.maxHp -= temp.EffectNum;
                         break;
                     case Status.BonusAtk:
                         break;
@@ -189,9 +186,9 @@ namespace _6TxtRpg
             }
         }
 
-        public void BuyItem(Character character)
+        public void BuyItem()
         {
-            if (Price <= character.gold)
+            if (Price <= TxtR.player.gold)
             {
                 if (Inventory.Inven.Contains(this))
                 {
@@ -202,8 +199,8 @@ namespace _6TxtRpg
                 {
                     Inventory.Inven.Add(this);
                 }
-                character.gold -= Price;
-                Console.WriteLine($"{this.Name} 구매 , 남은 골드 {character.gold}G");
+                TxtR.player.gold -= Price;
+                Console.WriteLine($"{this.Name} 구매 , 남은 골드 {TxtR.player.gold}G");
             }
             else
             {
@@ -211,7 +208,7 @@ namespace _6TxtRpg
             }
         }
 
-        public void SellItem(Character character)
+        public void SellItem()
         {
             if (Inventory.Inven.Contains(this))
             {
@@ -224,8 +221,8 @@ namespace _6TxtRpg
                 {
                     Inventory.Inven.Remove(Inventory.Inven[idx]);
                 }
-                character.gold += (int)(Price * 0.8f);
-                Console.WriteLine($"{this.Name} 판매 , 보유 골드 {character.gold}G");
+                TxtR.player.gold += (int)(Price * 0.8f);
+                Console.WriteLine($"{this.Name} 판매 , 보유 골드 {TxtR.player.gold}G");
             }
             else
             {
@@ -273,7 +270,7 @@ namespace _6TxtRpg
             return output;
         }
 
-        public void PrintInventory()
+        public static void PrintInventory()
         {
             //장비 출력
             Console.WriteLine("================= 장비 ================");
@@ -293,7 +290,7 @@ namespace _6TxtRpg
 
         }
 
-        public void InventoryInput(Character player)
+        public void InventoryInput()
         {
             bool flag = true;
             while (flag)
@@ -312,7 +309,7 @@ namespace _6TxtRpg
                 else if (input <= Inventory.Inven.Count)
                 {
                     //인벤토리의 아이템 사용
-                    Inventory.Inven[input - 1].UseItem(player);
+                    Inventory.Inven[input - 1].UseItem();
                     //이후 인벤토리 출력갱신 필요
                 }
                 else

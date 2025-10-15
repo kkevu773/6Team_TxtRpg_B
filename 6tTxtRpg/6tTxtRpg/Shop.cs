@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,12 +23,14 @@ namespace _6tTxtRpg
             }
         }
 
-        public static void ShopInput(Character player)
+        public static void ShopInput()
         {
             bool flag = true;
             bool flagShop = true;
             bool flagBuy = true;
             bool flagSell = true;
+
+            List<Item> shopItemList = ShopPreset.shopItemList[TxtR.player.level];
 
             while (flag) // 상점 선택지(구매,판매,떠나기)
             {
@@ -47,10 +50,11 @@ namespace _6tTxtRpg
                 else if (input == 1)
                 {
                     //구매 메뉴 연결
-                    PrintShop(TxtR.player.level);   // 플레이어 레벨에 따라 상점 선정
-
                     while (flagBuy)
                     {
+                        Console.Clear();
+                        //PrintShop(TxtR.player.level);   // 플레이어 레벨에 따라 상점 선정
+                        PrintShop(0);   //레벨업 구현 전까지 임시 적용
                         Console.WriteLine("구매 할 아이템의 번호를 입력해주세요.");
                         Console.WriteLine("나가기는 0번");
 
@@ -60,13 +64,12 @@ namespace _6tTxtRpg
                         if (input == 0)
                         {
                             // 구매 창 떠나기
-                            flag = false;
+                            flagBuy = false;
                         }
-                        else if (input <= Inventory.Inven.Count)
+                        else if (input <= shopItemList.Count)
                         {
-                            //인벤토리의 아이템 사용
-                            Inventory.Inven[input - 1].UseItem(player);
-                            //이후 인벤토리 출력갱신 필요
+                            //아이템 구매
+                            shopItemList[input].BuyItem();
                         }
                         else
                         {
@@ -78,10 +81,34 @@ namespace _6tTxtRpg
                     //이후 인벤토리 출력갱신 필요
                 }
                 else if (input == 2)
-                {
-                    //판매 메뉴 연결
-                    Inventory.Inven[input - 1].UseItem(player);
-                    //이후 인벤토리 출력갱신 필요
+                {                   
+                    //판메 메뉴 연결
+                    while (flagSell)
+                    {
+                        Console.Clear();
+                        Inventory.PrintInventory();
+                        Console.WriteLine("판매 할 아이템의 번호를 입력해주세요.");
+                        Console.WriteLine("나가기는 0번");
+
+                        inpuString = Console.ReadLine();
+                        input = (int.TryParse(inpuString, out int value2)) ? value2 : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
+
+                        if (input == 0)
+                        {
+                            // 판매 창 떠나기
+                            flagSell = false;
+                        }
+                        else if (input <= Inventory.Inven.Count)
+                        {
+                            //아이템 구매
+                            shopItemList[input].SellItem();
+                        }
+                        else
+                        {
+                            // 인벤토리 아이템 수를 넘어가는 수, 이외의 값들
+                            Console.WriteLine("잘못된 입력입니다.");
+                        }
+                    }
                 }
                 else
                 {
