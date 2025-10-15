@@ -11,22 +11,26 @@ namespace _6TxtRpg // 이쪽에 만들기
 {
     internal class TxtR //쉬운 디버깅을 위해 위로 뻈습니다.
     {
-        public static Character player;
+        public static Character  player =new Character();
 
-        
+
         public static void Main(string[] args)
         {
-
-
+            player.YourName();
+            player.YourJob();
             var intro = new Intro();
-            player = intro.IntroA();
+
 
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
             while (true)
             {
+                intro.IntroA();
                 switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
+                    case ConsoleKey.D1:
+                        player.ShowInfo();
+                        break;
                     case ConsoleKey.D2:
                         battle.RunBattle();
                         break;
@@ -203,6 +207,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine($"Name: {name} {job}"); //이름, 직업
                 Console.WriteLine($"Level: {level}"); //레벨
                 Console.WriteLine($"Hp: {hp}/{maxHp}"); //체력/최대체력
@@ -216,6 +221,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 string output = Console.ReadLine();
                 if (output == "0")
                 {
+                    Console.Clear();
                     break;
                 }
             }
@@ -225,7 +231,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
         }
-        public float BlowPlayer(float damage ,Character player) //몬스터가 캐릭터를 공격하는 메서드
+        public float BlowPlayer(float damage, Character player) //몬스터가 캐릭터를 공격하는 메서드
         {
             float actualDamage = damage - player.defense;
             if (actualDamage < 0)
@@ -242,15 +248,11 @@ namespace _6TxtRpg // 이쪽에 만들기
     public class Intro
     {
         // 캐릭터를 만들어 반환
-        public Character IntroA()
+        public void IntroA()
         {
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
-            var player = new Character();
-            player.YourName();
-            player.YourJob();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4. 인벤토리");
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");            
-            return player;
+            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
         }
     }
 }
