@@ -26,7 +26,7 @@ namespace _6TxtRpg
 
         public List<IMonsterSkill> skills = new List<IMonsterSkill>();      // 몬스터가 가지고 있는 스킬
 
-        public void UseSkill(int index)                                    //해당하는 스킬을 쓰는 함수  0은 기본공격 1은 몬스터 특수공격이 기본세팅
+        public void UseSkill(int index,Character player)                                    //해당하는 스킬을 쓰는 함수  0은 기본공격 1은 몬스터 특수공격이 기본세팅
         {
             if (TxtR.player == null)
             {
@@ -35,14 +35,14 @@ namespace _6TxtRpg
             }
             if (index >= 0 && index < skills.Count)
             {
-                skills[index].Use(this);
+                skills[index].Use(this,player);
             }
             else
             {
                 Console.WriteLine("잘못된 스킬 번호입니다.");
             }
         }
-        public void RandomAttack()      //몬스터가 가지고 있는 스킬을 랜덤하게 사
+        public void RandomAttack(Character player)      //몬스터가 가지고 있는 스킬을 랜덤하게 사
         {
             if (skills == null || skills.Count == 0)
             {
@@ -51,7 +51,7 @@ namespace _6TxtRpg
             }
 
             int index = random.Next(skills.Count);
-            skills[index].Use(this);
+            skills[index].Use(this,player);
         }
         public abstract void DropItem();                                    //몬스터의 아이템을 드랍하는 함수
 
@@ -226,15 +226,15 @@ namespace _6TxtRpg
     public interface IMonsterSkill          //몬스터 스킬 기본인터페이스
     {
         string Name { get; }
-        void Use(Monster monster);
+        void Use(Monster monster,Character player);
     }
     public class RockThorw : IMonsterSkill  
     {
         public string Name => "돌던지기";
-        public void Use(Monster monster)
+        public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 3;
-            float actualDamage = TxtR.player.BlowPlayer(damage);
+            float actualDamage = TxtR.player.BlowPlayer(damage, player);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
             //플레이어 피해를 입는 함수
@@ -244,10 +244,10 @@ namespace _6TxtRpg
     public class Bite : IMonsterSkill
     {
         public string Name => "물기";
-        public void Use(Monster monster)
+        public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 4;
-            float actualDamage = TxtR.player.BlowPlayer(damage);
+            float actualDamage = TxtR.player.BlowPlayer(damage,player);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
 
@@ -257,10 +257,10 @@ namespace _6TxtRpg
     public class Nip : IMonsterSkill
     {
         public string Name => "깨물기";
-        public void Use(Monster monster)
+        public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 2;
-            float actualDamage = TxtR.player.BlowPlayer(damage);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
+            float actualDamage = TxtR.player.BlowPlayer(damage,player);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
@@ -268,10 +268,10 @@ namespace _6TxtRpg
     public class NormalAttack : IMonsterSkill
     {
         public string Name => "공격";
-        public void Use(Monster monster)
+        public void Use(Monster monster, Character player)
         {
             float damage = monster.damage;
-            float actualDamage = TxtR.player.BlowPlayer(damage);
+            float actualDamage = TxtR.player.BlowPlayer(damage,player);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
