@@ -10,21 +10,21 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace _6TxtRpg
 {
-    public abstract class Monster
+    public abstract class Monster       //몬스터 기본 클래스
     {
 
         public string name;
         public float damage;
         public float armor;
         public float hp;
-        public bool isDead = false;
+        public bool isDead = false;                                 //몬스터가 죽은지 아닌지 판별하는 변수
         public int level = 1;
         public float maxHP;
         private static Random random = new Random();
 
-        public List<IMonsterSkill> skills = new List<IMonsterSkill>();
+        public List<IMonsterSkill> skills = new List<IMonsterSkill>();      // 몬스터가 가지고 있는 스킬
 
-        public void UseSkill(int index)
+        public void UseSkill(int index)                                    //해당하는 스킬을 쓰는 함수  0은 기본공격 1은 몬스터 특수공격이 기본세팅
         {
             if (index >= 0 && index < skills.Count)
             {
@@ -35,15 +35,15 @@ namespace _6TxtRpg
                 Console.WriteLine("잘못된 스킬 번호입니다.");
             }
         }
-        public void RandomAttack()
+        public void RandomAttack()                                          //몬스터가 가지고 있는 스킬중 랜덤하게 사용
         {
             Random rand = new Random();
             int index = rand.Next(skills.Count);  // 0 ~ skills.Count-1
             skills[index].Use(this);
         }
-        public abstract void DropItem();
+        public abstract void DropItem();                                    //몬스터의 아이템을 드랍하는 함수
 
-        public virtual void ShowInfo()            //기본 몬스터 정보
+        public virtual void ShowInfo()                          //기본 몬스터 정보
         {
             Console.WriteLine($"Level : {level}");
             Console.WriteLine($"몬스터 이름 : {name}");
@@ -51,11 +51,11 @@ namespace _6TxtRpg
             Console.WriteLine($"방어력(DEF) : {armor}");
             Console.WriteLine($"체력(HP) : {hp}");
         }
-        public void ShortInfo()                     //전투에 사용할 몬스터 정보
+        public void ShortInfo()                                 //전투에 사용할 몬스터 정보
         {
             Console.WriteLine($"Lv.{level} {name}  HP {hp}");
         }
-        public void Damaged(float damage)       //몬스터 데미지 받는 함수 사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
+        public void Damaged(float damage)                   //몬스터 데미지 받는 함수       사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
         {
             if (damage > this.armor)
             {
@@ -69,7 +69,7 @@ namespace _6TxtRpg
             }
 
         }
-        public void CheckHp()          //몬스터 체력체크
+        public void CheckHp()                               //몬스터 체력체크
         {
             if (hp <= 0)
             {
@@ -82,7 +82,7 @@ namespace _6TxtRpg
         
         public class Goblin : Monster
         {
-            public Goblin()   // 생성자에서 Random 객체 받기
+            public Goblin()                     
             {
                 this.level = random.Next(1, 4); // 1~3 레벨
                 this.name = "고블린";
@@ -95,7 +95,7 @@ namespace _6TxtRpg
                 skills.Add(new NormalAttack());
                 skills.Add(new RockThorw());
             }
-            public override void DropItem()
+            public override void DropItem()             
             {
                 Inventory.GetItem(ItemPreset.dropItemList[0]);
             }
@@ -168,9 +168,7 @@ namespace _6TxtRpg
         {
             if (monster != null && monsterList.Contains(monster))
             {
-
                 monsterList.Remove(monster);
-
             }
         }
 
@@ -206,12 +204,12 @@ namespace _6TxtRpg
         }
     }
 
-    public interface IMonsterSkill
+    public interface IMonsterSkill          //몬스터 스킬 기본인터페이스
     {
         string Name { get; }
         void Use(Monster monster);
     }
-    public class RockThorw : IMonsterSkill
+    public class RockThorw : IMonsterSkill  
     {
         public string Name => "돌던지기";
         public void Use(Monster monster)
@@ -246,13 +244,10 @@ namespace _6TxtRpg
             float actualDamage = TxtR.player.BlowPlayer(damage);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
-
         }
-
     }
     public class NormalAttack : IMonsterSkill
     {
-
         public string Name => "공격";
         public void Use(Monster monster)
         {
@@ -260,8 +255,6 @@ namespace _6TxtRpg
             float actualDamage = TxtR.player.BlowPlayer(damage);
             Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
-
         }
-
     }
 }
