@@ -172,6 +172,7 @@ namespace _6TxtRpg
         void WrongMsg()//잘못된 키 입력시 나오는 함수
         {
             Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("잘못된 입력입니다");
             Console.ReadKey(true);
         }//키 입력이 잘못될 시 나오는 메세지
@@ -282,7 +283,7 @@ namespace _6TxtRpg
             //Console.Write(". ");
             //Console.WriteLine(message);
             TypeMsg(typeMsg);
-            Console.ReadKey(true);
+            Console.ReadKey();
             currentPhase = nextPhase;
             /*switch (Console.ReadKey().KeyChar)
             {
@@ -336,7 +337,7 @@ namespace _6TxtRpg
             //Console.Write($"Lv.{character.level} {Tool.Josa(character.name, "을", "를")} 맞췄습니다. (데미지 : ");
             //Tool.ColorTxt(monster.damage.ToString(), Tool.color2);
             //Console.Write(")");
-            Console.WriteLine();
+            //Console.WriteLine();
             Console.WriteLine();
             Console.Write($"Lv.");
             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
