@@ -1,6 +1,8 @@
-﻿using System;
+﻿using _6tTxtRpg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,28 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             var intro = new Intro();
             player = intro.IntroA();
+
+            MonsterList monsterList = new MonsterList();
+            switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+            {
+                case ConsoleKey.D2:
+                    Battle battle = new Battle(player, monsterList);
+                    break;
+                case ConsoleKey.D3:
+                    player.level = 1;
+                    player.gold = 10000;
+                    Shop.ShopInput();
+                    break;
+                case ConsoleKey.D4:
+                    Inventory.GetItem(ItemPreset.itemList[1]);
+                    Inventory.GetItem(ItemPreset.itemList[2]);
+                    Inventory.GetItem(ItemPreset.itemList[3]);
+                    Inventory.GetItem(ItemPreset.itemList[4]);
+                    Inventory.InventoryInput();
+                    break;
+                default:
+                    break;
+            }
             /*/Battle 사용법
             MonsterList monsterList = new MonsterList(); //캐릭터와 몬스터 리스트의 인자값이 필요해서 선행으로 생성해줘야 합니다.
             //그 외 다른 방법으로도 인자값을 넣을 수 있으면 상관없음.
@@ -148,7 +172,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
         }
-        public float BlowPlayer(Character player) //몬스터가 캐릭터를 공격하는 메서드
+        public float BlowPlayer(float damage ,Character player) //몬스터가 캐릭터를 공격하는 메서드
         {
             float actualDamage = damage - player.defense;
             if (actualDamage < 0)
@@ -171,17 +195,8 @@ namespace _6TxtRpg // 이쪽에 만들기
             var player = new Character();
             player.YourName();
             player.YourJob();
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작");
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
-            MonsterList monsterList = new MonsterList();
-            switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
-            {
-                case ConsoleKey D2:
-                    Battle battle = new Battle(player, monsterList);
-                    break;
-                default:
-                    break;
-            }
+            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4.인벤토리");
+            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");            
             return player;
         }
     }

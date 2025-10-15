@@ -1,9 +1,12 @@
-﻿using System;
+﻿using _6tTxtRpg;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
@@ -24,7 +27,7 @@ namespace _6TxtRpg
 
         public List<IMonsterSkill> skills = new List<IMonsterSkill>();      // 몬스터가 가지고 있는 스킬
 
-        public void UseSkill(int index)                                    //해당하는 스킬을 쓰는 함수  0은 기본공격 1은 몬스터 특수공격이 기본세팅
+        public void UseSkill(int index,Character player)                                    //해당하는 스킬을 쓰는 함수  0은 기본공격 1은 몬스터 특수공격이 기본세팅
         {
             if (TxtR.player == null)
             {
@@ -33,23 +36,23 @@ namespace _6TxtRpg
             }
             if (index >= 0 && index < skills.Count)
             {
-                skills[index].Use(this);
+                skills[index].Use(this,player);
             }
             else
             {
                 Console.WriteLine("잘못된 스킬 번호입니다.");
             }
         }
-        public void RandomAttack()      //몬스터가 가지고 있는 스킬을 랜덤하게 사용
+        public void RandomAttack(Character player)      //몬스터가 가지고 있는 스킬을 랜덤하게 사
         {
             if (skills == null || skills.Count == 0)
             {
-                Console.WriteLine($"{name}은(는) 사용할 스킬이 없습니다.");
+                Console.WriteLine($"{Tool.Josa(name.ToString(), "이", "가")} 사용할 스킬이 없습니다.");
                 return;
             }
 
             int index = random.Next(skills.Count);
-            skills[index].Use(this);
+            skills[index].Use(this,player);
         }
         public abstract void DropItem();                                    //몬스터의 아이템을 드랍하는 함수
 
@@ -63,19 +66,26 @@ namespace _6TxtRpg
         }
         public void ShortInfo()                                 //전투에 사용할 몬스터 정보
         {
-            Console.WriteLine($"Lv.{level} {name}  HP {hp}");
+
+            Console.Write($"Lv. ");
+            Tool.ColorTxt(level.ToString(), Tool.color4);
+            Console.Write($" {name}  HP ");
+            Tool.ColorTxt(hp.ToString(),Tool.color4);
+            Console.WriteLine();
         }
         public void Damaged(float damage)                   //몬스터 데미지 받는 함수       사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
         {
             if (damage > this.armor)
             {
                 this.hp -= damage - this.armor;
-                Console.WriteLine($"{name}이(가) {damage - this.armor}의 피해를 받았습니다");
+                Console.Write($"{Tool.Josa(name.ToString(), "이", "가")} ");
+                Tool.ColorTxt((damage - this.armor).ToString(), Tool.color2);
+                Console.WriteLine("의 피해를 받았습니다");
                 CheckHp();
             }
             else
             {
-                Console.WriteLine($"{name}이(가) 방어했습니다.");
+                Console.WriteLine($"{Tool.Josa(name.ToString(), "이", "가")} 방어했습니다.");
             }
 
         }
@@ -85,7 +95,7 @@ namespace _6TxtRpg
             {
                 hp = 0;
                 isDead = true;
-                Console.WriteLine($"{name}이(가) 사망하였습니다.");
+                Console.WriteLine($"{Tool.Josa(name.ToString(), "이", "가")} 사망하였습니다.");
                 DropItem();
             }
         }
@@ -217,16 +227,16 @@ namespace _6TxtRpg
     public interface IMonsterSkill          //몬스터 스킬 기본인터페이스
     {
         string Name { get; }
-        void Use(Monster monster);
+        void Use(Monster monster,Character player);
     }
     public class RockThorw : IMonsterSkill  
     {
         public string Name => "돌던지기";
-        public void Use(Monster monster)
+        public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 3;
-            float actualDamage = TxtR.player.BlowPlayer(damage);
-            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            float actualDamage = TxtR.player.BlowPlayer(damage, player);
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
             //플레이어 피해를 입는 함수
         }
@@ -235,11 +245,11 @@ namespace _6TxtRpg
     public class Bite : IMonsterSkill
     {
         public string Name => "물기";
-        public void Use(Monster monster)
+        public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 4;
-            float actualDamage = TxtR.player.BlowPlayer(damage);
-            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            float actualDamage = TxtR.player.BlowPlayer(damage,player);
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
 
             //플레이어 피해를 입는 함수
@@ -248,22 +258,22 @@ namespace _6TxtRpg
     public class Nip : IMonsterSkill
     {
         public string Name => "깨물기";
-        public void Use(Monster monster)
+        public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 2;
-            float actualDamage = TxtR.player.BlowPlayer(damage);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
-            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            float actualDamage = TxtR.player.BlowPlayer(damage,player);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
     }
     public class NormalAttack : IMonsterSkill
     {
         public string Name => "공격";
-        public void Use(Monster monster)
+        public void Use(Monster monster, Character player)
         {
             float damage = monster.damage;
-            float actualDamage = TxtR.player.BlowPlayer(damage);
-            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            float actualDamage = TxtR.player.BlowPlayer(damage,player);
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
     }
