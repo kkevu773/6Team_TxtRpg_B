@@ -76,6 +76,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int defense; // 방어력
         public int exp; // 경험치
         public int gold; // 골드
+        public int CriticalChance; // 치명타 확률
         public Character() //생성자
         {
         }
@@ -144,6 +145,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.mp = 100;
                     this.damage = 50;
                     this.defense = 20;
+                    this.CriticalChance = 10;
 
                     break;
                 case "마법사": //마법사값을 받았을경우 스텟
@@ -153,6 +155,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.mp = 200;
                     this.damage = 30;
                     this.defense = 10;
+                    this.CriticalChance = 20;
                     break;
                 case "도적": //도적값을 받았을경우 스텟
                     this.maxHp = 120;
@@ -161,6 +164,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.mp = 70;
                     this.damage = 70;
                     this.defense = 10;
+                    this.CriticalChance = 20;
                     break;
             }
         }
