@@ -46,7 +46,7 @@ namespace _6TxtRpg
         {
             if (skills == null || skills.Count == 0)
             {
-                Console.WriteLine($"{name}은(는) 사용할 스킬이 없습니다.");
+                Console.WriteLine($"{name}{Tool.Josa(name.ToString(),"은","는")} 사용할 스킬이 없습니다.");
                 return;
             }
 
@@ -84,7 +84,7 @@ namespace _6TxtRpg
             }
             else
             {
-                Console.WriteLine($"{name}이(가) 방어했습니다.");
+                Console.WriteLine($"{name}{Tool.Josa(name.ToString(), "이", "가")} 방어했습니다.");
             }
 
         }
@@ -94,7 +94,7 @@ namespace _6TxtRpg
             {
                 hp = 0;
                 isDead = true;
-                Console.WriteLine($"{name}이(가) 사망하였습니다.");
+                Console.WriteLine($"{name}{Tool.Josa(name.ToString(), "이", "가")} 사망하였습니다.");
                 DropItem();
             }
         }
@@ -248,7 +248,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage + 4;
             float actualDamage = TxtR.player.BlowPlayer(damage);
-            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{monster.name}{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
 
             //플레이어 피해를 입는 함수
@@ -261,7 +261,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage + 2;
             float actualDamage = TxtR.player.BlowPlayer(damage);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
-            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{monster.name}{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
     }
@@ -272,7 +272,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage;
             float actualDamage = TxtR.player.BlowPlayer(damage);
-            Console.WriteLine($"{monster.name}이(가) {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{monster.name}{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
     }
