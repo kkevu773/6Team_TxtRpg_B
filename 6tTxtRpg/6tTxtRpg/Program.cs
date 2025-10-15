@@ -246,6 +246,16 @@ namespace _6TxtRpg // 이쪽에 만들기
 
             return actualDamage;
         }
+        public void PlayerCri()
+        {
+            Random random = new Random();
+            int shit = random.Next(0, 101);
+            if (CriticalChance >= shit )
+            {
+                Console.WriteLine("치명적인 일격으로 공격했습니다!");
+                damage = damage * 2;
+            }
+        }
 
 
     }
