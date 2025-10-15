@@ -1,5 +1,4 @@
 using _6tTxtRpg;
-using _6TxtRpg;
 
 namespace _6TxtRpg
 {
@@ -31,7 +30,7 @@ namespace _6TxtRpg
             monNum = (byte)random.Next(1, 5);//등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
             { monsters.AddRandom(); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다.
-            battleMon = monsters.GetMonsters();
+            battleMon = monsters.GetMonsters().ToList();//몬스터 리스트 복제.
             battleMon = battleMon.OrderBy(Mon => random.Next()).ToList();//리스트를 한번 섞어준다 쉐킷쉐킷
             startHp = character.hp;//결과 화면 출력을 위해 현재 플레이어의 Hp를 변수에 저장했다.
             isBattle = true;//반복구문을 위한 bool값 재생.
@@ -330,9 +329,7 @@ namespace _6TxtRpg
             if (num <= 1)
             {
                 if (monsters[0].hp <= 0)
-                {
-                    WinEnd();
-                }
+                { WinEnd(); }
             }
             else if (num <= 2)
             {
@@ -344,16 +341,12 @@ namespace _6TxtRpg
             else if (num <= 3)
             {
                 if (monsters[0].hp <= 0 && monsters[1].hp <= 0 && monsters[2].hp <= 0)
-                {
-                    WinEnd();
-                }
+                { WinEnd(); }
             }
             else if (num <= 4)
             {
                 if (monsters[0].hp <= 0 && monsters[1].hp <= 0 && monsters[2].hp <= 0 && monsters[3].hp <= 0)
-                {
-                    WinEnd();
-                }
+                { WinEnd(); }
             }
         }
         void WinEnd()
