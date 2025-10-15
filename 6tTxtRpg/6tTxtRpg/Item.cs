@@ -37,6 +37,9 @@ namespace _6TxtRpg
         public void UseItem()
         {
             Item? temp = null;
+
+            Console.WriteLine($"{Name} 사용");
+
             switch (Type)   //아이템 타입에 따라 구별
             {
                 case ItemType.Head:
@@ -173,7 +176,7 @@ namespace _6TxtRpg
 
                 Console.WriteLine($"{Name} 장비, {temp.Name} 장비 해제");
                 Inventory.Inven.Find(it => it == temp).IsUsing = false;
-            }
+            }           
         }
 
         public void AddAmount(int num)
@@ -253,7 +256,6 @@ namespace _6TxtRpg
             {
                 Inventory.Inven.Add(item);
             }
-            Inventory.Inven.Add(item);
         }
 
         public static string SaveInvenInfo()
@@ -290,9 +292,12 @@ namespace _6TxtRpg
 
         }
 
-        public void InventoryInput()
+        public static void InventoryInput()
         {
             bool flag = true;
+            Console.Clear();
+            PrintInventory();
+
             while (flag)
             {
                 Console.WriteLine("사용 할 아이템의 번호를 입력해주세요.");
@@ -306,10 +311,13 @@ namespace _6TxtRpg
                     flag = false;
                     break;
                 }
-                else if (input <= Inventory.Inven.Count)
+                else if (input <= Inventory.Inven.Count && input > 0)
                 {
                     //인벤토리의 아이템 사용
+                    string usedItemName = Inventory.Inven[input - 1].Name;
+                    Console.Clear();
                     Inventory.Inven[input - 1].UseItem();
+                    PrintInventory();
                     //이후 인벤토리 출력갱신 필요
                 }
                 else
@@ -324,7 +332,11 @@ namespace _6TxtRpg
     public class ItemPreset
     {
         public static List<Item> itemList = new List<Item>() {
-            new Item("TestItem", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다.")
+            new Item("TestItem", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트무기", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트보조무기", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트투구", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트갑옷", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다.")
         };
 
         public static List<Item> dropItemList = new List<Item>() {
@@ -332,5 +344,7 @@ namespace _6TxtRpg
             new Item("거미드랍", Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
             new Item("늑대드랍", Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템")
         };
+
+
     }
 }
