@@ -9,8 +9,8 @@ namespace _6TxtRpg
         byte monNum = 0;//몬스터수. 다른 메서드에서 쓸거 같아서 뻄.
         bool isBattle = false; //전투상태인지 체크.
         Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
-        int startHp;
-        enum Phase
+        int startHp;//데미지 깎기 전 Hp를 저장하기 위한 변수.
+        enum Phase//bool로 처리하다가 너무 많아질거 같아서 enum으로 바꿨음.
         {
             Waiting,
             CharATK,
@@ -21,21 +21,22 @@ namespace _6TxtRpg
             Unknown,
         }
         public Battle(Character character, MonsterList monsters) //반드시 받아야 되는 인자값을 위해 생성자로 만듬.
-        { RunBattle(character, monsters); }
-        public void RunBattle(Character character, MonsterList monsters)
+        { RunBattle(character, monsters); }//RunBattle 메서드 작동.
+        //처음에는 생성자에 로직을 냅다 다 넣었다가 전투가 필요한 부분에 넣기 쉽게 메서드로 뺐음.
+        public void RunBattle(Character character, MonsterList monsters)//외부에서 막 쓰라고 public으로 처리했다.
         {
-            Console.ForegroundColor = Tool.color1;
-            monsters.monsterList.Clear();
-            monNum = (byte)random.Next(1, 5);//등장 몬스터 수. 작은 수니까 byte로 처리했다. 0~3까지 계산.
+            Console.ForegroundColor = Tool.color1;//기본텍스트 색상 처리. Tool 클래스의 변수를 활용해서 변수만 바꿔도 관련된 부분의 색상이 전부 바뀌게 처리했다. 
+            monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
+            monNum = (byte)random.Next(1, 5);//등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
-            { monsters.AddRandom(); }
-            startHp = character.hp;
-            isBattle = true;
-            currentPhase = Phase.Waiting;
+            { monsters.AddRandom(); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다.
+            startHp = character.hp;//결과 화면 출력을 위해 현재 플레이어의 Hp를 변수에 저장했다.
+            isBattle = true;//반복구문을 위한 bool값 재생.
+            currentPhase = Phase.Waiting;//페이즈를 첫 페이즈로 세팅.
             while (isBattle) //여기서부터 반복구문
             {
-                Console.Clear();
-                if (currentPhase == Phase.CharATK)
+                Console.Clear();//반복구문시작할때마다 삭제
+                if (currentPhase == Phase.CharATK)//페이즈가 
                 { BattleMsg("Battle!!", Tool.color2); }
                 if (currentPhase != Phase.MonsterATK)
                 {
