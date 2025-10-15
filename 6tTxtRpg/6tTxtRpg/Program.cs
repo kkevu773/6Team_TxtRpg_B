@@ -168,7 +168,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
             MonsterList monsterList = new MonsterList();
-            switch (Console.ReadKey(true).Key)
+            switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
             {
                 case ConsoleKey D2:
                     Battle battle = new Battle(player, monsterList);

@@ -80,12 +80,12 @@ namespace _6TxtRpg
                 BattleMsg("Victory", Tool.color3);
                 Console.WriteLine($"던전에서 몬스터를 {monNum}마리 잡았습니다.");
                 Console.WriteLine();
-                BattleResult(character,Tool.color3);
+                BattleResult(character);
             }
             else if (currentPhase == Phase.MonWin)
             {
                 BattleMsg("You Lose", Tool.color2);
-                BattleResult(character,Tool.color2);
+                BattleResult(character);
             }
         }
         void ShowMon(MonsterList monsters)//몬스터 정보 출력 함수 //TODO:띄어쓰기 처리 안해놨음. 나중에 디버깅하면서 수정해야 됨.
@@ -191,15 +191,20 @@ namespace _6TxtRpg
                     Console.WriteLine();
                     Console.Write($"Lv.");
                     Tool.ColorTxt(monsters.monsterList[num].level.ToString(), Tool.color4);
-                    Console.Write($" {monsters.monsterList[num].name}을 맞췄습니다. (데미지 : ");
+                    Console.Write($" {Tool.Josa(monsters.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
                     Tool.ColorTxt(charDamage.ToString(), Tool.color2);
                     Console.Write(")");
                     Console.WriteLine();
                     Console.WriteLine();
                     monsters.monsterList[num].Damaged(charDamage);
                     Console.WriteLine();
-                    Console.WriteLine($"Lv.{monsters.monsterList[num].level} {monsters.monsterList[num].name}");
-                    Console.Write($"HP {beforehit} -> ");
+                    Console.Write($"Lv.");
+                    Tool.ColorTxt(monsters.monsterList[num].level.ToString(), Tool.color4); 
+                    Console.Write($" {monsters.monsterList[num].name}");
+                    Console.WriteLine();
+                    Console.Write($"HP ");
+                    Tool.ColorTxt(beforehit.ToString(), Tool.color4); 
+                    Console.Write(" -> ");
                     if (monsters.monsterList[num].hp <= 0)
                     { Tool.ColorTxt("Dead", Tool.color2); }
                     else
@@ -266,13 +271,15 @@ namespace _6TxtRpg
             BattleMsg("Battle!!", ConsoleColor.DarkRed);
             Console.WriteLine($"{monster.name}의 공격!");
             //monster.RandomAttack();
-            Console.Write($"Lv.{character.level} {character.name}을 맞췄습니다. (데미지 : ");
+            Console.Write($"Lv.{character.level} {Tool.Josa(character.name, "을", "를")} 맞췄습니다. (데미지 : ");
             Tool.ColorTxt(monster.damage.ToString(), Tool.color2);
             Console.Write(")");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine($"Lv.{character.level} {character.name}");
-            Console.Write($"HP {character.hp} -> ");
+            Console.Write($"HP ");
+            Tool.ColorTxt(character.hp.ToString(), Tool.color4);
+            Console.Write(" -> ");
             character.hp -= (int)monster.damage;
             if (character.hp <= 0)
             { Tool.ColorTxt("Dead", Tool.color2); }
@@ -280,7 +287,6 @@ namespace _6TxtRpg
             {
                 Console.Write($"Hp ");
                 Tool.ColorTxt(character.hp.ToString(), Tool.color2);
-                Console.Write(")");
             }
             Console.WriteLine();
             Console.WriteLine();
@@ -314,11 +320,14 @@ namespace _6TxtRpg
             currentPhase = Phase.CharWin;
             isBattle = false;
         }
-        void BattleResult(Character character,ConsoleColor color)
+        void BattleResult(Character character)
         {
             Console.WriteLine($"LV.{character.level} {character.name}");
             Console.Write($"HP {startHp} -> ");
-            Tool.ColorTxt(character.hp.ToString(), color);
+            if (startHp == character.hp)
+            { Tool.ColorTxt(character.hp.ToString(), Tool.color3); }
+            else
+            { Tool.ColorTxt(character.hp.ToString(), Tool.color2); }
             Console.WriteLine();
             NextButton("다음", false);
         }
