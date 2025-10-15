@@ -7,6 +7,7 @@ namespace _6TxtRpg
         List<Monster> battleMon = new List<Monster>();
         Random random = new Random();//공용으로 쓸 랜덤
         byte monNum = 0;//몬스터수. 다른 메서드에서 쓸거 같아서 뻄.
+        public int stage = 1;
         bool isBattle = false; //전투상태인지 체크.
         Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
         int startHp;//데미지 깎기 전 Hp를 저장하기 위한 변수.
@@ -97,6 +98,7 @@ namespace _6TxtRpg
                 BattleMsg("Victory", Tool.color3);
                 Console.WriteLine($"던전에서 몬스터를 {monNum}마리 잡았습니다.");
                 Console.WriteLine();
+                ++stage;
                 BattleResult();
             }
             else if (currentPhase == Phase.MonWin)
