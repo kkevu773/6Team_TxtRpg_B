@@ -26,6 +26,11 @@ namespace _6TxtRpg
 
         public void UseSkill(int index)                                    //해당하는 스킬을 쓰는 함수  0은 기본공격 1은 몬스터 특수공격이 기본세팅
         {
+            if (TxtR.player == null)
+            {
+                Console.WriteLine("플레이어 정보가 존재하지 않습니다. (전투 로직 확인 필요)");
+                return;
+            }
             if (index >= 0 && index < skills.Count)
             {
                 skills[index].Use(this);
@@ -35,10 +40,15 @@ namespace _6TxtRpg
                 Console.WriteLine("잘못된 스킬 번호입니다.");
             }
         }
-        public void RandomAttack()                                          //몬스터가 가지고 있는 스킬중 랜덤하게 사용
+        public void RandomAttack()      //몬스터가 가지고 있는 스킬을 랜덤하게 사용
         {
-            Random rand = new Random();
-            int index = rand.Next(skills.Count);  // 0 ~ skills.Count-1
+            if (skills == null || skills.Count == 0)
+            {
+                Console.WriteLine($"{name}은(는) 사용할 스킬이 없습니다.");
+                return;
+            }
+
+            int index = random.Next(skills.Count);
             skills[index].Use(this);
         }
         public abstract void DropItem();                                    //몬스터의 아이템을 드랍하는 함수
