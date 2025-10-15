@@ -20,6 +20,8 @@ namespace _6TxtRpg
         public bool IsUsing { get; set; }                   //아이템(장비) 장착 여부
         public string ItemScript { get; private set; }      //아이템 스크립트
 
+        public int Enchant;
+
         //생성
         public Item(string name, Status effectStatus, int effectNum, int amount, ItemType type, int price, string itemScript)
         {
@@ -31,6 +33,7 @@ namespace _6TxtRpg
             Price = price;
             IsUsing = false;
             ItemScript = itemScript;
+            Enchant = 0;
         }
 
         //아이템 사용
@@ -234,6 +237,45 @@ namespace _6TxtRpg
 
         }
 
+        public void EnchantItem()
+        {
+            if(Enchant < 3)
+            {
+                Enchant++;
+
+                int temp = EffectNum;
+                EffectStatus += (int)(EffectNum * 0.2f); //능력치 20% 증가
+
+                //이전 능력치 적용 제거, 새 능력치 적용
+                if (IsUsing)
+                {
+                    switch (EffectStatus)
+                    {
+                        case Status.BonusHp:
+                            TxtR.player.maxHp -= temp;
+                            TxtR.player.maxHp += EffectNum;
+                            break;
+                        case Status.BonusMp:
+                            TxtR.player.maxMp -= temp;
+                            TxtR.player.maxMp += EffectNum;
+                            break;
+                        case Status.Atk:
+                            TxtR.player.damage -= temp;
+                            TxtR.player.damage += EffectNum;
+                            break;
+                        case Status.Def:
+                            TxtR.player.defense -= temp;
+                            TxtR.player.defense += EffectNum;
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("오류: 최대 강화 입니다.");
+            }        
+        }
+
     }
     public class Inventory
     {
@@ -251,10 +293,32 @@ namespace _6TxtRpg
             if (Inventory.Inven.Contains(item))
             {
                 Inventory.Inven.Find(targetItem => targetItem == item).Amount++;
+
+                if(item.Amount <= 0)
+                {
+                    Inventory.Inven.Remove(item);
+                }
             }
             else
             {
                 Inventory.Inven.Add(item);
+            }
+        }
+
+        public static void LoseItem(Item item)
+        {
+            if (Inventory.Inven.Contains(item))
+            {
+                Inventory.Inven.Find(targetItem => targetItem == item).Amount--;
+
+                if (item.Amount <= 0)
+                {
+                    Inventory.Inven.Remove(item);
+                }
+            }
+            else
+            {
+                //Console.WriteLine("인벤토리에 아이템이 존재하지 않음");
             }
         }
 
