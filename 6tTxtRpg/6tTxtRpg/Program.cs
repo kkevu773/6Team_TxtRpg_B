@@ -25,6 +25,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             Battle battle = new Battle(player, monsterList);
             while (true)
             {
+                Console.Clear();
                 intro.IntroA();
                 switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
