@@ -69,6 +69,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Write("이름을 입력해주세요(1~6 글자 제한)");
+                Console.WriteLine();
                 name = Console.ReadLine();
                 if (name.Length <= 6)
                 {
@@ -76,11 +77,12 @@ namespace _6TxtRpg // 이쪽에 만들기
                     string yes = Console.ReadLine();
                     if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
-                        Console.WriteLine("확인되었습니다.");
+                        Console.Clear();
                         break;
                     }
                     else
                     {
+                        Console.Clear();
                         Console.WriteLine("다시 입력해주세요.");
                     }
                 }
@@ -91,6 +93,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Write("직업을 선택해주세요(전사, 마법사, 도적)");
+                Console.WriteLine();
                 string input = Console.ReadLine();
                 job = input;
                 if (job == "전사" || job == "마법사" || job == "도적")
@@ -99,7 +102,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     string yes = Console.ReadLine();
                     if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
-                        Console.WriteLine("확인되었습니다.");
+                        Console.Clear();
                         SetState(); //직업을 정함과 동시에 메서드 호출로 스탯 세팅
                         break;
                     }
