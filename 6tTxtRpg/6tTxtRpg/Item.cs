@@ -53,6 +53,7 @@ namespace _6TxtRpg
                     else
                     {
                         temp = Inventory.equipments[ItemType.Head]; //이전에 장착된 장비
+                        Inventory.equipments[ItemType.Head] = this;
                     }
                     break;
 
@@ -64,6 +65,7 @@ namespace _6TxtRpg
                     else
                     {
                         temp = Inventory.equipments[ItemType.Body];
+                        Inventory.equipments[ItemType.Body] = this;
                     }
                     break;
 
@@ -75,6 +77,7 @@ namespace _6TxtRpg
                     else
                     {
                         temp = Inventory.equipments[ItemType.Weapon];
+                        Inventory.equipments[ItemType.Weapon] = this;
                     }
                     break;
 
@@ -86,6 +89,7 @@ namespace _6TxtRpg
                     else
                     {
                         temp = Inventory.equipments[ItemType.ExtraWeapon];
+                        Inventory.equipments[ItemType.ExtraWeapon] = this;
                     }
                     break;
 
@@ -364,7 +368,7 @@ namespace _6TxtRpg
 
             while (flag)
             {
-                Console.WriteLine("사용 할 아이템의 번호를 입력해주세요.");
+                Console.WriteLine("0.나가기\n사용 할 아이템의 번호를 입력해주세요.");
 
                 string inpuString = Console.ReadLine();
                 int input = (int.TryParse(inpuString, out int value)) ? value : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
@@ -387,7 +391,9 @@ namespace _6TxtRpg
                 else
                 {
                     // 인벤토리 아이템 수를 넘어가는 수, 이외의 값들
+                    Console.Clear() ;
                     Console.WriteLine("잘못된 입력입니다.");
+                    PrintInventory();
                 }
             }      
         }
@@ -398,9 +404,10 @@ namespace _6TxtRpg
         public static List<Item> itemList = new List<Item>() {
             new Item("TestItem", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
             new Item("테스트무기", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트보조무기", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트투구", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트갑옷", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다.")
+            new Item("테스트무기2", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트보조무기", Status.Atk, 999, 1, ItemType.ExtraWeapon, 999, "테스트 아이템입니다."),
+            new Item("테스트투구", Status.Atk, 999, 1, ItemType.Head, 999, "테스트 아이템입니다."),
+            new Item("테스트갑옷", Status.Atk, 999, 1, ItemType.Body, 999, "테스트 아이템입니다.")
         };
 
         public static List<Item> dropItemList = new List<Item>() {
