@@ -78,7 +78,7 @@ namespace _6TxtRpg
             if (damage > this.armor)
             {
                 this.hp -= damage - this.armor;
-                Console.Write($"{name}이(가) ");
+                Console.Write($"{name}이{Tool.Josa(name.ToString(), "이", "가")} ");
                 Tool.ColorTxt((damage - this.armor).ToString(), Tool.color2);
                 Console.WriteLine("의 피해를 받았습니다");
                 CheckHp();
