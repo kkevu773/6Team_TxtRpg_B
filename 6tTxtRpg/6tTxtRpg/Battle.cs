@@ -18,6 +18,7 @@ namespace _6TxtRpg
             MonsterATK,
             CharWin,
             MonWin,
+            CharRun,
             Unknown,
         }
         private readonly Character character_;
@@ -62,6 +63,8 @@ namespace _6TxtRpg
                     Console.WriteLine(". 관찰");
                     Tool.ColorTxt("2", Tool.color5);
                     Console.WriteLine(". 공격");
+                    Tool.ColorTxt("4", Tool.color5);
+                    Console.WriteLine(". 도망");
                     Console.WriteLine();
                     BattleMenuKey();
                 }
@@ -136,7 +139,8 @@ namespace _6TxtRpg
             Console.Write(" / ");
             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
             Console.WriteLine();
-            Console.WriteLine();
+            if (currentPhase != Phase.CharATKFin)
+            { Console.WriteLine(); }
         }
         void BattleMsg(string msg, ConsoleColor color)
         {
@@ -159,9 +163,9 @@ namespace _6TxtRpg
         void BattleMenuKey()//배틀 매뉴 함수. 역시 가독성을 위해 뺐다.
         {
             TypeMsg("원하시는 행동을 입력해주세요.");
-            switch (Console.ReadKey().Key) //숫자만 눌러도 작동하게 ReadKey로 처리했습니다.
+            switch (Console.ReadKey().KeyChar) //숫자만 눌러도 작동하게 ReadKey로 처리했습니다.
             {
-                case ConsoleKey.D1://관찰키
+                case '1'://관찰키
                     Console.Clear();
                     for (int i = 0; i < monNum; ++i)
                     {
@@ -172,8 +176,13 @@ namespace _6TxtRpg
                     Console.Write(">> ");
                     Console.ReadKey(true);
                     break;
-                case ConsoleKey.D2://공격키
+                case '2'://공격키
                     currentPhase = Phase.CharATK;//몬스터 이름앞에 숫자가 나옴.
+                    break;
+                case '3'://아이템 사용
+                case '4'://도망
+                    currentPhase = Phase.CharRun;
+                    isBattle = false;
                     break;
                 default:
                     WrongMsg();
@@ -183,21 +192,21 @@ namespace _6TxtRpg
         void AtkMenu()//몬스터 공격 선택 함수
         {
             TypeMsg("대상을 선택해주세요.");
-            switch (Console.ReadKey().Key)
+            switch (Console.ReadKey().KeyChar)
             {
-                case ConsoleKey.D1:
+                case '1':
                     CharAtk(0);
                     break;
-                case ConsoleKey.D2:
+                case '2':
                     CharAtk(1);
                     break;
-                case ConsoleKey.D3:
+                case '3':
                     CharAtk(2);
                     break;
-                case ConsoleKey.D4:
+                case '4':
                     CharAtk(3);
                     break;
-                case ConsoleKey.D0:
+                case '0':
                     currentPhase = Phase.Waiting;
                     break;
                 default:
@@ -247,7 +256,7 @@ namespace _6TxtRpg
                         Tool.ColorTxt(battleMon[num].hp.ToString(), Tool.color2);
                     }
                     Console.WriteLine();
-                    Console.WriteLine();
+                    //Console.WriteLine();
                     NextButton("다음", "", Phase.CharATKFin);
                 }
             }
@@ -256,25 +265,27 @@ namespace _6TxtRpg
         }
         void NextButton(string message, string typeMsg, Phase nextPhase)
         {
-            Tool.ColorTxt("0", Tool.color5);
-            Console.Write(". ");
-            Console.WriteLine(message);
+            //Tool.ColorTxt("0", Tool.color5);
+            //Console.Write(". ");
+            //Console.WriteLine(message);
             TypeMsg(typeMsg);
-            switch (Console.ReadKey().Key)
+            Console.ReadKey(true);
+            currentPhase = nextPhase;
+            /*switch (Console.ReadKey().KeyChar)
             {
-                case ConsoleKey.D0:
+                case '0':
                     currentPhase = nextPhase;
                     break;
                 default:
                     WrongMsg();
                     break;
-            }
+            }*/
         }
         void NextButton(string message, bool isMsgOn)
         {
-            Tool.ColorTxt("0", Tool.color5);
-            Console.Write(". ");
-            Console.WriteLine(message);
+            //Tool.ColorTxt("0", Tool.color5);
+            //Console.Write(". ");
+            //Console.WriteLine(message);
             if (isMsgOn)
             {
                 Console.WriteLine();
@@ -282,14 +293,15 @@ namespace _6TxtRpg
             }
             else
             { Console.Write(">> "); }
-            switch (Console.ReadKey().Key)
+            Console.ReadKey(true);
+            /*switch (Console.ReadKey().KeyChar)
             {
-                case ConsoleKey.D0:
+                case '0':
                     break;
                 default:
                     WrongMsg();
                     break;
-            }
+            }*/
         }
         void MonATK()//몬스터 순서대로 공격 메서드
         {
@@ -313,7 +325,9 @@ namespace _6TxtRpg
             Console.Write(")");
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine($"Lv.{character_.level} {character_.name}");
+            Console.Write($"Lv.");
+            Tool.ColorTxt(character_.level.ToString(), Tool.color4);
+            Console.WriteLine($" {character_.name}");
             Console.Write($"HP ");
             Tool.ColorTxt(beforehit.ToString(), Tool.color4);
             Console.Write(" -> ");
@@ -326,7 +340,7 @@ namespace _6TxtRpg
                 Tool.ColorTxt(character_.hp.ToString(), Tool.color2);
             }
             Console.WriteLine();
-            Console.WriteLine();
+            //Console.WriteLine();
             NextButton("다음", false);
         }
         void MonDead(byte num)
