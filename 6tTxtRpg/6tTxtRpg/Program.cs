@@ -27,6 +27,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                 case ConsoleKey.D3:
                     player.level = 1;
                     player.gold = 10000;
+                    Inventory.GetItem(ItemPreset.itemList[1]);
+                    Inventory.GetItem(ItemPreset.dropItemList[0]);
+                    Inventory.GetItem(ItemPreset.dropItemList[0]);
+                    Inventory.GetItem(ItemPreset.dropItemList[0]);
                     Shop.ShopInput();
                     break;
                 case ConsoleKey.D4:

@@ -37,6 +37,7 @@ namespace _6tTxtRpg
                 Console.Clear();
                 Console.WriteLine("1.구매");
                 Console.WriteLine("2.판매");
+                Console.WriteLine("3.강화");
                 Console.WriteLine("0.떠나기");
                 Console.WriteLine("원하는 행동의 번호를 입력해 주세요.");
 
@@ -116,9 +117,118 @@ namespace _6tTxtRpg
                         }
                     }
                 }
+                else if(input == 3)
+                {
+                    Console.Clear();
+                    EnchantInput();
+                }
                 else
                 {
                     // 이외의 값들
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+            }
+        }
+        public static void EnchantItem(Item item)
+        {
+            Item reqItem = new Item("none", Status.None, 0, 0, ItemType.Etc, 0, "");
+            int reqAmount = 0;
+            switch (item.Enchant)
+            {
+                case 0:
+                    reqItem = ItemPreset.dropItemList[0];
+                    reqAmount = 3;
+                    break;
+                case 1:
+                    reqItem = ItemPreset.dropItemList[1];
+                    reqAmount = 2;
+                    break;
+                case 2:
+                    reqItem = ItemPreset.dropItemList[2];
+                    reqAmount = 1;
+                    break;
+            }
+            Console.WriteLine($"강화에는 다음 아이템이 필요합니다. [{reqItem.Name} : {reqAmount}] ");
+
+            //인벤토리에 강화소재 보유 시
+            if(Inventory.Inven.Contains(reqItem) && Inventory.Inven.Find(t => t == reqItem).Amount >= reqAmount && item.Enchant < 3)
+            {
+                Console.WriteLine("강화 하시겠습니까?\n1.예\n2.아니오");
+                string inputString = Console.ReadLine();
+
+                if(inputString == "1")
+                {
+                    item.EnchantItem();
+
+                    for (int i = 0; i < reqAmount; i++)
+                    {
+                        Inventory.LoseItem(reqItem);
+                    }
+                    Console.Clear();
+                    Console.WriteLine($"{item.Name} 강화 성공! 능력치 {item.EffectNum} -> {(int)(item.EffectNum * 1.2f)}");
+                }
+                else
+                {
+                    //강화 창 종료
+                }
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("강화 불가.");
+            }
+        }
+
+        public static void EnchantInput()
+        {
+            bool flag = true;
+            while (flag)
+            {               
+
+                //강화 가능한 아이템 선별
+                List<Item> echantableItemList = new List<Item>();
+                foreach (Item item in Inventory.Inven)
+                {
+                    if(item.Type == ItemType.Head ||
+                        item.Type == ItemType.Body ||
+                        item.Type == ItemType.Weapon ||
+                        item.Type == ItemType.ExtraWeapon)
+                    {
+                        if(item.Enchant < 3)
+                        {
+                            echantableItemList.Add(item);
+                        }
+                    }
+                }
+
+                for(int i = 0; i < echantableItemList.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. [{echantableItemList[i].Name}] [+{echantableItemList[i].Enchant}]");
+                }
+
+                Console.WriteLine("강화 할 아이템의 번호를 입력해주세요.\n0.떠나기");
+
+                string inpuString = Console.ReadLine();
+                int input = (int.TryParse(inpuString, out int value)) ? value : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
+
+                if (input == 0)
+                {
+                    // 강화선택 떠나기
+                    flag = false;
+                    break;
+                }
+                else if (input <= echantableItemList.Count && input > 0)
+                {
+                    //인벤토리의 아이템 강화
+                    string usedItemName = Inventory.Inven[input - 1].Name;
+                    Console.Clear();
+                    EnchantItem(Inventory.Inven.Find(t => t == echantableItemList[input - 1]));
+                    //이후 인벤토리 출력갱신 필요
+                }
+                else
+                {
+                    // 인벤토리 아이템 수를 넘어가는 수, 이외의 값들
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
                 }
             }
