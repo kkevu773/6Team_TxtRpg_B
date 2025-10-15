@@ -262,16 +262,14 @@ namespace _6TxtRpg
                         battleMon[num].DropItem();//죽을때 아이템 드롭
                         character_.exp += battleMon[num].level;
                         Console.WriteLine();
-                        Console.WriteLine();
                         character_.levelUp();
                     }
                     else
                     {
                         Console.Write($"Hp ");
                         Tool.ColorTxt(battleMon[num].hp.ToString(), Tool.color2);
+                        Console.WriteLine();
                     }
-                    Console.WriteLine();
-                    //Console.WriteLine();
                     NextButton("다음", "", Phase.CharATKFin);
                 }
             }
