@@ -19,10 +19,11 @@ namespace _6TxtRpg // 이쪽에 만들기
             player = intro.IntroA();
 
             MonsterList monsterList = new MonsterList();
+            Battle battle = new Battle(player, monsterList);
             switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
             {
                 case ConsoleKey.D2:
-                    Battle battle = new Battle(player, monsterList);
+                    battle.RunBattle();
                     break;
                 case ConsoleKey.D3:
                     player.level = 1;
