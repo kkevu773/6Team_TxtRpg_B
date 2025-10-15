@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace _6TxtRpg
 {
@@ -121,10 +122,10 @@ namespace _6TxtRpg
                     // 사용 미정
                     break;
                 case Status.Atk:
-                    // 사용 미정
+                    TxtR.player.damage += EffectNum;
                     break;
                 case Status.Def:
-                    // 사용 미정
+                    TxtR.player.defense += EffectNum;
                     break;
                 case Status.BonusMp:
                     TxtR.player.maxMp += EffectNum;
@@ -166,8 +167,10 @@ namespace _6TxtRpg
                     case Status.Level:
                         break;
                     case Status.Atk:
+                        TxtR.player.damage -= temp.EffectNum;
                         break;
                     case Status.Def:
+                        TxtR.player.defense -= temp.EffectNum;
                         break;
                     case Status.BonusMp:
                         TxtR.player.maxMp -= temp.EffectNum;
@@ -248,7 +251,7 @@ namespace _6TxtRpg
                 Enchant++;
 
                 int temp = EffectNum;
-                EffectStatus += (int)(EffectNum * 0.2f); //능력치 20% 증가
+                EffectNum += (int)(EffectNum * 0.2f); //능력치 20% 증가
 
                 //이전 능력치 적용 제거, 새 능력치 적용
                 if (IsUsing)
@@ -344,9 +347,11 @@ namespace _6TxtRpg
         {
             //장비 출력
             Console.WriteLine("================= 장비 ================");
+            int num = 1;
             foreach (KeyValuePair<ItemType, Item> item in equipments)
             {
-                Console.WriteLine("[{0}: {1}]", item.Key.ToString(), (item.Value == null ? "빈칸" : item.Value.Name));
+                Console.WriteLine("[{0}: {1}]", item.Key.ToString(), (item.Value == null ? "빈칸" : item.Value.Name + " {+ " + item.Value.Enchant + "} (해제: -" +num+")" ));
+                num++;
             }
 
             //인벤 출력
@@ -355,9 +360,84 @@ namespace _6TxtRpg
             for (int i = 0; i < Inven.Count; i++)
             {
                 Item itemInven = Inven[i];
-                Console.WriteLine($"{i + 1}.[{itemInven.Name}]: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")}");
+                string itemEffect = "";
+                switch (itemInven.EffectStatus)
+                {
+                    case Status.Hp:
+                        itemEffect += "[체력" + itemInven.EffectNum + " 회복]";
+                        break;
+                    case Status.Mp:
+                        itemEffect += "[마나" + itemInven.EffectNum + " 회복]";
+                        break;
+                    case Status.Exp:
+                        itemEffect += "[EXP" + itemInven.EffectNum + " 증가]";
+                        break;
+                    case Status.Level:
+                        itemEffect += "[LV" + itemInven.EffectNum + " 증가]";
+                        break;
+                    case Status.Atk:
+                        itemEffect += "[데미지" + itemInven.EffectNum + " 증가]";
+                        break;
+                    case Status.Def:
+                        itemEffect += "[방어" + itemInven.EffectNum + " 증가]";
+                        break;
+                    case Status.BonusMp:
+                        itemEffect += "[최대마나" + itemInven.EffectNum + " 증가]";
+                        break;
+                    case Status.BonusHp:
+                        itemEffect += "[최대체력" + itemInven.EffectNum + " 증가]";
+                        break;
+                    case Status.BonusAtk:
+                        break;
+                    case Status.BonusDef:
+                        break;
+                }
+                Console.WriteLine($"{i + 1}.[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect}");
             }
 
+        }
+
+        public static void DisarmEquip(ItemType type)
+        {
+            Item temp = equipments[type];
+
+            //이전 장비 수치 제거
+            if (temp != null)
+            {
+                // 장비 추가 효과 제거
+                switch (temp.EffectStatus)
+                {
+                    case Status.Hp:
+                        //TxtR.player.hp += EffectNum;
+                        break;
+                    case Status.Mp:
+                        break;
+                    case Status.Exp:
+                        break;
+                    case Status.Level:
+                        break;
+                    case Status.Atk:
+                        TxtR.player.damage -= temp.EffectNum;
+                        break;
+                    case Status.Def:
+                        TxtR.player.defense -= temp.EffectNum;
+                        break;
+                    case Status.BonusMp:
+                        TxtR.player.maxMp -= temp.EffectNum;
+                        break;
+                    case Status.BonusHp:
+                        TxtR.player.maxHp -= temp.EffectNum;
+                        break;
+                    case Status.BonusAtk:
+                        break;
+                    case Status.BonusDef:
+                        break;
+                }
+
+                Console.WriteLine($"{temp.Name} 장비 해제");
+                Inventory.Inven.Find(it => it == temp).IsUsing = false;
+                Inventory.equipments[type] = null;
+            }
         }
 
         public static void InventoryInput()
@@ -371,12 +451,13 @@ namespace _6TxtRpg
                 Console.WriteLine("0.나가기\n사용 할 아이템의 번호를 입력해주세요.");
 
                 string inpuString = Console.ReadLine();
-                int input = (int.TryParse(inpuString, out int value)) ? value : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
+                int input = (int.TryParse(inpuString, out int value)) ? value : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
 
                 if(input == 0)
                 {
                     // 인벤토리 떠나기
                     flag = false;
+                    Console.Clear();
                     break;
                 }
                 else if (input <= Inventory.Inven.Count && input > 0)
@@ -388,10 +469,35 @@ namespace _6TxtRpg
                     PrintInventory();
                     //이후 인벤토리 출력갱신 필요
                 }
+                else if (input >= -4 && input <= -1)
+                {
+                    switch (input)
+                    {
+                        case -1:
+                            //머리 해제
+                            DisarmEquip(ItemType.Head);
+                            break;
+                        case -2:
+                            //몸통 해제
+                            DisarmEquip(ItemType.Body);
+                            break;
+                        case -3:
+                            //무기 해제
+                            DisarmEquip(ItemType.Weapon);
+                            break;
+                        case -4:
+                            //보조무기 해제
+                            DisarmEquip(ItemType.ExtraWeapon);
+                            break;
+                    }
+
+                    Console.Clear();
+                    PrintInventory();
+                }
                 else
                 {
                     // 인벤토리 아이템 수를 넘어가는 수, 이외의 값들
-                    Console.Clear() ;
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
                     PrintInventory();
                 }
