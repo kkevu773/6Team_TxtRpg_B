@@ -28,7 +28,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             {
                 Console.Clear();
                 intro.IntroA(battle.stage);
-                switch (Console.ReadKey(true).KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                switch (Console.ReadKey().KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
                     case '1':
                         player.ShowInfo();
@@ -306,18 +306,18 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
             Console.Write("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
             Tool.ColorTxt("1", Tool.color5);
-            Console.Write(" 상태 보기\n");
+            Console.Write(".상태 보기\n");
             Tool.ColorTxt("2", Tool.color5); 
-            Console.Write(" 전투 시작 (현재 진행 : ");
+            Console.Write(".전투 시작 (현재 진행 : ");
             Tool.ColorTxt(stage.ToString(),Tool.color4);
             Console.WriteLine(" 층)");
             Tool.ColorTxt("3", Tool.color5);
-            Console.Write(" 상점\n");
+            Console.Write(".상점\n");
             Tool.ColorTxt("4", Tool.color5);
-            Console.Write(" 인벤토리\n");
+            Console.Write(".인벤토리\n");
             Tool.ColorTxt("5", Tool.color5);
-            Console.WriteLine(" 퀘스트");
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
+            Console.WriteLine(".퀘스트");
+            Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
         }
     }
 }

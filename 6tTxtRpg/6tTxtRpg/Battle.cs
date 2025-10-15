@@ -72,18 +72,18 @@ namespace _6TxtRpg
                 if (currentPhase == Phase.Waiting)//선택페이즈
                 {
                     Tool.ColorTxt("1", Tool.color5);
-                    Console.WriteLine(". 관찰");
+                    Console.WriteLine(".관찰");
                     Tool.ColorTxt("2", Tool.color5);
-                    Console.WriteLine(". 공격");
+                    Console.WriteLine(".공격");
                     Tool.ColorTxt("4", Tool.color5);
-                    Console.WriteLine(". 도망");
+                    Console.WriteLine(".도망");
                     Console.WriteLine();
                     BattleMenuKey();
                 }
                 else if (currentPhase == Phase.CharATK)//공격페이즈
                 {
                     Tool.ColorTxt("0", Tool.color5);
-                    Console.WriteLine(". 취소");
+                    Console.WriteLine(".취소");
                     Console.WriteLine();
                     AtkMenu();
                 }
@@ -213,7 +213,7 @@ namespace _6TxtRpg
         void AtkMenu()//몬스터 공격 선택 함수
         {
             TypeMsg("대상을 선택해주세요.");
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
             char inputChar = keyInfo.KeyChar;
             if (int.TryParse(inputChar.ToString(), out int monIndex))
             {
@@ -282,8 +282,8 @@ namespace _6TxtRpg
             //Tool.ColorTxt("0", Tool.color5);
             //Console.Write(". ");
             //Console.WriteLine(message);
-            TypeMsg(typeMsg);
-            Console.ReadKey();
+            //TypeMsg(typeMsg);
+            Console.ReadKey(true);
             currentPhase = nextPhase;
             /*switch (Console.ReadKey().KeyChar)
             {

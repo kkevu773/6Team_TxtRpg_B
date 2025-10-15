@@ -67,7 +67,7 @@ namespace _6TxtRpg
         public void ShortInfo()                                 //전투에 사용할 몬스터 정보
         {
 
-            Console.Write($"Lv. ");
+            Console.Write($"Lv.");
             Tool.ColorTxt(level.ToString(), Tool.color4);
             Console.Write($" {name}  HP ");
             Tool.ColorTxt(hp.ToString(),Tool.color4);
