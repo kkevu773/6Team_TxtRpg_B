@@ -82,6 +82,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int exp; // 경험치
         public int gold; // 골드
         public int CriticalChance; // 치명타 확률
+        public List<Skills> skill = new List<Skills>();
         public Character() //생성자
         {
         }
@@ -211,7 +212,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                 }
             }
         }
-
         public void ShowInfo() //정보창
         {
             while (true)
@@ -251,11 +251,11 @@ namespace _6TxtRpg // 이쪽에 만들기
 
             return actualDamage;
         }
-        public void PlayerCri()
-        {
+        public void PlayerCri()//1에서 100까지의 랜덤 숫자를 뽑고 해당숫자가 직업별 크리티컬 확률보다
+        {                      //낮을시 크리티컬 발동
             Random random = new Random();
-            int shit = random.Next(0, 101);
-            if (CriticalChance >= shit)
+            int shit = random.Next(1, 101);
+            if (CriticalChance >= shit )
             {
                 Console.WriteLine("치명적인 일격으로 공격했습니다!");
                 damage = damage * 2;
@@ -263,7 +263,42 @@ namespace _6TxtRpg // 이쪽에 만들기
         }
 
 
+
     }
+    public class Skills //스킬 정보
+    {
+        
+        public string name;
+        public float state;
+        public int mp;
+
+        public Skills (string name ,float state , int mp)
+        {
+            this.name = name;
+            this.state = state;
+            this.mp = mp;
+        }
+        public void JobSkill(Character player)
+        {
+            if (player.job == "전사")
+            {
+                player.skill.Add(new Skills("힘껏치기", 1.5f, 20));
+                player.skill.Add(new Skills("단단해지기", 0.8f, 15));
+            }
+            else if (player.job == "마법사")
+            {
+                player.skill.Add(new Skills("힘껏치기", 1.5f, 20));
+                player.skill.Add(new Skills("단단해지기", 0.8f, 15));
+            }
+            if (player.job == "도적")
+            {
+                player.skill.Add(new Skills("힘껏치기", 1.5f, 20));
+                player.skill.Add(new Skills("단단해지기", 0.8f, 15));
+            }
+        }
+    }
+
+
     public class Intro
     {
         public void IntroA(int stage)
