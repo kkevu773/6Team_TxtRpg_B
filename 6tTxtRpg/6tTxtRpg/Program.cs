@@ -7,7 +7,22 @@ using System.Threading.Tasks;
 
 namespace _6TxtRpg // 이쪽에 만들기
 {
-    
+    internal class TxtR //쉬운 디버깅을 위해 위로 뻈습니다.
+    {
+        public static Character player;
+
+        public static void Main(string[] args)
+        {
+            var intro = new Intro();
+            player = intro.IntroA();
+            /*/Battle 사용법
+            MonsterList monsterList = new MonsterList(); //캐릭터와 몬스터 리스트의 인자값이 필요해서 선행으로 생성해줘야 합니다.
+            //그 외 다른 방법으로도 인자값을 넣을 수 있으면 상관없음.
+            Battle battle = new Battle(player,monsterList); //배틀 생성. 생성될때 배틀장면이 한번 작동합니다.
+            battle.RunBattle(player,monsterList);//생성한 뒤에 다른곳에 배틀장면이 필요하면 이렇게 부르면 됩니다.
+            */
+        }
+    }
     public class Character
     {
         //기본 인터페이스 구성
@@ -46,7 +61,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                     }
                 }
             }
-
         }
         public void YourJob() //직업 정하기
         {
@@ -142,37 +156,27 @@ namespace _6TxtRpg // 이쪽에 만들기
 
 
     }
-    internal class TxtR
-    {
-        public static Character player;
-
-        public static void Main(string[] args)
-        {
-            var intro = new Intro();
-           player = intro.IntroA();
-
-        }
-    }
-
-
     public class Intro
     {
         // 캐릭터를 만들어 반환
         public Character IntroA()
         {
-
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
-
             var player = new Character();
             player.YourName();
             player.YourJob();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
+            MonsterList monsterList = new MonsterList();
+            switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+            {
+                case ConsoleKey D2:
+                    Battle battle = new Battle(player, monsterList);
+                    break;
+                default:
+                    break;
+            }
             return player;
-            MonsterList monList = new MonsterList();//배틀용 몬스터리스트 소환
-            Battle battle = new Battle(player, monList);//배틀코드
-
-
         }
     }
 }
