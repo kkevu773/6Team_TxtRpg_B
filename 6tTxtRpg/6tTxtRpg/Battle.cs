@@ -32,19 +32,22 @@ namespace _6TxtRpg
             { monsters.AddRandom(); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다.
             startHp = character.hp;//결과 화면 출력을 위해 현재 플레이어의 Hp를 변수에 저장했다.
             isBattle = true;//반복구문을 위한 bool값 재생.
-            currentPhase = Phase.Waiting;//페이즈를 첫 페이즈로 세팅.
+            currentPhase = Phase.Waiting;//페이즈를 대기 페이즈로 세팅.
+            Console.Clear();//맨 처음만 여기에서 한번 콘솔을 지워줌.
+            Tool.ColorTxt($" {monNum}마리의 몬스터가 당신에게 덤벼든다!!",Tool.color2);//반복구문안에 들어가면 계속 뜰테니 밖으로 뺌.
+            Console.WriteLine();
+            Console.WriteLine();
             while (isBattle) //여기서부터 반복구문
             {
-                Console.Clear();//반복구문시작할때마다 삭제
-                if (currentPhase == Phase.CharATK)//페이즈가 
-                { BattleMsg("Battle!!", Tool.color2); }
-                if (currentPhase != Phase.MonsterATK)
+                if (currentPhase == Phase.CharATK)//플레이어 공격페이즈일때
+                { BattleMsg("Battle!!", Tool.color2); }//글자 표시됨.
+                if (currentPhase != Phase.MonsterATK)//몬스터 공격페이즈가 아닐때
                 {
-                    if (currentPhase != Phase.CharATK)
-                    { Console.WriteLine(); }
-                    ShowMon(monsters);
+                    if (currentPhase != Phase.CharATK && currentPhase != Phase.CharATKFin && currentPhase != Phase.Waiting )//플레이어 공격페이즈가 아닐때
+                    { Console.WriteLine(); }//한줄 띄움(Battle!! 글자에 맞춰서 보기좋게 출력되도록 처리한거임.)
+                    ShowMon(monsters);//몬스터 상태 출력
                     Console.WriteLine();
-                    ShowChar(character);
+                    ShowChar(character);//플레이어 상태 출력
                 }
                 if (currentPhase == Phase.Waiting)//선택페이즈
                 {
@@ -73,6 +76,7 @@ namespace _6TxtRpg
                     currentPhase = Phase.MonWin;
                     isBattle = false;
                 }
+                Console.Clear();//반복구문 끝날때마다 삭제
             }
             Console.Clear();
             BattleMsg("Battle!! - Result", Tool.color2);
@@ -268,20 +272,23 @@ namespace _6TxtRpg
         }
         void MonAtkMsg(Character character, Monster monster)//몬스터 공격시 나오는 메세지
         {
+            int beforehit = character.hp;
             Console.Clear();
             BattleMsg("Battle!!", ConsoleColor.DarkRed);
             Console.WriteLine($"{monster.name}의 공격!");
-            //monster.RandomAttack();
-            Console.Write($"Lv.{character.level} {Tool.Josa(character.name, "을", "를")} 맞췄습니다. (데미지 : ");
-            Tool.ColorTxt(monster.damage.ToString(), Tool.color2);
+            Console.WriteLine();
+            monster.RandomAttack(character);
+            //ㄴConsole.WriteLine();
+            //Console.Write($"Lv.{character.level} {Tool.Josa(character.name, "을", "를")} 맞췄습니다. (데미지 : ");
+            //Tool.ColorTxt(monster.damage.ToString(), Tool.color2);
             Console.Write(")");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine($"Lv.{character.level} {character.name}");
             Console.Write($"HP ");
-            Tool.ColorTxt(character.hp.ToString(), Tool.color4);
+            Tool.ColorTxt(beforehit.ToString(), Tool.color4);
             Console.Write(" -> ");
-            character.hp -= (int)monster.damage;
+            //character.hp -= (int)monster.damage;
             if (character.hp <= 0)
             { Tool.ColorTxt("Dead", Tool.color2); }
             else

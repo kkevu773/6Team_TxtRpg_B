@@ -73,6 +73,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Write("이름을 입력해주세요(1~6 글자 제한)");
+                Console.WriteLine();
                 name = Console.ReadLine();
                 if (name.Length <= 6)
                 {
@@ -80,11 +81,12 @@ namespace _6TxtRpg // 이쪽에 만들기
                     string yes = Console.ReadLine();
                     if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
-                        Console.WriteLine("확인되었습니다.");
+                        Console.Clear();
                         break;
                     }
                     else
                     {
+                        Console.Clear();
                         Console.WriteLine("다시 입력해주세요.");
                     }
                 }
@@ -95,6 +97,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Write("직업을 선택해주세요(전사, 마법사, 도적)");
+                Console.WriteLine();
                 string input = Console.ReadLine();
                 job = input;
                 if (job == "전사" || job == "마법사" || job == "도적")
@@ -103,7 +106,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     string yes = Console.ReadLine();
                     if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
-                        Console.WriteLine("확인되었습니다.");
+                        Console.Clear();
                         SetState(); //직업을 정함과 동시에 메서드 호출로 스탯 세팅
                         break;
                     }
@@ -154,14 +157,14 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.WriteLine($"Name: {name} {job}");
-                Console.WriteLine($"Level: {level}");
-                Console.WriteLine($"Hp: {hp}/{maxHp}");
-                Console.WriteLine($"Mp: {mp}/{maxMp}");
-                Console.WriteLine($"Attack: {damage}");
-                Console.WriteLine($"Defense: {defense}");
-                Console.WriteLine($"Exp: {exp}");
-                Console.WriteLine($"Gold: {gold}");
+                Console.WriteLine($"Name: {name} {job}"); //이름, 직업
+                Console.WriteLine($"Level: {level}"); //레벨
+                Console.WriteLine($"Hp: {hp}/{maxHp}"); //체력/최대체력
+                Console.WriteLine($"Mp: {mp}/{maxMp}"); //마나/최대마나
+                Console.WriteLine($"Attack: {damage}"); //공격력
+                Console.WriteLine($"Defense: {defense}"); //방어력
+                Console.WriteLine($"Exp: {exp}"); //경험치
+                Console.WriteLine($"Gold: {gold}"); //골드
                 Console.WriteLine();
                 Console.WriteLine("나가시려면 0을 입력해주세요.");
                 string output = Console.ReadLine();
