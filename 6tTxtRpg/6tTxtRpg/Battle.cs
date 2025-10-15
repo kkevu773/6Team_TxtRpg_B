@@ -88,6 +88,7 @@ namespace _6TxtRpg
                     currentPhase = Phase.MonWin;
                     isBattle = false;
                 }
+                character_.levelUp();
                 Console.Clear();//반복구문 끝날때마다 삭제
             }
             Console.Clear();
@@ -131,14 +132,15 @@ namespace _6TxtRpg
         }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
-            Console.Write($" LV.");
-            Tool.ColorTxt(character_.level.ToString(), Tool.color4);
-            Console.WriteLine($" {character_.name} ({character_.job})");
-            Console.Write($" Hp ");
-            Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-            Console.Write(" / ");
-            Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-            Console.WriteLine();
+            /* Console.Write($" LV.");
+             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
+             Console.WriteLine($" {character_.name} ({character_.job})");
+             Console.Write($" Hp ");
+             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
+             Console.Write(" / ");
+             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
+             Console.WriteLine();*/
+            character_.ShortInfo();
             if (currentPhase != Phase.CharATKFin)
             { Console.WriteLine(); }
         }
@@ -225,9 +227,10 @@ namespace _6TxtRpg
                     Console.Clear();
                     BattleMsg("Battle!!", Tool.color2);
                     float beforehit = battleMon[num].hp;
-                    int error = (int)Math.Ceiling((float)character_.damage * 0.1f); //오차범위 처리.
-                    int charDamage = random.Next(character_.damage - error, character_.damage + error + 1);
-                    Console.WriteLine($"{character_.name}의 공격!");
+                        int error = (int)Math.Ceiling((float)character_.damage * 0.1f); //오차범위 처리.
+                        int charDamage = random.Next(character_.damage - error, character_.damage + error + 1);
+                        Console.WriteLine($"{character_.name}의 공격!");
+                    character_.PlayerCri();
                     Console.WriteLine();
                     Console.Write($"Lv.");
                     Tool.ColorTxt(battleMon[num].level.ToString(), Tool.color4);
