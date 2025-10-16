@@ -49,7 +49,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.GetItem(ItemPreset.itemList[1]);
                         Inventory.GetItem(ItemPreset.itemList[2]);
                         Inventory.GetItem(ItemPreset.itemList[3]);
-                        Inventory.GetItem(ItemPreset.itemList[4]);
+                        Inventory.GetItem(ItemPreset.itemList[6]);
                         Inventory.InventoryInput();
                         break;
                     case '5':
@@ -226,6 +226,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine($"Exp: {exp}"); //경험치
                 Console.WriteLine($"Gold: {gold}"); //골드
                 Console.WriteLine();
+                BuffList.PrintBuff();
                 Console.WriteLine("나가시려면 0을 입력해주세요.");
                 string output = Console.ReadLine();
                 if (output == "0")

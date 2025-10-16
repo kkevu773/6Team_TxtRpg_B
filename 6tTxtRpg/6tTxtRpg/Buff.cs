@@ -32,7 +32,7 @@ namespace _6tTxtRpg
                     break;
                 case Status.Mp:
                     TxtR.player.mp += EffectNum;
-                    if (TxtR.player.hp > TxtR.player.maxMp) TxtR.player.mp = TxtR.player.maxMp;
+                    if (TxtR.player.mp > TxtR.player.maxMp) TxtR.player.mp = TxtR.player.maxMp;
                     break;
                 case Status.Exp:
                     // 여기에 케릭터 경험치 획득 메소드 연결
@@ -122,16 +122,16 @@ namespace _6tTxtRpg
     {
         public static List<Buff> buffList = new List<Buff>();
 
-        public static void GetBuff(Item item, int turn)
+        public static void GetBuff(Item item)
         {
-            Buff newBuff = new Buff(item.Name, item.EffectStatus, item.EffectNum, 2);
+            Buff newBuff = new Buff(item.Name, item.EffectStatus, item.EffectNum, item.Enchant);
             bool sameBuff = false;
             
             for(int i = 0; i < BuffList.buffList.Count; i++)
             {
                 if (BuffList.buffList[i].Name ==item.Name)
                 {
-                    BuffList.buffList[i].RemainTurn += turn;
+                    BuffList.buffList[i].RemainTurn += item.Enchant;
                     sameBuff = true;
                     break;
                 }
@@ -162,10 +162,10 @@ namespace _6tTxtRpg
         public static void PrintBuff()
         {
             Console.WriteLine("=================================버프=================================");
-            foreach(var buff in BuffList.buffList)
+            foreach(Buff buff in BuffList.buffList)
             {
                 string outLine = ($"[{buff.Name}/{buff.EffectStatus} +{buff.EffectNum} ({buff.RemainTurn})]");
-                outLine += buff.Name;
+                Console.WriteLine(outLine);
             }
             Console.WriteLine("======================================================================");
         }
