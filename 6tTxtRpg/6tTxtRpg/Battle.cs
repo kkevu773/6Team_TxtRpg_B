@@ -36,11 +36,11 @@ namespace _6TxtRpg
             //monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
             if (stage <= 10)
             { monNum = (byte)random.Next(1, 5); }
-            else if (stage <= 15 && stage < 10)
+            else if (stage <= 15 && stage > 10)
             { monNum = (byte)random.Next(1, 6); }
-            else if (stage <= 30 && stage < 15)
+            else if (stage <= 30 && stage > 15)
             { monNum = (byte)random.Next(1, 7); }
-            else if (stage <= 50 && stage < 30)
+            else if (stage <= 50 && stage > 30)
             { monNum = (byte)random.Next(1, 8); }
             else if (stage > 50)
             { monNum = (byte)random.Next(1, 9); }
