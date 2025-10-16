@@ -295,6 +295,7 @@ namespace _6TxtRpg
                     {
                         Tool.ColorTxt("Dead", Tool.color2);
                         character_.exp += battleMon.monsterList[num].exp;
+                        Console.WriteLine();
                         Tool.ColorTxt(battleMon.monsterList[num].exp.ToString(), Tool.color5);
                         Console.WriteLine("의 경험치를 획득하였습니다.");
                         character_.levelUp();
