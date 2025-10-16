@@ -82,7 +82,10 @@ namespace _6TxtRpg
             while (isBattle) //여기서부터 반복구문
             {
                 if (currentPhase == Phase.CharATK)//플레이어 공격페이즈일때
-                { BattleMsg("Battle!!", Tool.color2); }//글자 표시됨.
+                { 
+                    BattleMsg("Battle!!", Tool.color2); //글자 표시됨.
+                    BuffList.UpdateBuff();
+                }
                 if (currentPhase != Phase.MonsterATK)//몬스터 공격페이즈가 아닐때
                 {
                     if (currentPhase != Phase.CharATK && currentPhase != Phase.CharATKFin && currentPhase != Phase.Waiting)//플레이어 공격페이즈가 아닐때
@@ -173,8 +176,8 @@ namespace _6TxtRpg
         }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
-            if (currentPhase == Phase.CharATK)
-            { BuffList.UpdateBuff(); }//플레이어 정보 출력 전에 버프 체크
+            //if (currentPhase == Phase.CharATK)
+            //{ BuffList.UpdateBuff(); }//플레이어 정보 출력 전에 버프 체크
             character_.ShortInfo();
             if (currentPhase != Phase.CharATKFin)
             { Console.WriteLine(); }
