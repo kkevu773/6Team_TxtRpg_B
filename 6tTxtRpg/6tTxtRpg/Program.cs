@@ -22,7 +22,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             var intro = new Intro();
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
-            Quest quest = new Quest();
+            OpenQuest openQuest = new OpenQuest();
 
             while (true)
             {
@@ -56,7 +56,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.InventoryInput();
                         break;
                     case '6':
-                        quest.ShowQuest();
+                        openQuest.ShowQuest();
                         break;
                     default:
                         break;
