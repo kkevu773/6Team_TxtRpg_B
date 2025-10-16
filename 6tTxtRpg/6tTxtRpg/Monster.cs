@@ -182,7 +182,8 @@ namespace _6TxtRpg
             }
             public override void DropItem()
             {
-                
+                Inventory.GetItem(ItemPreset.dropItemList[3]);
+                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[3].Name, "을", "를") + " 드랍했습니다", Tool.color5);
             }
         }
 
