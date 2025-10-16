@@ -20,6 +20,12 @@ namespace _6tTxtRpg
             Console.Write(inputText);
             Console.ForegroundColor = color1;
         }
+        public static void WrongMsg()//잘못된 키 입력시 나오는 함수
+        {
+            Console.WriteLine();
+            Console.WriteLine("잘못된 입력입니다");
+            Console.ReadKey(true);
+        }//키 입력이 잘못될 시 나오는 메세지
         public static string Josa(string word, string particleWith, string particleWithout)
         {//조사 처리용 메서드입니다.Tool.Josa(변수.Tostring(),"을","를"); 이렇게 쓰시면 됩니다.
 ;            if (string.IsNullOrEmpty(word))
