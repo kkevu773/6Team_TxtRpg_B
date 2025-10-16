@@ -179,7 +179,7 @@ namespace _6TxtRpg
             }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다}
              //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
             battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
-            if (copyStage % 5 == 0)
+            if (Stage % 5 == 0 && !isPractice_)
             {
                 if (battleMon.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
                 { battleMon.AddMonster(new Monster.WolfKing()); }
