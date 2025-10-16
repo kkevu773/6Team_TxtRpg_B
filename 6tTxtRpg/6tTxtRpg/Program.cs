@@ -11,15 +11,15 @@ namespace _6TxtRpg // 이쪽에 만들기
 {
     internal class TxtR //쉬운 디버깅을 위해 위로 뻈습니다.
     {
-        public static Character  player =new Character();
+        public static Character  player = new Character();
 
 
         public static void Main(string[] args)
         {
+            Console.ForegroundColor = Tool.color1;
             player.YourName();
             player.YourJob();
             var intro = new Intro();
-
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
             Quest quest = new Quest();
@@ -27,8 +27,8 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Clear();
-                intro.IntroA();
-                switch (Console.ReadKey(true).KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                intro.IntroA(battle.stage);
+                switch (Console.ReadKey().KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
                     case '1':
                         player.ShowInfo();
@@ -301,12 +301,23 @@ namespace _6TxtRpg // 이쪽에 만들기
 
     public class Intro
     {
-        // 캐릭터를 만들어 반환
-        public void IntroA()
+        public void IntroA(int stage)
         {
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4. 인벤토리\n5. 퀘스트");
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
+            Console.Write("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
+            Tool.ColorTxt("1", Tool.color5);
+            Console.Write(".상태 보기\n");
+            Tool.ColorTxt("2", Tool.color5); 
+            Console.Write(".전투 시작 (현재 진행 : ");
+            Tool.ColorTxt(stage.ToString(),Tool.color4);
+            Console.WriteLine(" 층)");
+            Tool.ColorTxt("3", Tool.color5);
+            Console.Write(".상점\n");
+            Tool.ColorTxt("4", Tool.color5);
+            Console.Write(".인벤토리\n");
+            Tool.ColorTxt("5", Tool.color5);
+            Console.WriteLine(".퀘스트");
+            Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
         }
     }
 }

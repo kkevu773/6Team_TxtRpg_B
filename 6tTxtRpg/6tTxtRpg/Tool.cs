@@ -18,7 +18,7 @@ namespace _6tTxtRpg
         {
             Console.ForegroundColor = inputColor;
             Console.Write(inputText);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = color1;
         }
         public static string Josa(string word, string particleWith, string particleWithout)
         {//조사 처리용 메서드입니다.Tool.Josa(변수.Tostring(),"을","를"); 이렇게 쓰시면 됩니다.
