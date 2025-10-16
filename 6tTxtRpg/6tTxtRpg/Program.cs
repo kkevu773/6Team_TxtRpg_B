@@ -20,22 +20,23 @@ namespace _6TxtRpg // 이쪽에 만들기
             player.YourJob();
             var intro = new Intro();
 
-
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
+            Quest quest = new Quest();
+
             while (true)
             {
                 Console.Clear();
                 intro.IntroA();
-                switch (Console.ReadKey(true).Key)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                switch (Console.ReadKey(true).KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
-                    case ConsoleKey.D1:
+                    case '1':
                         player.ShowInfo();
                         break;
-                    case ConsoleKey.D2:
+                    case '2':
                         battle.RunBattle();
                         break;
-                    case ConsoleKey.D3:
+                    case '3':
                         player.level = 1;
                         player.gold = 10000;
                         Inventory.GetItem(ItemPreset.itemList[1]);
@@ -44,12 +45,15 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.GetItem(ItemPreset.dropItemList[0]);
                         Shop.ShopInput();
                         break;
-                    case ConsoleKey.D4:
+                    case '4':
                         Inventory.GetItem(ItemPreset.itemList[1]);
                         Inventory.GetItem(ItemPreset.itemList[2]);
                         Inventory.GetItem(ItemPreset.itemList[3]);
                         Inventory.GetItem(ItemPreset.itemList[4]);
                         Inventory.InventoryInput();
+                        break;
+                    case '5':
+                        quest.ShowQuest();
                         break;
                     default:
                         break;
@@ -78,6 +82,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int exp; // 경험치
         public int gold; // 골드
         public int CriticalChance; // 치명타 확률
+        public List<Skills> skill = new List<Skills>();
         public Character() //생성자
         {
         }
@@ -207,7 +212,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                 }
             }
         }
-
         public void ShowInfo() //정보창
         {
             while (true)
@@ -247,10 +251,10 @@ namespace _6TxtRpg // 이쪽에 만들기
 
             return actualDamage;
         }
-        public void PlayerCri()
-        {
+        public void PlayerCri()//1에서 100까지의 랜덤 숫자를 뽑고 해당숫자가 직업별 크리티컬 확률보다
+        {                      //낮을시 크리티컬 발동
             Random random = new Random();
-            int shit = random.Next(0, 101);
+            int shit = random.Next(1, 101);
             if (CriticalChance >= shit )
             {
                 Console.WriteLine("치명적인 일격으로 공격했습니다!");
@@ -259,14 +263,49 @@ namespace _6TxtRpg // 이쪽에 만들기
         }
 
 
+
     }
+    public class Skills //스킬 정보
+    {
+        
+        public string name;
+        public float state;
+        public int mp;
+
+        public Skills (string name ,float state , int mp)
+        {
+            this.name = name;
+            this.state = state;
+            this.mp = mp;
+        }
+        public void JobSkill(Character player)
+        {
+            if (player.job == "전사")
+            {
+                player.skill.Add(new Skills("힘껏치기", 1.5f, 20));
+                player.skill.Add(new Skills("단단해지기", 0.8f, 15));
+            }
+            else if (player.job == "마법사")
+            {
+                player.skill.Add(new Skills("힘껏치기", 1.5f, 20));
+                player.skill.Add(new Skills("단단해지기", 0.8f, 15));
+            }
+            if (player.job == "도적")
+            {
+                player.skill.Add(new Skills("힘껏치기", 1.5f, 20));
+                player.skill.Add(new Skills("단단해지기", 0.8f, 15));
+            }
+        }
+    }
+
+
     public class Intro
     {
         // 캐릭터를 만들어 반환
         public void IntroA()
         {
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4. 인벤토리");
+            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4. 인벤토리\n5. 퀘스트");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
         }
     }

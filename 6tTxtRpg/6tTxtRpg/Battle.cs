@@ -104,6 +104,12 @@ namespace _6TxtRpg
                 BattleMsg("You Lose", Tool.color2);
                 BattleResult();
             }
+            else if (currentPhase == Phase.CharRun)
+            {
+                Console.WriteLine($"{Tool.Josa(character_.name,"은","는")} 열심히 도망갔다!");
+                Console.WriteLine();
+                BattleResult();
+            }
             for (byte i = 0; i < battleMon.Count(); ++i)//전투가 끝나면 리스트를 한번 순회한다.
             {
                 if (battleMon[i].isDead)
@@ -131,14 +137,15 @@ namespace _6TxtRpg
         }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
-            Console.Write($" LV.");
-            Tool.ColorTxt(character_.level.ToString(), Tool.color4);
-            Console.WriteLine($" {character_.name} ({character_.job})");
-            Console.Write($" Hp ");
-            Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-            Console.Write(" / ");
-            Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-            Console.WriteLine();
+            /* Console.Write($" LV.");
+             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
+             Console.WriteLine($" {character_.name} ({character_.job})");
+             Console.Write($" Hp ");
+             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
+             Console.Write(" / ");
+             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
+             Console.WriteLine();*/
+            character_.ShortInfo();
             if (currentPhase != Phase.CharATKFin)
             { Console.WriteLine(); }
         }
@@ -228,6 +235,7 @@ namespace _6TxtRpg
                     int error = (int)Math.Ceiling((float)character_.damage * 0.1f); //오차범위 처리.
                     int charDamage = random.Next(character_.damage - error, character_.damage + error + 1);
                     Console.WriteLine($"{character_.name}의 공격!");
+                    character_.PlayerCri();
                     Console.WriteLine();
                     Console.Write($"Lv.");
                     Tool.ColorTxt(battleMon[num].level.ToString(), Tool.color4);
@@ -249,6 +257,10 @@ namespace _6TxtRpg
                     {
                         Tool.ColorTxt("Dead", Tool.color2);
                         battleMon[num].DropItem();//죽을때 아이템 드롭
+                        character_.exp += battleMon[num].level;
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        character_.levelUp();
                     }
                     else
                     {
@@ -375,7 +387,9 @@ namespace _6TxtRpg
         }
         void BattleResult()
         {
-            Console.WriteLine($"LV.{character_.level} {character_.name}");
+            Console.Write($"LV. ");
+            Tool.ColorTxt(character_.level.ToString(),Tool.color4);
+            Console.WriteLine($" {character_.name}");
             Console.Write($"HP {startHp} -> ");
             if (startHp == character_.hp)
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color3); }
