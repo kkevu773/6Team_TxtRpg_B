@@ -1,6 +1,4 @@
 using _6tTxtRpg;
-using static _6TxtRpg.Monster;
-
 namespace _6TxtRpg
 {
     class Battle // 전투기능 작업
@@ -20,6 +18,7 @@ namespace _6TxtRpg
                 stage = value;
             }
         }
+        private bool isPractice_;
         bool isBattle = false; //전투상태인지 체크.
         bool isBoss = false;
         Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
@@ -45,43 +44,8 @@ namespace _6TxtRpg
         //처음에는 생성자에 로직을 냅다 다 넣었다가 전투가 필요한 부분에 넣기 쉽게 메서드로 뺐음.
         public void RunBattle(bool isPractice)//외부에서 막 쓰라고 public으로 처리했다.
         {
-            Console.ForegroundColor = Tool.color1;//기본텍스트 색상 처리. Tool 클래스의 변수를 활용해서 변수만 바꿔도 관련된 부분의 색상이 전부 바뀌게 처리했다. 
-            //monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
-            if (!isPractice || Stage == 1)
-            { copyStage = Stage; }
-            else if (isPractice)
-            { copyStage = Stage - 1; }
-            if (copyStage <= 1)
-            { monNum = (byte)random.Next(1, 2); }
-            else if (copyStage <= 3 && Stage > 1)
-            { monNum = (byte)random.Next(1, 3); }
-            else if (copyStage <= 5 && Stage > 3)
-            { monNum = (byte)random.Next(1, 4); }
-            else if (copyStage <= 10 && Stage > 5)
-            { monNum = (byte)random.Next(1, 5); }
-            else if (copyStage <= 15 && Stage > 10)
-            { monNum = (byte)random.Next(1, 6); }
-            else if (copyStage <= 25 && Stage > 15)
-            { monNum = (byte)random.Next(1, 7); }
-            else if (copyStage <= 50 && Stage > 25)
-            { monNum = (byte)random.Next(1, 8); }
-            else if (copyStage > 50)
-            { monNum = (byte)random.Next(1, 9); }
-
-            //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
-            for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
-            { monsterList_.AddRandom(Stage); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다}
-                                              //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
-            battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
-            if (copyStage % 5 == 0)
-            {
-                if (battleMon.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
-                { battleMon.AddMonster(new Monster.WolfKing()); }
-                battleMon.monsterList = battleMon.monsterList.OrderByDescending(mon => mon.name == "울부짖는 늑대왕").ThenBy(mon => random.Next()).Take(monNum).ToList();
-            }
-            else
-            { battleMon.monsterList = battleMon.monsterList.OrderBy(mon => random.Next()).Take(monNum).ToList(); }
-
+            isPractice_ = isPractice;
+            MonSetting();
             startHp = character_.hp;//결과 화면 출력을 위해 현재 플레이어의 Hp를 변수에 저장했다.
             isBattle = true;//반복구문을 위한 bool값 재생.
             currentPhase = Phase.Waiting;//페이즈를 대기 페이즈로 세팅.
@@ -92,7 +56,7 @@ namespace _6TxtRpg
             while (isBattle) //여기서부터 반복구문
             {
                 if (currentPhase == Phase.CharATK)//플레이어 공격페이즈일때
-                { 
+                {
                     BattleMsg("Battle!!", Tool.color2); //글자 표시됨.
                     BuffList.UpdateBuff();
                 }
@@ -107,10 +71,10 @@ namespace _6TxtRpg
                 if (currentPhase == Phase.Waiting)//선택페이즈
                 {
                     Tool.ColorTxt("1", Tool.color5);
-                    Console.WriteLine(".관찰");
-                    Tool.ColorTxt("2", Tool.color5);
                     Console.WriteLine(".공격");
-                    Tool.ColorTxt("4", Tool.color5);
+                    Tool.ColorTxt("2", Tool.color5);
+                    Console.WriteLine(".관찰");
+                    Tool.ColorTxt("3", Tool.color5);
                     Console.WriteLine(".도망");
                     Console.WriteLine();
                     BattleMenuKey();
@@ -184,6 +148,46 @@ namespace _6TxtRpg
                 { battleMon.monsterList[i].ShortInfo(); }//배열에 넣은 몬스터 출력
             }
         }
+        void MonSetting()
+        {
+            if (!isPractice_ || Stage == 1)
+            { copyStage = Stage; }
+            else if (isPractice_)
+            { copyStage = Stage - 1; }
+            if (copyStage <= 1)
+            { monNum = (byte)random.Next(1, 2); }
+            else if (copyStage <= 3 && Stage > 1)
+            { monNum = (byte)random.Next(1, 3); }
+            else if (copyStage <= 5 && Stage > 3)
+            { monNum = (byte)random.Next(1, 4); }
+            else if (copyStage <= 10 && Stage > 5)
+            { monNum = (byte)random.Next(1, 5); }
+            else if (copyStage <= 15 && Stage > 10)
+            { monNum = (byte)random.Next(1, 6); }
+            else if (copyStage <= 25 && Stage > 15)
+            { monNum = (byte)random.Next(1, 7); }
+            else if (copyStage <= 50 && Stage > 25)
+            { monNum = (byte)random.Next(1, 8); }
+            else if (copyStage > 50)
+            { monNum = (byte)random.Next(1, 9); }
+
+            //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
+            for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
+            {
+                if (!isPractice_ || monsterList_.monsterList.Count <= monNum * 2)
+                { monsterList_.AddRandom(Stage); }
+            }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다}
+             //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
+            battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
+            if (copyStage % 5 == 0)
+            {
+                if (battleMon.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
+                { battleMon.AddMonster(new Monster.WolfKing()); }
+                battleMon.monsterList = battleMon.monsterList.OrderByDescending(mon => mon.name == "울부짖는 늑대왕").ThenBy(mon => random.Next()).Take(monNum).ToList();
+            }
+            else
+            { battleMon.monsterList = battleMon.monsterList.OrderBy(mon => mon.name == "울부짖는 늑대왕").ThenBy(mon => random.Next()).Take(monNum).ToList(); }
+        }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
             character_.ShortInfo();
@@ -215,6 +219,9 @@ namespace _6TxtRpg
             switch (Console.ReadKey().KeyChar) //숫자만 눌러도 작동하게 ReadKey로 처리했습니다.
             {
                 case '1'://관찰키
+                    currentPhase = Phase.CharATK;//몬스터 이름앞에 숫자가 나옴.
+                    break;
+                case '2'://공격키
                     Console.Clear();
                     for (int i = 0; i < monNum; ++i)
                     {
@@ -225,11 +232,7 @@ namespace _6TxtRpg
                     Console.Write(">> ");
                     Console.ReadKey(true);
                     break;
-                case '2'://공격키
-                    currentPhase = Phase.CharATK;//몬스터 이름앞에 숫자가 나옴.
-                    break;
-                case '3'://아이템 사용
-                case '4'://도망
+                case '3'://도망
                     currentPhase = Phase.CharRun;
                     isBattle = false;
                     break;
