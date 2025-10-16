@@ -296,7 +296,7 @@ namespace _6TxtRpg // 이쪽에 만들기
 
 
     }
-    public class Skills : Character //스킬 정보
+    public class Skills //스킬 정보
     {
 
         public string name; //스킬이름
@@ -335,22 +335,22 @@ namespace _6TxtRpg // 이쪽에 만들기
                 player.mp -= mp;
                 if (name == "힘껏치기")
                 {
-                    float damage = PlayerCri() * state;
+                    float damage = player.PlayerCri() * state;
                     float actualDamage = player.BlowMonster(damage, monster);
-                    Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                     Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                 }
                 else if (name == "단단해지기")
                 {
                     player.defense = (int)(player.defense * state);
-                    Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                     Console.WriteLine($"{player.name}의 방어력이 {player.defense}가 되었습니다!");
                 }
                 else if (name == "화염구")
                 {
-                    float damage = PlayerCri() * state;
+                    float damage = player.PlayerCri() * state;
                     float actualDamage = player.BlowMonster(damage, monster);
-                    Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                     Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                 }
                 else if (name == "회복")
@@ -359,13 +359,13 @@ namespace _6TxtRpg // 이쪽에 만들기
                     if (player.hp + heal >= player.maxHp)
                     {
                         player.hp = player.maxHp;
-                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
                     }
                     else
                     {
                         player.hp += heal;
-                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }
                 }
@@ -374,37 +374,37 @@ namespace _6TxtRpg // 이쪽에 만들기
                     int holy = random.Next(1, 101);
                     if (holy <= 70)
                     {
-                        float damage = PlayerCri() * state * 2;
+                        float damage = player.PlayerCri() * state * 2;
                         float actualDamage = player.BlowMonster(damage, monster);
-                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine("치명적인 일격으로 공격했습니다!");
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
                     else
                     {
-                        float damage = PlayerCri() * state;
+                        float damage = player.PlayerCri() * state;
                         float actualDamage = player.BlowMonster(damage, monster);
-                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
 
                 }
                 else if (name == "흡혈")
                 {
-                    float damage = PlayerCri() * state;
+                    float damage = player.PlayerCri() * state;
                     float actualDamage = player.BlowMonster(damage, monster);
                     int heal = (int)(actualDamage * 0.2f);
                     if (player.hp + heal >= player.maxHp)
                     {
                         player.hp = player.maxHp;
-                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                         Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
                     }
                     else
                     {
                         player.hp += heal;
-                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }
