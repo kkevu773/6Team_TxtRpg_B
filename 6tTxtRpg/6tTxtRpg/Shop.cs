@@ -132,7 +132,7 @@ namespace _6tTxtRpg
         }
         public static void EnchantItem(Item item)
         {
-            Item reqItem = new Item("none", Status.None, 0, 0, ItemType.Etc, 0, "");
+            Item reqItem = new Item("none",0, Status.None, 0, 0, ItemType.Etc, 0, "");
             int reqAmount = 0;
             switch (item.Enchant)
             {
