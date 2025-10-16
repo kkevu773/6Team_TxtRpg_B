@@ -160,17 +160,21 @@ namespace _6TxtRpg
                 Inventory.GetItem(ItemPreset.dropItemList[2]);
             }
         }
-        public class Boss : Monster
+        public class WolfKing : Monster
         {
-            public Boss()
+            public WolfKing()
             {
                 this.level = 20;
-                this.name = "보스(임시)";
+                this.name = "울부짖는 늑대왕";
 
                 this.armor = 20;
                 this.damage = 40;
-                this.hp = 200;
+                this.hp = 500;
                 this.maxHP = this.hp;
+                skills.Add(new NormalAttack());
+                skills.Add(new Bite());
+                skills.Add(new Howl());
+
             }
             public override void DropItem()
             {
@@ -275,6 +279,19 @@ namespace _6TxtRpg
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+        }
+    }
+    public class Howl : IMonsterSkill
+    {
+        public string Name => "울부짖기";
+        public void Use(Monster monster, Character player)
+        {
+
+            monster.damage = monster.damage * 1.5f;
+            
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
+            Console.WriteLine($"{monster.name}의 공격력이 상승했습니다.");
+            
         }
     }
 }
