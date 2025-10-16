@@ -213,6 +213,7 @@ namespace _6TxtRpg
         }
         void AtkMenu()//몬스터 공격 선택 함수
         {
+            
             TypeMsg("대상을 선택해주세요.");
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             char inputChar = keyInfo.KeyChar;

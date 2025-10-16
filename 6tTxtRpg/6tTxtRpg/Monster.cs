@@ -183,7 +183,7 @@ namespace _6TxtRpg
         }
 
     }
-    class MonsterList
+    public class MonsterList
     {
         public List<Monster> monsterList = new List<Monster>();        //전투에 사용할 몬스터 리스트
         private Random monsterRandom = new Random();
