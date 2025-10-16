@@ -176,15 +176,18 @@ namespace _6TxtRpg
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
             {
-                if (!isPractice_ || monsterList_.monsterList.Count <= monNum * 2)
+                if (!isPractice_ && monsterList_.monsterList.Count <= monNum * 2)
                 { monsterList_.AddRandom(Stage); }
             }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다}
              //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
+            if (Stage % 5 == 0 && !isPractice_)
+            {
+                if (monsterList_.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
+                { monsterList_.AddMonster(new Monster.WolfKing()); }   
+            }
             battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
             if (Stage % 5 == 0 && !isPractice_)
             {
-                if (battleMon.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
-                { battleMon.AddMonster(new Monster.WolfKing()); }
                 battleMon.monsterList = battleMon.monsterList.OrderByDescending(mon => mon.name == "울부짖는 늑대왕").ThenBy(mon => random.Next()).Take(monNum).ToList();
             }
             else
