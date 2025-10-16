@@ -388,6 +388,26 @@ namespace _6TxtRpg // 이쪽에 만들기
                     }
 
                 }
+                else if (name == "흡혈")
+                {
+                    float damage = PlayerCri() * state;
+                    float actualDamage = player.BlowMonster(damage, monster);
+                    int heal = (int)(actualDamage * 0.2f);
+                    if (player.hp + heal >= player.maxHp)
+                    {
+                        player.hp = player.maxHp;
+                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
+                    }
+                    else
+                    {
+                        player.hp += heal;
+                        Console.WriteLine($"{Tool.Josa(player.name.ToString(), "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
+                    }
+                }
 
             }
         }
