@@ -130,6 +130,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     {
                         Console.Clear();
                         SetState(); //직업을 정함과 동시에 메서드 호출로 스탯 세팅
+                        YourJob(); //직업을 정함과 동시에 메서드 호출로 스킬 세팅
                         break;
                     }
                     else
