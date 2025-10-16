@@ -7,7 +7,17 @@ namespace _6TxtRpg
         List<Monster> battleMon = new List<Monster>();
         Random random = new Random();//공용으로 쓸 랜덤
         byte monNum = 0;//몬스터수. 다른 메서드에서 쓸거 같아서 뻄.
-        public int stage = 1;
+        int stage = 1;
+        public int Stage
+        {
+            get { return stage; }
+            set
+            {
+                if (value < 0)
+                { value = 0; }
+                stage = value;
+            }
+        }
         bool isBattle = false; //전투상태인지 체크.
         Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
         int startHp;//데미지 깎기 전 Hp를 저장하기 위한 변수.
@@ -34,15 +44,15 @@ namespace _6TxtRpg
         {
             Console.ForegroundColor = Tool.color1;//기본텍스트 색상 처리. Tool 클래스의 변수를 활용해서 변수만 바꿔도 관련된 부분의 색상이 전부 바뀌게 처리했다. 
             //monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
-            if (stage <= 10)
+            if (Stage <= 10)
             { monNum = (byte)random.Next(1, 5); }
-            else if (stage <= 15 && stage > 10)
+            else if (Stage <= 15 && Stage > 10)
             { monNum = (byte)random.Next(1, 6); }
-            else if (stage <= 30 && stage > 15)
+            else if (Stage <= 30 && Stage > 15)
             { monNum = (byte)random.Next(1, 7); }
-            else if (stage <= 50 && stage > 30)
+            else if (Stage <= 50 && Stage > 30)
             { monNum = (byte)random.Next(1, 8); }
-            else if (stage > 50)
+            else if (Stage > 50)
             { monNum = (byte)random.Next(1, 9); }
 
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
@@ -110,7 +120,7 @@ namespace _6TxtRpg
                 BattleMsg("Victory", Tool.color3);
                 Console.WriteLine($"던전에서 몬스터를 {monNum}마리 잡았습니다.");
                 Console.WriteLine();
-                ++stage;
+                ++Stage;
                 BattleResult();
             }
             else if (currentPhase == Phase.MonWin)
@@ -310,14 +320,6 @@ namespace _6TxtRpg
             else
             { Console.Write(">> "); }
             Console.ReadKey(true);
-            /*switch (Console.ReadKey().KeyChar)
-            {
-                case '0':
-                    break;
-                default:
-                    WrongMsg();
-                    break;
-            }*/
         }
         void MonATK()//몬스터 순서대로 공격 메서드
         {
