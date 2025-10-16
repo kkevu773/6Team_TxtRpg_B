@@ -44,21 +44,21 @@ namespace _6TxtRpg
         {
             Console.ForegroundColor = Tool.color1;//기본텍스트 색상 처리. Tool 클래스의 변수를 활용해서 변수만 바꿔도 관련된 부분의 색상이 전부 바뀌게 처리했다. 
             //monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
-            if (Stage <= 5)
+            if (Stage <= 1)
             { monNum = (byte)random.Next(1, 2); }
-            else if (Stage <= 10 && Stage > 5)
+            else if (Stage <= 3 && Stage > 1)
             { monNum = (byte)random.Next(1, 3); }
-            else if (Stage <= 15 && Stage > 10)
+            else if (Stage <= 5 && Stage > 3)
             { monNum = (byte)random.Next(1, 4); }
-            else if (Stage <= 30 && Stage > 15)
+            else if (Stage <= 10 && Stage > 5)
             { monNum = (byte)random.Next(1, 5); }
-            else if (Stage <= 50 && Stage > 30)
+            else if (Stage <= 15 && Stage > 10)
             { monNum = (byte)random.Next(1, 6); }
-            else if (Stage > 50)
+            else if (Stage <= 25 && Stage > 15)
             { monNum = (byte)random.Next(1, 7); }
-            else if (Stage > 100)
+            else if (Stage <= 50 && Stage > 25)
             { monNum = (byte)random.Next(1, 8); }
-            else if (Stage > 150)
+            else if (Stage > 50)
             { monNum = (byte)random.Next(1, 9); }
 
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
