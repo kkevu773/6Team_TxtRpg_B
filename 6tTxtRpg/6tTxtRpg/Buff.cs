@@ -145,17 +145,17 @@ namespace _6tTxtRpg
 
         public static void RemoveAllBuff()
         {
-            foreach(Buff buff in BuffList.buffList)
+            for (int i = BuffList.buffList.Count - 1; i >= 0; i--)
             {
-                buff.RemoveBuff();
+                BuffList.buffList[i].RemoveBuff();
             }
         }
 
         public static void UpdateBuff()
         {
-            foreach (Buff buff in BuffList.buffList)
+            for (int i = BuffList.buffList.Count - 1; i >= 0; i--)
             {
-                buff.DecreaseTurn();
+                BuffList.buffList[i].DecreaseTurn();
             }
         }
 
