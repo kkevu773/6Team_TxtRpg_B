@@ -151,7 +151,7 @@ namespace _6tTxtRpg
             }
         }
 
-        public static void UpdateBuff(Item item)
+        public static void UpdateBuff()
         {
             foreach (Buff buff in BuffList.buffList)
             {

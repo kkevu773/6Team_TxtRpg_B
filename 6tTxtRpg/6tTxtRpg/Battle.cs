@@ -167,6 +167,8 @@ namespace _6TxtRpg
         }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
+            if (currentPhase == Phase.CharATK)
+            { BuffList.UpdateBuff(); }//플레이어 정보 출력 전에 버프 체크
             character_.ShortInfo();
             if (currentPhase != Phase.CharATKFin)
             { Console.WriteLine(); }
@@ -270,7 +272,6 @@ namespace _6TxtRpg
                     if (battleMon[num].isDead)
                     {
                         Tool.ColorTxt("Dead", Tool.color2);
-                        battleMon[num].DropItem();//죽을때 아이템 드롭
                         character_.exp += battleMon[num].level;
                         Console.WriteLine();
                         character_.levelUp();
@@ -371,6 +372,7 @@ namespace _6TxtRpg
         }
         void BattleResult()
         {
+            BuffList.RemoveAllBuff();//버프 지우는 위치
             Console.Write($"LV. ");
             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
             Console.WriteLine($" {character_.name}");
