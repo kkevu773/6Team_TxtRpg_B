@@ -231,7 +231,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine($"Gold: {gold}"); //골드
                 Console.WriteLine();
                 BuffList.PrintBuff();
-                Console.WriteLine("나가시려면 0을 입력해주세요.");
+                Console.WriteLine("나가시려면 0을 눌러주세요.");
                 string output = Console.ReadLine();
                 if (output == "0")
                 {
