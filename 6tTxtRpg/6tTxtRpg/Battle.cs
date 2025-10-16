@@ -47,7 +47,8 @@ namespace _6TxtRpg
 
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
-            { monsterList_.AddRandom(); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다.
+            { monsterList_.AddRandom(1); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다.      
+            //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
             battleMon = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
             battleMon = battleMon.OrderBy(Mon => random.Next()).Take(monNum).ToList();//리스트를 한번 섞어준다 쉐킷쉐킷
             startHp = character_.hp;//결과 화면 출력을 위해 현재 플레이어의 Hp를 변수에 저장했다.
