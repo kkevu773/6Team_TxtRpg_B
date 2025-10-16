@@ -41,8 +41,10 @@ namespace _6tTxtRpg
                 Console.WriteLine("0.떠나기");
                 Console.WriteLine("원하는 행동의 번호를 입력해 주세요.");
 
-                string inpuString = Console.ReadLine();
-                int input = (int.TryParse(inpuString, out int value1)) ? value1 : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                char inputChar = keyInfo.KeyChar;
+
+                int input = (int.TryParse(inputChar.ToString(), out int value)) ? value : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
 
                 if (input == 0)
                 {
@@ -61,9 +63,9 @@ namespace _6tTxtRpg
                         Console.WriteLine("구매 할 아이템의 번호를 입력해주세요.");
                         Console.WriteLine("나가기는 0번");
 
-                        inpuString = Console.ReadLine();
-                        input = (int.TryParse(inpuString, out int value2)) ? value2 : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
-
+                        keyInfo = Console.ReadKey();
+                        inputChar = keyInfo.KeyChar;
+                        input = (int.TryParse(inputChar.ToString(), out int valueBuy)) ? valueBuy : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
                         if (input == 0)
                         {
                             // 구매 창 떠나기
@@ -93,11 +95,13 @@ namespace _6tTxtRpg
                     while (flagSell)
                     {                       
                         Inventory.PrintInventory();
-                        Console.WriteLine("판매 할 아이템의 번호를 입력해주세요.");
-                        Console.WriteLine("나가기는 0번");
+                        Console.WriteLine("\n판매 할 아이템의 번호를 입력해주세요.\n판매금액은 가격의 80% 입니다.");
+                        Console.WriteLine("나가기는 0번입니다.");
 
-                        inpuString = Console.ReadLine();
-                        input = (int.TryParse(inpuString, out int value2)) ? value2 : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
+                        keyInfo = Console.ReadKey();
+                        inputChar = keyInfo.KeyChar;
+
+                        input = (int.TryParse(inputChar.ToString(), out int valueSell)) ? valueSell : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
 
                         if (input == 0)
                         {
@@ -120,6 +124,7 @@ namespace _6tTxtRpg
                 }
                 else if(input == 3)
                 {
+                    //강화 메뉴 연결
                     Console.Clear();
                     EnchantInput();
                 }
@@ -155,9 +160,9 @@ namespace _6tTxtRpg
             if(Inventory.Inven.Contains(reqItem) && Inventory.Inven.Find(t => t == reqItem).Amount >= reqAmount && item.Enchant < 3)
             {
                 Console.WriteLine("강화 하시겠습니까?\n1.예\n2.아니오");
-                string inputString = Console.ReadLine();
+                char inputChar = Console.ReadKey().KeyChar;
 
-                if(inputString == "1")
+                if(inputChar == '1')
                 {
                     Console.Clear();
                     Console.WriteLine($"{item.Name} 강화 성공! 능력치 {item.EffectNum} -> {(int)(item.EffectNum * 1.2f)}");
@@ -211,8 +216,8 @@ namespace _6tTxtRpg
 
                 Console.WriteLine("강화 할 아이템의 번호를 입력해주세요.\n0.떠나기");
 
-                string inpuString = Console.ReadLine();
-                int input = (int.TryParse(inpuString, out int value)) ? value : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
+                char inputChar = Console.ReadKey().KeyChar;
+                int input = (int.TryParse(inputChar.ToString(), out int value)) ? value : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
 
                 if (input == 0)
                 {

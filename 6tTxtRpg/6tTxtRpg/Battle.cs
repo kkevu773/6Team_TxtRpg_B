@@ -294,7 +294,7 @@ namespace _6TxtRpg
                     if (battleMon.monsterList[num].isDead)
                     {
                         Tool.ColorTxt("Dead", Tool.color2);
-                        character_.exp += battleMon.monsterList[num].level;
+                        character_.exp += battleMon.monsterList[num].exp;
                         Console.WriteLine();
                         character_.levelUp();
                     }

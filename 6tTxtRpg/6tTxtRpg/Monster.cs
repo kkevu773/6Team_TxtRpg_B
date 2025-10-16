@@ -24,6 +24,7 @@ namespace _6TxtRpg
         public int level = 1;
         public float maxHP;
         private static Random random = new Random();
+        public int exp;
 
         public List<IMonsterSkill> skills = new List<IMonsterSkill>();      // 몬스터가 가지고 있는 스킬
 
@@ -114,6 +115,7 @@ namespace _6TxtRpg
                 this.maxHP = this.hp;
                 skills.Add(new NormalAttack());
                 skills.Add(new RockThorw());
+                this.exp = level*2;
             }
             public override void DropItem()             
             {
@@ -134,6 +136,7 @@ namespace _6TxtRpg
                 this.damage = 8 + this.level;         // 기본 8 + 레벨
                 this.hp = 10 + this.level * 3;        // 기본 10 + 레벨*3
                 this.maxHP = this.hp;
+                this.exp=level*2;
                 skills.Add(new NormalAttack());
                 skills.Add(new Nip());
             }
@@ -150,11 +153,11 @@ namespace _6TxtRpg
             {
                 this.level = random.Next(0, 3) + level;
                 this.name = "늑대";
-
                 this.armor = 2 + this.level;          // 기본 2 + 레벨
                 this.damage = 9 + this.level * 2;     // 기본 9 + 레벨*2
                 this.hp = 15 + this.level * 5;        // 기본 15 + 레벨*5
                 this.maxHP = this.hp;
+                this.exp = level*2;
                 skills.Add(new NormalAttack());
                 skills.Add(new Bite());
             }
@@ -168,13 +171,14 @@ namespace _6TxtRpg
         {
             public WolfKing()           //monsterList_.AddMonster(new Monster.WolfKing()); 이런식으로 생성하면 될듯
             {
-                this.level = 20;
+                this.level = 15;
                 this.name = "울부짖는 늑대왕";
 
                 this.armor = 20;
                 this.damage = 40;
                 this.hp = 500;
                 this.maxHP = this.hp;
+                this.exp = level*2;
                 skills.Add(new NormalAttack());
                 skills.Add(new Bite());
                 skills.Add(new Howl());
@@ -246,8 +250,9 @@ namespace _6TxtRpg
             float damage = monster.damage + 3;
             float actualDamage = player.BlowPlayer(damage, player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name,"을","를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
-            //플레이어 피해를 입는 함수
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
         }
     }
 
@@ -259,7 +264,9 @@ namespace _6TxtRpg
             float damage = monster.damage + 4;
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
 
             //플레이어 피해를 입는 함수
         }
@@ -272,7 +279,9 @@ namespace _6TxtRpg
             float damage = monster.damage + 2;
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
         }
     }
     public class NormalAttack : IMonsterSkill
@@ -283,7 +292,9 @@ namespace _6TxtRpg
             float damage = monster.damage;
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
         }
     }
     public class Howl : IMonsterSkill
