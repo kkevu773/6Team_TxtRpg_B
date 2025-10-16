@@ -1,10 +1,11 @@
 using _6tTxtRpg;
+using static _6TxtRpg.Monster;
 
 namespace _6TxtRpg
 {
     class Battle // 전투기능 작업
     {
-        List<Monster> battleMon = new List<Monster>();
+        MonsterList battleMon = new MonsterList();
         Random random = new Random();//공용으로 쓸 랜덤
         byte monNum = 0;//몬스터수. 다른 메서드에서 쓸거 같아서 뻄.
         int stage = 1;
@@ -20,6 +21,7 @@ namespace _6TxtRpg
             }
         }
         bool isBattle = false; //전투상태인지 체크.
+        bool isBoss = false;
         Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
         int startHp;//데미지 깎기 전 Hp를 저장하기 위한 변수.
         enum Phase//bool로 처리하다가 너무 많아질거 같아서 enum으로 바꿨음.
@@ -34,7 +36,7 @@ namespace _6TxtRpg
             Unknown,
         }
         private readonly Character character_;
-        private readonly MonsterList monsterList_;
+        private MonsterList monsterList_;
         public Battle(Character character, MonsterList monsters) //반드시 받아야 되는 인자값을 위해 생성자로 만듬.
         {
             character_ = character;
@@ -45,8 +47,8 @@ namespace _6TxtRpg
         {
             Console.ForegroundColor = Tool.color1;//기본텍스트 색상 처리. Tool 클래스의 변수를 활용해서 변수만 바꿔도 관련된 부분의 색상이 전부 바뀌게 처리했다. 
             //monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
-            if (!isPractice||Stage == 1)
-            {copyStage = Stage;}
+            if (!isPractice || Stage == 1)
+            { copyStage = Stage; }
             else if (isPractice)
             { copyStage = Stage - 1; }
             if (copyStage <= 1)
@@ -69,9 +71,17 @@ namespace _6TxtRpg
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
             { monsterList_.AddRandom(Stage); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다}
-            //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
-            battleMon = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
-            battleMon = battleMon.OrderBy(Mon => random.Next()).Take(monNum).ToList();//리스트를 한번 섞어준다 쉐킷쉐킷
+                                              //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
+            battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
+            if (copyStage % 5 == 0)
+            {
+                if (battleMon.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
+                { battleMon.AddMonster(new Monster.WolfKing()); }
+                battleMon.monsterList = battleMon.monsterList.OrderByDescending(mon => mon.name == "울부짖는 늑대왕").ThenBy(mon => random.Next()).Take(monNum).ToList();
+            }
+            else
+            { battleMon.monsterList = battleMon.monsterList.OrderBy(mon => random.Next()).Take(monNum).ToList(); }
+
             startHp = character_.hp;//결과 화면 출력을 위해 현재 플레이어의 Hp를 변수에 저장했다.
             isBattle = true;//반복구문을 위한 bool값 재생.
             currentPhase = Phase.Waiting;//페이즈를 대기 페이즈로 세팅.
@@ -82,7 +92,10 @@ namespace _6TxtRpg
             while (isBattle) //여기서부터 반복구문
             {
                 if (currentPhase == Phase.CharATK)//플레이어 공격페이즈일때
-                { BattleMsg("Battle!!", Tool.color2); }//글자 표시됨.
+                {
+                    BuffList.UpdateBuff();//플레이어 정보 출력 전에 버프 체크
+                    BattleMsg("Battle!!", Tool.color2);
+                }//글자 표시됨.
                 if (currentPhase != Phase.MonsterATK)//몬스터 공격페이즈가 아닐때
                 {
                     if (currentPhase != Phase.CharATK && currentPhase != Phase.CharATKFin && currentPhase != Phase.Waiting)//플레이어 공격페이즈가 아닐때
@@ -132,7 +145,7 @@ namespace _6TxtRpg
                 Console.WriteLine($"던전에서 몬스터를 {monNum}마리 잡았습니다.");
                 Console.WriteLine();
                 if (!isPractice)
-                {++Stage;}
+                { ++Stage; }
                 BattleResult();
             }
             else if (currentPhase == Phase.MonWin)
@@ -146,12 +159,12 @@ namespace _6TxtRpg
                 Console.WriteLine();
                 BattleResult();
             }
-            for (byte i = 0; i < battleMon.Count(); ++i)//전투가 끝나면 리스트를 한번 순회한다.
+            for (byte i = 0; i < battleMon.monsterList.Count(); ++i)//전투가 끝나면 리스트를 한번 순회한다.
             {
-                if (battleMon[i].isDead)
-                { monsterList_.RemoveMonter(battleMon[i]); }//hp가 0마만인건 싹 지운다.
+                if (battleMon.monsterList[i].isDead)
+                { monsterList_.RemoveMonter(battleMon.monsterList[i]); }//hp가 0마만인건 싹 지운다.
             }
-            battleMon.Clear();//사용완료했으니 지우기.
+            battleMon.monsterList.Clear();//사용완료했으니 지우기.
         }
         void ShowMon()//몬스터 정보 출력 함수 //TODO:띄어쓰기 처리 안해놨음. 나중에 디버깅하면서 수정해야 됨.
         {
@@ -161,20 +174,18 @@ namespace _6TxtRpg
                 if (currentPhase == Phase.CharATK)
                 { Tool.ColorTxt((i + 1).ToString(), Tool.color5); }
                 Console.Write(" ");
-                if (battleMon[i].isDead)//사망시 Dead표시
+                if (battleMon.monsterList[i].isDead)//사망시 Dead표시
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"LV.{battleMon[i].level} {battleMon[i].name} Hp Dead");//TODO:몬스터 레벨변수 생기면 주석해제
+                    Console.WriteLine($"LV.{battleMon.monsterList[i].level} {battleMon.monsterList[i].name} Hp Dead");//TODO:몬스터 레벨변수 생기면 주석해제
                     Console.ForegroundColor = Tool.color1;
                 }
                 else
-                { battleMon[i].ShortInfo(); }//배열에 넣은 몬스터 출력
+                { battleMon.monsterList[i].ShortInfo(); }//배열에 넣은 몬스터 출력
             }
         }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
-            if (currentPhase == Phase.CharATK)
-            { BuffList.UpdateBuff(); }//플레이어 정보 출력 전에 버프 체크
             character_.ShortInfo();
             if (currentPhase != Phase.CharATKFin)
             { Console.WriteLine(); }
@@ -207,7 +218,7 @@ namespace _6TxtRpg
                     Console.Clear();
                     for (int i = 0; i < monNum; ++i)
                     {
-                        battleMon[i].ShowInfo();
+                        battleMon.monsterList[i].ShowInfo();
                         Console.WriteLine();
                     }
                     Console.WriteLine("아무키나 눌러주세요.");
@@ -229,7 +240,7 @@ namespace _6TxtRpg
         }
         void AtkMenu()//몬스터 공격 선택 함수
         {
-            
+
             TypeMsg("대상을 선택해주세요.");
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             char inputChar = keyInfo.KeyChar;
@@ -237,7 +248,7 @@ namespace _6TxtRpg
             {
                 if (monIndex == 0)
                 { currentPhase = Phase.Waiting; }
-                else if (monIndex >= 1 && monIndex <= battleMon.Count)
+                else if (monIndex >= 1 && monIndex <= battleMon.monsterList.Count)
                 { CharAtk(monIndex - 1); }
                 else
                 { WrongMsg(); }
@@ -247,47 +258,47 @@ namespace _6TxtRpg
         {
             if (monNum >= num + 1) //몬스터가 있음.
             {
-                if (battleMon[num].isDead) //만약 몬스터가 죽었을 때
+                if (battleMon.monsterList[num].isDead) //만약 몬스터가 죽었을 때
                 { WrongMsg(); }
                 else
                 {
                     Console.Clear();
                     BattleMsg("Battle!!", Tool.color2);
-                    float beforehit = battleMon[num].hp;
+                    float beforehit = battleMon.monsterList[num].hp;
                     int error = (int)Math.Ceiling((float)character_.damage * 0.1f); //오차범위 처리.
                     int charDamage = random.Next(character_.damage - error, character_.damage + error + 1);
                     Console.WriteLine($"{character_.name}의 공격!");
                     character_.PlayerCri();
                     Console.WriteLine();
                     Console.Write($"Lv.");
-                    Tool.ColorTxt(battleMon[num].level.ToString(), Tool.color4);
-                    Console.Write($" {Tool.Josa(battleMon[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
+                    Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
+                    Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
                     Tool.ColorTxt(charDamage.ToString(), Tool.color2);
                     Console.Write(")");
                     Console.WriteLine();
                     Console.WriteLine();
-                    battleMon[num].Damaged(charDamage);
+                    battleMon.monsterList[num].Damaged(charDamage);
                     Console.WriteLine();
-                    if (battleMon[num].isDead)
-                    { Console.WriteLine();}
+                    if (battleMon.monsterList[num].isDead)
+                    { Console.WriteLine(); }
                     Console.Write($"Lv.");
-                    Tool.ColorTxt(battleMon[num].level.ToString(), Tool.color4);
-                    Console.Write($" {battleMon[num].name}");
+                    Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
+                    Console.Write($" {battleMon.monsterList[num].name}");
                     Console.WriteLine();
                     Console.Write($"HP ");
                     Tool.ColorTxt(beforehit.ToString(), Tool.color4);
                     Console.Write(" -> ");
-                    if (battleMon[num].isDead)
+                    if (battleMon.monsterList[num].isDead)
                     {
                         Tool.ColorTxt("Dead", Tool.color2);
-                        character_.exp += battleMon[num].level;
+                        character_.exp += battleMon.monsterList[num].level;
                         Console.WriteLine();
                         character_.levelUp();
                     }
                     else
                     {
                         Console.Write($"Hp ");
-                        Tool.ColorTxt(battleMon[num].hp.ToString(), Tool.color2);
+                        Tool.ColorTxt(battleMon.monsterList[num].hp.ToString(), Tool.color2);
                         Console.WriteLine();
                     }
                     NextButton("다음", "", Phase.CharATKFin);
@@ -316,7 +327,7 @@ namespace _6TxtRpg
         {
             for (byte i = 0; i < monNum; i++)
             {
-                if (!battleMon[i].isDead)//안 죽었을때만 플레이어 공격.
+                if (!battleMon.monsterList[i].isDead)//안 죽었을때만 플레이어 공격.
                 { MonAtkMsg(i); }
             }
         }
@@ -325,9 +336,9 @@ namespace _6TxtRpg
             int beforehit = character_.hp;
             Console.Clear();
             BattleMsg("Battle!!", ConsoleColor.DarkRed);
-            Console.WriteLine($"{battleMon[num].name}의 공격!");
+            Console.WriteLine($"{battleMon.monsterList[num].name}의 공격!");
             Console.WriteLine();
-            battleMon[num].RandomAttack(character_);
+            battleMon.monsterList[num].RandomAttack(character_);
             Console.WriteLine();
             Console.Write($"Lv.");
             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
@@ -348,7 +359,7 @@ namespace _6TxtRpg
         }
         void MonDead(byte num)
         {
-            if (battleMon.All(mon => mon.isDead))
+            if (battleMon.monsterList.All(mon => mon.isDead))
             { WinEnd(); }
         }
         void WinEnd()
@@ -369,7 +380,7 @@ namespace _6TxtRpg
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color2); }
             Console.WriteLine();
             if (currentPhase == Phase.MonWin)//임의로 졌을때 풀회복시켜서 내보냄.
-            { 
+            {
                 character_.hp = character_.maxHp;
                 character_.mp = character_.maxMp;
             }
