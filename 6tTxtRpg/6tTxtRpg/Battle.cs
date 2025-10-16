@@ -44,20 +44,26 @@ namespace _6TxtRpg
         {
             Console.ForegroundColor = Tool.color1;//기본텍스트 색상 처리. Tool 클래스의 변수를 활용해서 변수만 바꿔도 관련된 부분의 색상이 전부 바뀌게 처리했다. 
             //monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
-            if (Stage <= 10)
-            { monNum = (byte)random.Next(1, 5); }
+            if (Stage <= 5)
+            { monNum = (byte)random.Next(1, 2); }
+            else if (Stage <= 10 && Stage > 5)
+            { monNum = (byte)random.Next(1, 3); }
             else if (Stage <= 15 && Stage > 10)
-            { monNum = (byte)random.Next(1, 6); }
+            { monNum = (byte)random.Next(1, 4); }
             else if (Stage <= 30 && Stage > 15)
-            { monNum = (byte)random.Next(1, 7); }
+            { monNum = (byte)random.Next(1, 5); }
             else if (Stage <= 50 && Stage > 30)
-            { monNum = (byte)random.Next(1, 8); }
+            { monNum = (byte)random.Next(1, 6); }
             else if (Stage > 50)
+            { monNum = (byte)random.Next(1, 7); }
+            else if (Stage > 100)
+            { monNum = (byte)random.Next(1, 8); }
+            else if (Stage > 150)
             { monNum = (byte)random.Next(1, 9); }
 
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
-            { monsterList_.AddRandom(1); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다.      
+            { monsterList_.AddRandom(Stage); }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다}
             //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
             battleMon = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
             battleMon = battleMon.OrderBy(Mon => random.Next()).Take(monNum).ToList();//리스트를 한번 섞어준다 쉐킷쉐킷
@@ -161,14 +167,6 @@ namespace _6TxtRpg
         }
         void ShowChar()//플레이어 정보출력 함수. 가독성을 위해 일단 뺐다.
         {
-            /* Console.Write($" LV.");
-             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
-             Console.WriteLine($" {character_.name} ({character_.job})");
-             Console.Write($" Hp ");
-             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-             Console.Write(" / ");
-             Tool.ColorTxt(character_.hp.ToString(), Tool.color4);
-             Console.WriteLine();*/
             character_.ShortInfo();
             if (currentPhase != Phase.CharATKFin)
             { Console.WriteLine(); }
