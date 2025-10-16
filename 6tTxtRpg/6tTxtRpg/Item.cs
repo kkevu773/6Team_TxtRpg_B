@@ -401,7 +401,7 @@ namespace _6TxtRpg
                     case Status.BonusDef:
                         break;
                 }
-                Console.WriteLine($"{i + 1}.[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect}");
+                Console.WriteLine($"{i + 1}.[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect} [{itemInven.Price}G]");
             }
 
         }
@@ -459,8 +459,10 @@ namespace _6TxtRpg
             {
                 Console.WriteLine("0.나가기\n사용 할 아이템의 번호를 입력해주세요.");
 
-                string inpuString = Console.ReadLine();
-                int input = (int.TryParse(inpuString, out int value)) ? value : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                char inputChar = keyInfo.KeyChar;
+
+                int input = (int.TryParse(inputChar.ToString(), out int value)) ? value : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
 
                 if(input == 0)
                 {
