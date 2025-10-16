@@ -27,7 +27,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Clear();
-                intro.IntroA(battle.stage);
+                intro.IntroA(battle.Stage);
                 switch (Console.ReadKey().KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
                     case '1':
