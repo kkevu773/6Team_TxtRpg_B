@@ -1,4 +1,4 @@
-﻿using _6TxtRpg;
+﻿using _6tTxtRpg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
