@@ -145,69 +145,69 @@ namespace _6TxtRpg // 이쪽에 만들기
             switch (job)
             {
                 case "전사": //전사값을 받았을경우 스텟
-                    this.maxHp = 200;
-                    this.hp = 200;
-                    this.maxMp = 100;
-                    this.mp = 100;
-                    this.damage = 50;
-                    this.defense = 20;
+                    this.maxHp = 100;
+                    this.hp = 100;
+                    this.maxMp = 50;
+                    this.mp = 50;
+                    this.damage = 25;
+                    this.defense = 5;
                     this.CriticalChance = 10;
 
                     break;
                 case "마법사": //마법사값을 받았을경우 스텟
-                    this.maxHp = 100;
-                    this.hp = 100;
-                    this.maxMp = 200;
-                    this.mp = 200;
-                    this.damage = 30;
-                    this.defense = 10;
+                    this.maxHp = 50;
+                    this.hp = 50;
+                    this.maxMp = 100;
+                    this.mp = 100;
+                    this.damage = 15;
+                    this.defense = 0;
                     this.CriticalChance = 20;
                     break;
                 case "도적": //도적값을 받았을경우 스텟
-                    this.maxHp = 120;
-                    this.hp = 120;
-                    this.maxMp = 70;
-                    this.mp = 70;
-                    this.damage = 70;
-                    this.defense = 10;
+                    this.maxHp = 60;
+                    this.hp = 60;
+                    this.maxMp = 35;
+                    this.mp = 35;
+                    this.damage = 35;
+                    this.defense = 0;
                     this.CriticalChance = 20;
                     break;
             }
         }
         public void levelUp()
         {
-            if (exp >= level * 30) //경험치가 레벨*100이상이면 레벨업
+            if (exp >= level * 15) //경험치가 레벨*100이상이면 레벨업
             {
-                exp -= level * 30;
+                exp -= level * 15;
                 level++;
                 if(job == "전사")
                 {
-                    maxHp += 50;
+                    maxHp += 25;
                     hp = maxHp;
-                    maxMp += 20;
+                    maxMp += 10;
                     mp = maxMp;
-                    damage += 20;
-                    defense += 10;
+                    damage += 10;
+                    defense += 3;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
                 else if(job == "마법사")
                 {
-                    maxHp += 20;
+                    maxHp += 10;
                     hp = maxHp;
-                    maxMp += 50;
+                    maxMp += 25;
                     mp = maxMp;
-                    damage += 10;
+                    damage += 5;
                     defense += 2;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
                 else if(job == "도적")
                 {
-                    maxHp += 20;
+                    maxHp += 10;
                     hp = maxHp;
-                    maxMp += 10;
+                    maxMp += 5;
                     mp = maxMp;
-                    damage += 25;
-                    defense += 3;
+                    damage += 12;
+                    defense += 2;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
             }
