@@ -8,6 +8,7 @@ namespace _6TxtRpg
         Random random = new Random();//공용으로 쓸 랜덤
         byte monNum = 0;//몬스터수. 다른 메서드에서 쓸거 같아서 뻄.
         int stage = 1;
+        int copyStage;
         public int Stage
         {
             get { return stage; }
@@ -40,25 +41,29 @@ namespace _6TxtRpg
             monsterList_ = monsters;
         }//RunBattle 메서드 작동.
         //처음에는 생성자에 로직을 냅다 다 넣었다가 전투가 필요한 부분에 넣기 쉽게 메서드로 뺐음.
-        public void RunBattle()//외부에서 막 쓰라고 public으로 처리했다.
+        public void RunBattle(bool isPractice)//외부에서 막 쓰라고 public으로 처리했다.
         {
             Console.ForegroundColor = Tool.color1;//기본텍스트 색상 처리. Tool 클래스의 변수를 활용해서 변수만 바꿔도 관련된 부분의 색상이 전부 바뀌게 처리했다. 
             //monsters.monsterList.Clear();//그냥 쓰면 몬스터 리스트에 몬스터가 계속 쌓일 수 있으니까 한번 전부 지운다. 
-            if (Stage <= 1)
+            if (!isPractice||Stage == 1)
+            {copyStage = Stage;}
+            else if (isPractice)
+            { copyStage = Stage - 1; }
+            if (copyStage <= 1)
             { monNum = (byte)random.Next(1, 2); }
-            else if (Stage <= 3 && Stage > 1)
+            else if (copyStage <= 3 && Stage > 1)
             { monNum = (byte)random.Next(1, 3); }
-            else if (Stage <= 5 && Stage > 3)
+            else if (copyStage <= 5 && Stage > 3)
             { monNum = (byte)random.Next(1, 4); }
-            else if (Stage <= 10 && Stage > 5)
+            else if (copyStage <= 10 && Stage > 5)
             { monNum = (byte)random.Next(1, 5); }
-            else if (Stage <= 15 && Stage > 10)
+            else if (copyStage <= 15 && Stage > 10)
             { monNum = (byte)random.Next(1, 6); }
-            else if (Stage <= 25 && Stage > 15)
+            else if (copyStage <= 25 && Stage > 15)
             { monNum = (byte)random.Next(1, 7); }
-            else if (Stage <= 50 && Stage > 25)
+            else if (copyStage <= 50 && Stage > 25)
             { monNum = (byte)random.Next(1, 8); }
-            else if (Stage > 50)
+            else if (copyStage > 50)
             { monNum = (byte)random.Next(1, 9); }
 
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
@@ -126,7 +131,8 @@ namespace _6TxtRpg
                 BattleMsg("Victory", Tool.color3);
                 Console.WriteLine($"던전에서 몬스터를 {monNum}마리 잡았습니다.");
                 Console.WriteLine();
-                ++Stage;
+                if (!isPractice)
+                {++Stage;}
                 BattleResult();
             }
             else if (currentPhase == Phase.MonWin)
@@ -262,6 +268,8 @@ namespace _6TxtRpg
                     Console.WriteLine();
                     battleMon[num].Damaged(charDamage);
                     Console.WriteLine();
+                    if (battleMon[num].isDead)
+                    { Console.WriteLine();}
                     Console.Write($"Lv.");
                     Tool.ColorTxt(battleMon[num].level.ToString(), Tool.color4);
                     Console.Write($" {battleMon[num].name}");
@@ -290,27 +298,11 @@ namespace _6TxtRpg
         }
         void NextButton(string message, string typeMsg, Phase nextPhase)
         {
-            //Tool.ColorTxt("0", Tool.color5);
-            //Console.Write(". ");
-            //Console.WriteLine(message);
-            //TypeMsg(typeMsg);
             Console.ReadKey(true);
             currentPhase = nextPhase;
-            /*switch (Console.ReadKey().KeyChar)
-            {
-                case '0':
-                    currentPhase = nextPhase;
-                    break;
-                default:
-                    WrongMsg();
-                    break;
-            }*/
         }
         void NextButton(string message, bool isMsgOn)
         {
-            //Tool.ColorTxt("0", Tool.color5);
-            //Console.Write(". ");
-            //Console.WriteLine(message);
             if (isMsgOn)
             {
                 Console.WriteLine();
@@ -336,11 +328,6 @@ namespace _6TxtRpg
             Console.WriteLine($"{battleMon[num].name}의 공격!");
             Console.WriteLine();
             battleMon[num].RandomAttack(character_);
-            //Console.WriteLine();
-            //Console.Write($"Lv.{character.level} {Tool.Josa(character.name, "을", "를")} 맞췄습니다. (데미지 : ");
-            //Tool.ColorTxt(monster.damage.ToString(), Tool.color2);
-            //Console.Write(")");
-            //Console.WriteLine();
             Console.WriteLine();
             Console.Write($"Lv.");
             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
@@ -357,7 +344,6 @@ namespace _6TxtRpg
                 Tool.ColorTxt(character_.hp.ToString(), Tool.color2);
             }
             Console.WriteLine();
-            //Console.WriteLine();
             NextButton("다음", false);
         }
         void MonDead(byte num)
@@ -382,6 +368,11 @@ namespace _6TxtRpg
             else
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color2); }
             Console.WriteLine();
+            if (currentPhase == Phase.MonWin)//임의로 졌을때 풀회복시켜서 내보냄.
+            { 
+                character_.hp = character_.maxHp;
+                character_.mp = character_.maxMp;
+            }
             Console.WriteLine();
             NextButton("다음", false);
         }

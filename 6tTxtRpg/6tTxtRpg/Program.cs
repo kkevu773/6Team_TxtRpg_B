@@ -11,7 +11,7 @@ namespace _6TxtRpg // 이쪽에 만들기
 {
     internal class TxtR //쉬운 디버깅을 위해 위로 뻈습니다.
     {
-        public static Character  player = new Character();
+        public static Character player = new Character();
 
 
         public static void Main(string[] args)
@@ -34,9 +34,12 @@ namespace _6TxtRpg // 이쪽에 만들기
                         player.ShowInfo();
                         break;
                     case '2':
-                        battle.RunBattle();
+                        battle.RunBattle(false);
                         break;
                     case '3':
+                        battle.RunBattle(true);
+                        break;
+                    case '4':
                         player.level = 1;
                         player.gold = 10000;
                         Inventory.GetItem(ItemPreset.itemList[1]);
@@ -45,14 +48,14 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.GetItem(ItemPreset.dropItemList[0]);
                         Shop.ShopInput();
                         break;
-                    case '4':
+                    case '5':
                         Inventory.GetItem(ItemPreset.itemList[1]);
                         Inventory.GetItem(ItemPreset.itemList[2]);
                         Inventory.GetItem(ItemPreset.itemList[3]);
                         Inventory.GetItem(ItemPreset.itemList[6]);
                         Inventory.InventoryInput();
                         break;
-                    case '5':
+                    case '6':
                         quest.ShowQuest();
                         break;
                     default:
@@ -180,7 +183,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             {
                 exp -= level * 15;
                 level++;
-                if(job == "전사")
+                if (job == "전사")
                 {
                     maxHp += 25;
                     hp = maxHp;
@@ -190,7 +193,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     defense += 3;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
-                else if(job == "마법사")
+                else if (job == "마법사")
                 {
                     maxHp += 10;
                     hp = maxHp;
@@ -200,7 +203,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     defense += 2;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
-                else if(job == "도적")
+                else if (job == "도적")
                 {
                     maxHp += 10;
                     hp = maxHp;
@@ -256,7 +259,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {                      //낮을시 크리티컬 발동
             Random random = new Random();
             int shit = random.Next(1, 101);
-            if (CriticalChance >= shit )
+            if (CriticalChance >= shit)
             {
                 Console.WriteLine("치명적인 일격으로 공격했습니다!");
                 damage = damage * 2;
@@ -268,12 +271,12 @@ namespace _6TxtRpg // 이쪽에 만들기
     }
     public class Skills //스킬 정보
     {
-        
+
         public string name;
         public float state;
         public int mp;
 
-        public Skills (string name ,float state , int mp)
+        public Skills(string name, float state, int mp)
         {
             this.name = name;
             this.state = state;
@@ -308,15 +311,24 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.Write("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
             Tool.ColorTxt("1", Tool.color5);
             Console.Write(".상태 보기\n");
-            Tool.ColorTxt("2", Tool.color5); 
+            Tool.ColorTxt("2", Tool.color5);
             Console.Write(".전투 시작 (현재 진행 : ");
-            Tool.ColorTxt(stage.ToString(),Tool.color4);
+            Tool.ColorTxt(stage.ToString(), Tool.color4);
             Console.WriteLine(" 층)");
             Tool.ColorTxt("3", Tool.color5);
-            Console.Write(".상점\n");
+            Console.Write(".");
+            if (stage <= 1)
+            { Console.WriteLine("연습하기"); }
+            else
+            {
+                Tool.ColorTxt((stage - 1).ToString(), Tool.color4);
+                Console.WriteLine("층에서 연습");
+            }
             Tool.ColorTxt("4", Tool.color5);
-            Console.Write(".인벤토리\n");
+            Console.Write(".상점\n");
             Tool.ColorTxt("5", Tool.color5);
+            Console.Write(".인벤토리\n");
+            Tool.ColorTxt("6", Tool.color5);
             Console.WriteLine(".퀘스트");
             Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
         }
