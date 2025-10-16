@@ -73,8 +73,10 @@ namespace _6TxtRpg
                     Tool.ColorTxt("1", Tool.color5);
                     Console.WriteLine(".공격");
                     Tool.ColorTxt("2", Tool.color5);
-                    Console.WriteLine(".관찰");
+                    Console.WriteLine(".스킬사용");
                     Tool.ColorTxt("3", Tool.color5);
+                    Console.WriteLine(".관찰");
+                    Tool.ColorTxt("4", Tool.color5);
                     Console.WriteLine(".도망");
                     Console.WriteLine();
                     BattleMenuKey();
@@ -174,15 +176,18 @@ namespace _6TxtRpg
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
             {
-                if (!isPractice_ || monsterList_.monsterList.Count <= monNum * 2)
+                if (!isPractice_ && monsterList_.monsterList.Count <= monNum * 2)
                 { monsterList_.AddRandom(Stage); }
             }//몬스터의 메서드를 써서 랜덤으로 뽑힌 수 만큼 몬스터를 추가한다}
              //이부분 인수에 원하시는 level최소치를 넣어주세요 !!! level = 넣은인수 +0~2
+            if (Stage % 5 == 0 && !isPractice_)
+            {
+                if (monsterList_.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
+                { monsterList_.AddMonster(new Monster.WolfKing()); }   
+            }
             battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
             if (Stage % 5 == 0 && !isPractice_)
             {
-                if (battleMon.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
-                { battleMon.AddMonster(new Monster.WolfKing()); }
                 battleMon.monsterList = battleMon.monsterList.OrderByDescending(mon => mon.name == "울부짖는 늑대왕").ThenBy(mon => random.Next()).Take(monNum).ToList();
             }
             else
@@ -218,10 +223,16 @@ namespace _6TxtRpg
             TypeMsg("원하시는 행동을 입력해주세요.");
             switch (Console.ReadKey().KeyChar) //숫자만 눌러도 작동하게 ReadKey로 처리했습니다.
             {
-                case '1'://관찰키
+                case '1'://공격키
                     currentPhase = Phase.CharATK;//몬스터 이름앞에 숫자가 나옴.
                     break;
-                case '2'://공격키
+                case '2':
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    character_.SkillList();
+                    Console.ReadKey(true);
+                    break;
+                case '3'://관찰키
                     Console.Clear();
                     for (int i = 0; i < monNum; ++i)
                     {
@@ -232,7 +243,7 @@ namespace _6TxtRpg
                     Console.Write(">> ");
                     Console.ReadKey(true);
                     break;
-                case '3'://도망
+                case '4'://도망
                     currentPhase = Phase.CharRun;
                     isBattle = false;
                     break;
@@ -296,6 +307,8 @@ namespace _6TxtRpg
                         Tool.ColorTxt("Dead", Tool.color2);
                         character_.exp += battleMon.monsterList[num].exp;
                         Console.WriteLine();
+                        Tool.ColorTxt(battleMon.monsterList[num].exp.ToString(), Tool.color5);
+                        Console.WriteLine("의 경험치를 획득하였습니다.");
                         character_.levelUp();
                     }
                     else
