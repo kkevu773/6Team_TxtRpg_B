@@ -308,14 +308,6 @@ namespace _6TxtRpg
             else
             { Console.Write(">> "); }
             Console.ReadKey(true);
-            /*switch (Console.ReadKey().KeyChar)
-            {
-                case '0':
-                    break;
-                default:
-                    WrongMsg();
-                    break;
-            }*/
         }
         void MonATK()//몬스터 순서대로 공격 메서드
         {
