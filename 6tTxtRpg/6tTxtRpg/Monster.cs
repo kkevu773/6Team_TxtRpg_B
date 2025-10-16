@@ -246,8 +246,9 @@ namespace _6TxtRpg
             float damage = monster.damage + 3;
             float actualDamage = player.BlowPlayer(damage, player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name,"을","를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
-            //플레이어 피해를 입는 함수
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
         }
     }
 
@@ -259,7 +260,9 @@ namespace _6TxtRpg
             float damage = monster.damage + 4;
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
 
             //플레이어 피해를 입는 함수
         }
@@ -272,7 +275,9 @@ namespace _6TxtRpg
             float damage = monster.damage + 2;
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
         }
     }
     public class NormalAttack : IMonsterSkill
@@ -283,7 +288,9 @@ namespace _6TxtRpg
             float damage = monster.damage;
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
-            Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+            Console.Write($"플레이어는 ");
+            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Console.WriteLine("의 데미지를 입었습니다");
         }
     }
     public class Howl : IMonsterSkill
