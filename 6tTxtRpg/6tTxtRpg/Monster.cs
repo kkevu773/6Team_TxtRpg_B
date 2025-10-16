@@ -118,6 +118,8 @@ namespace _6TxtRpg
             public override void DropItem()             
             {
                 Inventory.GetItem(ItemPreset.dropItemList[0]);
+                Tool.ColorTxt(Tool.Josa(this.name,"이 ","가 ")+ Tool.Josa(ItemPreset.dropItemList[0].Name, "을", "를")+" 드랍했습니다",Tool.color5);
+                
             }
         }
 
@@ -138,6 +140,7 @@ namespace _6TxtRpg
             public override void DropItem()
             {
                 Inventory.GetItem(ItemPreset.dropItemList[1]);
+                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[1].Name, "을", "를") + " 드랍했습니다", Tool.color5);
             }
         }
 
@@ -158,6 +161,7 @@ namespace _6TxtRpg
             public override void DropItem()
             {
                 Inventory.GetItem(ItemPreset.dropItemList[2]);
+                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[2].Name, "을", "를") + " 드랍했습니다", Tool.color5);
             }
         }
         public class WolfKing : Monster
@@ -178,7 +182,8 @@ namespace _6TxtRpg
             }
             public override void DropItem()
             {
-                
+                Inventory.GetItem(ItemPreset.dropItemList[3]);
+                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[3].Name, "을", "를") + " 드랍했습니다", Tool.color5);
             }
         }
 

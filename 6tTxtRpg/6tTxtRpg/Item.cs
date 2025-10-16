@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _6tTxtRpg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Xml.Linq;
 
 namespace _6TxtRpg
 {
-    public enum ItemType { Head, Body, Weapon, ExtraWeapon, HpPotion, MpPotion, Etc }
+    public enum ItemType { Head, Body, Weapon, ExtraWeapon, HpPotion, MpPotion, Buff, Etc }
     public enum Status { Hp, Mp, Exp, Level, Atk, Def, BonusHp, BonusMp, BonusAtk, BonusDef , None}
 
     public class Item
@@ -24,7 +25,7 @@ namespace _6TxtRpg
         public int Enchant;
 
         //생성
-        public Item(string name, Status effectStatus, int effectNum, int amount, ItemType type, int price, string itemScript)
+        public Item(string name, int enchant,Status effectStatus, int effectNum, int amount, ItemType type, int price, string itemScript)
         {
             Name = name;
             EffectStatus = effectStatus;
@@ -34,7 +35,7 @@ namespace _6TxtRpg
             Price = price;
             IsUsing = false;
             ItemScript = itemScript;
-            Enchant = 0;
+            Enchant = enchant;
         }
 
         //아이템 사용
@@ -101,47 +102,55 @@ namespace _6TxtRpg
                 case ItemType.MpPotion:
                     AddAmount(-1);
                     break;
+
+                case ItemType.Buff:
+                    BuffList.GetBuff(this);
+                    AddAmount(-1);
+                    break;
             }
 
 
             //아이템 수치 적용
-            switch (EffectStatus)
+            if(Type != ItemType.Buff)
             {
-                case Status.Hp:
-                    TxtR.player.hp += EffectNum;
-                    if(TxtR.player.hp > TxtR.player.maxHp) TxtR.player.hp = TxtR.player.maxHp;
-                    break;
-                case Status.Mp:
-                    TxtR.player.mp += EffectNum;
-                    if (TxtR.player.hp > TxtR.player.maxMp) TxtR.player.mp = TxtR.player.maxMp;
-                    break;
-                case Status.Exp:
-                    // 여기에 케릭터 경험치 획득 메소드 연결
-                    break;
-                case Status.Level:
-                    // 사용 미정
-                    break;
-                case Status.Atk:
-                    TxtR.player.damage += EffectNum;
-                    break;
-                case Status.Def:
-                    TxtR.player.defense += EffectNum;
-                    break;
-                case Status.BonusMp:
-                    TxtR.player.maxMp += EffectNum;
-                    break;
-                case Status.BonusHp:
-                    TxtR.player.maxHp += EffectNum;
-                    break;
-                case Status.BonusAtk:
-                    // 미구현
-                    break;
-                case Status.BonusDef:
-                    //
-                    // 미구현
-                    break;
+                switch (EffectStatus)
+                {
+                    case Status.Hp:
+                        TxtR.player.hp += EffectNum;
+                        if (TxtR.player.hp > TxtR.player.maxHp) TxtR.player.hp = TxtR.player.maxHp;
+                        break;
+                    case Status.Mp:
+                        TxtR.player.mp += EffectNum;
+                        if (TxtR.player.mp > TxtR.player.maxMp) TxtR.player.mp = TxtR.player.maxMp;
+                        break;
+                    case Status.Exp:
+                        // 여기에 케릭터 경험치 획득 메소드 연결
+                        break;
+                    case Status.Level:
+                        // 사용 미정
+                        break;
+                    case Status.Atk:
+                        TxtR.player.damage += EffectNum;
+                        break;
+                    case Status.Def:
+                        TxtR.player.defense += EffectNum;
+                        break;
+                    case Status.BonusMp:
+                        TxtR.player.maxMp += EffectNum;
+                        break;
+                    case Status.BonusHp:
+                        TxtR.player.maxHp += EffectNum;
+                        break;
+                    case Status.BonusAtk:
+                        // 미구현
+                        break;
+                    case Status.BonusDef:
+                        //
+                        // 미구현
+                        break;
+                }
             }
-
+            
             // 장비 사용 중  처리
             if (Type == ItemType.Weapon ||
                 Type == ItemType.ExtraWeapon ||
@@ -508,18 +517,21 @@ namespace _6TxtRpg
     public class ItemPreset
     {
         public static List<Item> itemList = new List<Item>() {
-            new Item("TestItem", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트무기", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트무기2", Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트보조무기", Status.Atk, 999, 1, ItemType.ExtraWeapon, 999, "테스트 아이템입니다."),
-            new Item("테스트투구", Status.Atk, 999, 1, ItemType.Head, 999, "테스트 아이템입니다."),
-            new Item("테스트갑옷", Status.Atk, 999, 1, ItemType.Body, 999, "테스트 아이템입니다.")
+            new Item("TestItem", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트무기", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트무기2", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
+            new Item("테스트보조무기", 0, Status.Atk, 999, 1, ItemType.ExtraWeapon, 999, "테스트 아이템입니다."),
+            new Item("테스트투구", 0, Status.Atk, 999, 1, ItemType.Head, 999, "테스트 아이템입니다."),
+            new Item("테스트갑옷", 0, Status.Atk, 999, 1, ItemType.Body, 999, "테스트 아이템입니다."),
+            new Item("테스트버프", 3, Status.Def, 999, 1, ItemType.Buff, 999, "테스트 아이템입니다.")
+
         };
 
         public static List<Item> dropItemList = new List<Item>() {
-            new Item("고블린드랍", Status.None, 0, 1, ItemType.Etc, 0, "고블린의 드랍아이템"),
-            new Item("거미드랍", Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
-            new Item("늑대드랍", Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템")
+            new Item("고블린드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "고블린의 드랍아이템"),
+            new Item("거미드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
+            new Item("늑대드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템"),
+            new Item("늑대왕드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대왕의 드랍아이템")
         };
 
 

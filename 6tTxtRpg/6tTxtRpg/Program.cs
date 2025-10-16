@@ -34,9 +34,12 @@ namespace _6TxtRpg // 이쪽에 만들기
                         player.ShowInfo();
                         break;
                     case '2':
-                        battle.RunBattle();
+                        battle.RunBattle(false);
                         break;
                     case '3':
+                        battle.RunBattle(true);
+                        break;
+                    case '4':
                         player.level = 1;
                         player.gold = 10000;
                         Inventory.GetItem(ItemPreset.itemList[1]);
@@ -45,14 +48,14 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.GetItem(ItemPreset.dropItemList[0]);
                         Shop.ShopInput();
                         break;
-                    case '4':
+                    case '5':
                         Inventory.GetItem(ItemPreset.itemList[1]);
                         Inventory.GetItem(ItemPreset.itemList[2]);
                         Inventory.GetItem(ItemPreset.itemList[3]);
-                        Inventory.GetItem(ItemPreset.itemList[4]);
+                        Inventory.GetItem(ItemPreset.itemList[6]);
                         Inventory.InventoryInput();
                         break;
-                    case '5':
+                    case '6':
                         quest.ShowQuest();
                         break;
                     default:
@@ -227,6 +230,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine($"Exp: {exp}"); //경험치
                 Console.WriteLine($"Gold: {gold}"); //골드
                 Console.WriteLine();
+                BuffList.PrintBuff();
                 Console.WriteLine("나가시려면 0을 입력해주세요.");
                 string output = Console.ReadLine();
                 if (output == "0")
@@ -394,10 +398,19 @@ namespace _6TxtRpg // 이쪽에 만들기
             Tool.ColorTxt(stage.ToString(), Tool.color4);
             Console.WriteLine(" 층)");
             Tool.ColorTxt("3", Tool.color5);
-            Console.Write(".상점\n");
+            Console.Write(".");
+            if (stage <= 1)
+            { Console.WriteLine("연습하기"); }
+            else
+            {
+                Tool.ColorTxt((stage - 1).ToString(), Tool.color4);
+                Console.WriteLine("층에서 연습");
+            }
             Tool.ColorTxt("4", Tool.color5);
-            Console.Write(".인벤토리\n");
+            Console.Write(".상점\n");
             Tool.ColorTxt("5", Tool.color5);
+            Console.Write(".인벤토리\n");
+            Tool.ColorTxt("6", Tool.color5);
             Console.WriteLine(".퀘스트");
             Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
         }
