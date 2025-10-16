@@ -67,7 +67,7 @@ namespace _6TxtRpg
         public void ShortInfo()                                 //전투에 사용할 몬스터 정보
         {
 
-            Console.Write($"Lv. ");
+            Console.Write($"Lv.");
             Tool.ColorTxt(level.ToString(), Tool.color4);
             Console.Write($" {name}  HP ");
             Tool.ColorTxt(hp.ToString(),Tool.color4);
@@ -102,15 +102,15 @@ namespace _6TxtRpg
         
         public class Goblin : Monster
         {
-            public Goblin()                     
+            public Goblin(int level)                     
             {
-                this.level = random.Next(1, 4); // 1~3 레벨
+                this.level = random.Next(0, 3)+level; // 1~3 레벨
                 this.name = "고블린";
 
                 // 레벨별 스탯 조정
-                this.armor = 3 + level;        // 기본 3 + 레벨
-                this.damage = 5 + level * 2;   // 기본 5 + 레벨*2
-                this.hp = 20 + level * 5;      // 기본 20 + 레벨*5
+                this.armor = 3 + this.level;        // 기본 3 + 레벨
+                this.damage = 5 + this.level * 2;   // 기본 5 + 레벨*2
+                this.hp = 20 + this.level * 5;      // 기본 20 + 레벨*5
                 this.maxHP = this.hp;
                 skills.Add(new NormalAttack());
                 skills.Add(new RockThorw());
@@ -123,14 +123,14 @@ namespace _6TxtRpg
 
         public class Spider : Monster
         {
-            public Spider()
+            public Spider(int level)
             {
-                this.level = random.Next(1, 4);
+                this.level = random.Next(0, 3) +level;
                 this.name = "거미";
 
-                this.armor = 1 + level;          // 기본 1 + 레벨
-                this.damage = 8 + level;         // 기본 8 + 레벨
-                this.hp = 10 + level * 3;        // 기본 10 + 레벨*3
+                this.armor = 1 + this.level;          // 기본 1 + 레벨
+                this.damage = 8 + this.level;         // 기본 8 + 레벨
+                this.hp = 10 + this.level * 3;        // 기본 10 + 레벨*3
                 this.maxHP = this.hp;
                 skills.Add(new NormalAttack());
                 skills.Add(new Nip());
@@ -143,14 +143,14 @@ namespace _6TxtRpg
 
         public class Wolf : Monster
         {
-            public Wolf()
+            public Wolf(int level)
             {
-                this.level = random.Next(1, 4);
+                this.level = random.Next(0, 3) + level;
                 this.name = "늑대";
 
-                this.armor = 2 + level;          // 기본 2 + 레벨
-                this.damage = 9 + level * 2;     // 기본 9 + 레벨*2
-                this.hp = 15 + level * 5;        // 기본 15 + 레벨*5
+                this.armor = 2 + this.level;          // 기본 2 + 레벨
+                this.damage = 9 + this.level * 2;     // 기본 9 + 레벨*2
+                this.hp = 15 + this.level * 5;        // 기본 15 + 레벨*5
                 this.maxHP = this.hp;
                 skills.Add(new NormalAttack());
                 skills.Add(new Bite());
@@ -160,17 +160,21 @@ namespace _6TxtRpg
                 Inventory.GetItem(ItemPreset.dropItemList[2]);
             }
         }
-        public class Boss : Monster
+        public class WolfKing : Monster
         {
-            public Boss()
+            public WolfKing()           //monsterList_.AddMonster(new Monster.WolfKing()); 이런식으로 생성하면 될듯
             {
                 this.level = 20;
-                this.name = "보스(임시)";
+                this.name = "울부짖는 늑대왕";
 
                 this.armor = 20;
                 this.damage = 40;
-                this.hp = 200;
+                this.hp = 500;
                 this.maxHP = this.hp;
+                skills.Add(new NormalAttack());
+                skills.Add(new Bite());
+                skills.Add(new Howl());
+
             }
             public override void DropItem()
             {
@@ -179,7 +183,7 @@ namespace _6TxtRpg
         }
 
     }
-    class MonsterList
+    public class MonsterList
     {
         public List<Monster> monsterList = new List<Monster>();        //전투에 사용할 몬스터 리스트
         private Random monsterRandom = new Random();
@@ -204,7 +208,7 @@ namespace _6TxtRpg
 
             return monsterList;
         }
-        public void AddRandom()   //몬스터 랜덤생성
+        public void AddRandom(int level)   //몬스터 랜덤생성
         {
 
             int randomValue = monsterRandom.Next(3);
@@ -212,13 +216,13 @@ namespace _6TxtRpg
             switch (randomValue)
             {
                 case 0:
-                    this.AddMonster(new Monster.Wolf());
+                    this.AddMonster(new Monster.Wolf(level));
                     break;
                 case 1:
-                    this.AddMonster(new Monster.Goblin());
+                    this.AddMonster(new Monster.Goblin(level));
                     break;
                 case 2:
-                    this.AddMonster(new Monster.Spider());
+                    this.AddMonster(new Monster.Spider(level));
                     break;
             }
         }
@@ -236,7 +240,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage + 3;
             float actualDamage = player.BlowPlayer(damage, player);
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name,"을","를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다"); // 추후수정
             //플레이어 피해를 입는 함수
         }
@@ -249,7 +253,7 @@ namespace _6TxtRpg
         {
             float damage = monster.damage + 4;
             float actualDamage = player.BlowPlayer(damage,player);
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
 
             //플레이어 피해를 입는 함수
@@ -261,8 +265,8 @@ namespace _6TxtRpg
         public void Use(Monster monster,Character player)
         {
             float damage = monster.damage + 2;
-            float actualDamage = player.BlowPlayer(damage,player);//TODO: Battle 작업자: RandomAttack 넣어봤는데 여기서 예외발생해요.
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            float actualDamage = player.BlowPlayer(damage,player);
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
         }
     }
@@ -273,8 +277,21 @@ namespace _6TxtRpg
         {
             float damage = monster.damage;
             float actualDamage = player.BlowPlayer(damage,player);
-            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {this.Name}를 사용했습니다!!");
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.WriteLine($"플레이어는 {actualDamage} 데미지를 입었습니다");
+        }
+    }
+    public class Howl : IMonsterSkill
+    {
+        public string Name => "울부짖기";
+        public void Use(Monster monster, Character player)
+        {
+
+            monster.damage = monster.damage * 1.5f;
+            
+            Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
+            Console.WriteLine($"{monster.name}의 공격력이 상승했습니다.");
+            
         }
     }
 }

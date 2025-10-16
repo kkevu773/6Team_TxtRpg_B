@@ -11,15 +11,15 @@ namespace _6TxtRpg // 이쪽에 만들기
 {
     internal class TxtR //쉬운 디버깅을 위해 위로 뻈습니다.
     {
-        public static Character  player =new Character();
+        public static Character  player = new Character();
 
 
         public static void Main(string[] args)
         {
+            Console.ForegroundColor = Tool.color1;
             player.YourName();
             player.YourJob();
             var intro = new Intro();
-
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
             Quest quest = new Quest();
@@ -27,8 +27,8 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Clear();
-                intro.IntroA();
-                switch (Console.ReadKey(true).KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                intro.IntroA(battle.Stage);
+                switch (Console.ReadKey().KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
                     case '1':
                         player.ShowInfo();
@@ -145,69 +145,69 @@ namespace _6TxtRpg // 이쪽에 만들기
             switch (job)
             {
                 case "전사": //전사값을 받았을경우 스텟
-                    this.maxHp = 200;
-                    this.hp = 200;
-                    this.maxMp = 100;
-                    this.mp = 100;
-                    this.damage = 50;
-                    this.defense = 20;
+                    this.maxHp = 100;
+                    this.hp = 100;
+                    this.maxMp = 50;
+                    this.mp = 50;
+                    this.damage = 25;
+                    this.defense = 5;
                     this.CriticalChance = 10;
 
                     break;
                 case "마법사": //마법사값을 받았을경우 스텟
-                    this.maxHp = 100;
-                    this.hp = 100;
-                    this.maxMp = 200;
-                    this.mp = 200;
-                    this.damage = 30;
-                    this.defense = 10;
+                    this.maxHp = 50;
+                    this.hp = 50;
+                    this.maxMp = 100;
+                    this.mp = 100;
+                    this.damage = 15;
+                    this.defense = 0;
                     this.CriticalChance = 20;
                     break;
                 case "도적": //도적값을 받았을경우 스텟
-                    this.maxHp = 120;
-                    this.hp = 120;
-                    this.maxMp = 70;
-                    this.mp = 70;
-                    this.damage = 70;
-                    this.defense = 10;
+                    this.maxHp = 60;
+                    this.hp = 60;
+                    this.maxMp = 35;
+                    this.mp = 35;
+                    this.damage = 35;
+                    this.defense = 0;
                     this.CriticalChance = 20;
                     break;
             }
         }
         public void levelUp()
         {
-            if (exp >= level * 30) //경험치가 레벨*100이상이면 레벨업
+            if (exp >= level * 15) //경험치가 레벨*100이상이면 레벨업
             {
-                exp -= level * 30;
+                exp -= level * 15;
                 level++;
                 if(job == "전사")
                 {
-                    maxHp += 50;
+                    maxHp += 25;
                     hp = maxHp;
-                    maxMp += 20;
+                    maxMp += 10;
                     mp = maxMp;
-                    damage += 20;
-                    defense += 10;
+                    damage += 10;
+                    defense += 3;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
                 else if(job == "마법사")
                 {
-                    maxHp += 20;
+                    maxHp += 10;
                     hp = maxHp;
-                    maxMp += 50;
+                    maxMp += 25;
                     mp = maxMp;
-                    damage += 10;
+                    damage += 5;
                     defense += 2;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
                 else if(job == "도적")
                 {
-                    maxHp += 20;
+                    maxHp += 10;
                     hp = maxHp;
-                    maxMp += 10;
+                    maxMp += 5;
                     mp = maxMp;
-                    damage += 25;
-                    defense += 3;
+                    damage += 12;
+                    defense += 2;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
             }
@@ -302,12 +302,23 @@ namespace _6TxtRpg // 이쪽에 만들기
 
     public class Intro
     {
-        // 캐릭터를 만들어 반환
-        public void IntroA()
+        public void IntroA(int stage)
         {
             Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n1. 상태 보기\n2. 전투 시작\n3. 상점\n4. 인벤토리\n5. 퀘스트");
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>  ");
+            Console.Write("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
+            Tool.ColorTxt("1", Tool.color5);
+            Console.Write(".상태 보기\n");
+            Tool.ColorTxt("2", Tool.color5); 
+            Console.Write(".전투 시작 (현재 진행 : ");
+            Tool.ColorTxt(stage.ToString(),Tool.color4);
+            Console.WriteLine(" 층)");
+            Tool.ColorTxt("3", Tool.color5);
+            Console.Write(".상점\n");
+            Tool.ColorTxt("4", Tool.color5);
+            Console.Write(".인벤토리\n");
+            Tool.ColorTxt("5", Tool.color5);
+            Console.WriteLine(".퀘스트");
+            Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
         }
     }
 }
