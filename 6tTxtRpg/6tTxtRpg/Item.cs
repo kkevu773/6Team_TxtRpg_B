@@ -530,7 +530,8 @@ namespace _6TxtRpg
         public static List<Item> dropItemList = new List<Item>() {
             new Item("고블린드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "고블린의 드랍아이템"),
             new Item("거미드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
-            new Item("늑대드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템")
+            new Item("늑대드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템"),
+            new Item("늑대왕드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대왕의 드랍아이템")
         };
 
 
