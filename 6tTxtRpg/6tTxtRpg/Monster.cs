@@ -115,7 +115,7 @@ namespace _6TxtRpg
                 this.maxHP = this.hp;
                 skills.Add(new NormalAttack());
                 skills.Add(new RockThorw());
-                this.exp = level*3;
+                this.exp = level*2;
             }
             public override void DropItem()             
             {
@@ -136,7 +136,7 @@ namespace _6TxtRpg
                 this.damage = 8 + this.level;         // 기본 8 + 레벨
                 this.hp = 10 + this.level * 3;        // 기본 10 + 레벨*3
                 this.maxHP = this.hp;
-                this.exp=level*3;
+                this.exp=level*2;
                 skills.Add(new NormalAttack());
                 skills.Add(new Nip());
             }
@@ -157,7 +157,7 @@ namespace _6TxtRpg
                 this.damage = 9 + this.level * 2;     // 기본 9 + 레벨*2
                 this.hp = 15 + this.level * 5;        // 기본 15 + 레벨*5
                 this.maxHP = this.hp;
-                this.exp = level*3;
+                this.exp = level*2;
                 skills.Add(new NormalAttack());
                 skills.Add(new Bite());
             }
@@ -178,7 +178,7 @@ namespace _6TxtRpg
                 this.damage = 40;
                 this.hp = 500;
                 this.maxHP = this.hp;
-                this.exp = level*3;
+                this.exp = level*2;
                 skills.Add(new NormalAttack());
                 skills.Add(new Bite());
                 skills.Add(new Howl());
