@@ -162,7 +162,7 @@ namespace _6TxtRpg
         }
         public class WolfKing : Monster
         {
-            public WolfKing()
+            public WolfKing()           //monsterList_.AddMonster(new Monster.WolfKing()); 이런식으로 생성하면 될듯
             {
                 this.level = 20;
                 this.name = "울부짖는 늑대왕";
