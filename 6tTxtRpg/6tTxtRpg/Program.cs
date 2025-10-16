@@ -244,6 +244,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public void ShortInfo() //전투에 사용할 정보창
         {
             Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
+            BuffList.PrintBuff();
         }
         public void SkillList() //스킬리스트 출력
         {
