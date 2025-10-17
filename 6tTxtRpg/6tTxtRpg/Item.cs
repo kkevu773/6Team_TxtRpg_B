@@ -526,7 +526,6 @@ namespace _6TxtRpg
             new Item("테스트투구", 0, Status.Atk, 999, 1, ItemType.Head, 999, "테스트 아이템입니다."),
             new Item("테스트갑옷", 0, Status.Atk, 999, 1, ItemType.Body, 999, "테스트 아이템입니다."),
             new Item("테스트버프", 3, Status.Def, 999, 1, ItemType.Buff, 999, "테스트 아이템입니다.")
-
         };
 
         public static List<Item> dropItemList = new List<Item>() {
@@ -534,6 +533,10 @@ namespace _6TxtRpg
             new Item("거미드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
             new Item("늑대드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템"),
             new Item("늑대왕드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대왕의 드랍아이템")
+        };
+
+        public static List<Item> testItemList = new List<Item>() {
+            new Item("TestItem:이름", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다.") 
         };
 
 
