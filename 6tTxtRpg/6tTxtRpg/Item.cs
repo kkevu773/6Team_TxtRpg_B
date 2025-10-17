@@ -158,6 +158,14 @@ namespace _6TxtRpg
                 Type == ItemType.Body)
             {
                 IsUsing = true;
+
+                if (OpenQuest.QuestList.Any(quest => quest.QuestName == "장비를 장착해보자"
+                            && quest.IsStart))
+                {
+                    Quest? targetQuest = OpenQuest.QuestList.FirstOrDefault(quest => quest.QuestName == "장비를 장착해보자");
+                    targetQuest?.Trigger();
+                }
+                Console.WriteLine("퀘스트처리if문 동작");
             }
 
             //이전 장비 수치 제거
