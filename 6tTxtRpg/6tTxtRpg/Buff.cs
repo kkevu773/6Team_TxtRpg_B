@@ -161,13 +161,13 @@ namespace _6tTxtRpg
 
         public static void PrintBuff()
         {
-            Console.WriteLine("=================================버프=================================");
+            Console.WriteLine("=======================버프=======================");
             foreach(Buff buff in BuffList.buffList)
             {
                 string outLine = ($"[{buff.Name}/{buff.EffectStatus} +{buff.EffectNum} ({buff.RemainTurn})]");
                 Console.WriteLine(outLine);
             }
-            Console.WriteLine("======================================================================");
+            Console.WriteLine("==================================================");
         }
     }
 }

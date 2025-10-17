@@ -217,6 +217,12 @@ namespace _6TxtRpg // 이쪽에 만들기
                     defense += 2;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
+                if (OpenQuest.QuestList.Any(quest => quest.QuestName == "더욱 더 강해지기!"
+                            && quest.IsStart))
+                {
+                    Quest? targetQuest = OpenQuest.QuestList.FirstOrDefault(quest => quest.QuestName == "더욱 더 강해지기!");
+                    targetQuest?.Trigger();
+                }
             }
         }
         public void ShowInfo() //정보창
