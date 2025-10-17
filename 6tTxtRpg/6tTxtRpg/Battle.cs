@@ -206,13 +206,7 @@ namespace _6TxtRpg
             Console.WriteLine();
             Console.ForegroundColor = Tool.color1;
         }
-        void WrongMsg()//잘못된 키 입력시 나오는 함수
-        {
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("잘못된 입력입니다");
-            Console.ReadKey(true);
-        }//키 입력이 잘못될 시 나오는 메세지
+
         void TypeMsg(string msg)//메세지 입력문구
         {
             Console.WriteLine(msg);
@@ -248,7 +242,8 @@ namespace _6TxtRpg
                     isBattle = false;
                     break;
                 default:
-                    WrongMsg();
+                    Console.WriteLine();
+                    Tool.WrongMsg();
                     break;
             }
         }
@@ -265,7 +260,10 @@ namespace _6TxtRpg
                 else if (monIndex >= 1 && monIndex <= battleMon.monsterList.Count)
                 { CharAtk(monIndex - 1); }
                 else
-                { WrongMsg(); }
+                {
+                    Console.WriteLine(); 
+                    Tool.WrongMsg(); 
+                }
             }
         }
         void CharAtk(int num)//몬스터 공격 판정용 함수
@@ -273,7 +271,10 @@ namespace _6TxtRpg
             if (monNum >= num + 1) //몬스터가 있음.
             {
                 if (battleMon.monsterList[num].isDead) //만약 몬스터가 죽었을 때
-                { WrongMsg(); }
+                {
+                    Console.WriteLine();
+                    Tool.WrongMsg(); 
+                }
                 else
                 {
                     Console.Clear();
@@ -310,6 +311,14 @@ namespace _6TxtRpg
                         Tool.ColorTxt(battleMon.monsterList[num].exp.ToString(), Tool.color5);
                         Console.WriteLine("의 경험치를 획득하였습니다.");
                         character_.levelUp();
+
+                        if (battleMon.monsterList[num].name == "고블린"
+                            && OpenQuest.QuestList.Any(quest => quest.QuestName == "마을을 위협하는 고블린 처치"
+                            && quest.IsStart))
+                        {
+                            Quest? targetQuest = OpenQuest.QuestList.FirstOrDefault(quest => quest.QuestName == "마을을 위협하는 고블린 처치");
+                            targetQuest?.Trigger();
+                        }
                     }
                     else
                     {
@@ -321,7 +330,10 @@ namespace _6TxtRpg
                 }
             }
             else
-            { WrongMsg(); }
+            {
+                Console.WriteLine();
+                Tool.WrongMsg(); 
+            }
         }
         void NextButton(string message, string typeMsg, Phase nextPhase)
         {
