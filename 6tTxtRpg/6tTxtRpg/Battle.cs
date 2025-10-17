@@ -1,4 +1,5 @@
 using _6tTxtRpg;
+using System.Threading;
 namespace _6TxtRpg
 {
     class Battle // 전투기능 작업
