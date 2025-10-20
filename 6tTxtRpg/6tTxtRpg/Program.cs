@@ -20,7 +20,7 @@ namespace _6TxtRpg // 이쪽에 만들기
 
         public static void Main(string[] args)
         {
-            Console.ForegroundColor = Tool.color1;
+            Console.ForegroundColor = Tool.white;
             player.YourName();
             player.YourJob();
             var intro = new Intro();
@@ -31,39 +31,45 @@ namespace _6TxtRpg // 이쪽에 만들기
             {
                 Console.Clear();
                 intro.IntroA(battle.Stage);
-                switch (Console.ReadKey().KeyChar) //디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                string menuKey = Console.ReadKey(true).KeyChar.ToString();
+                if (int.TryParse(menuKey, out int menuIntKey))
                 {
-                    case '1':
-                        player.ShowInfo();
-                        break;
-                    case '2':
-                        battle.RunBattle(false);
-                        break;
-                    case '3':
-                        battle.RunBattle(true);
-                        break;
-                    case '4':                     
-                        Shop.ShopInput();
-                        break;
-                    case '5':                                         
-                        Inventory.InventoryInput();
-                        break;
-                    case '6':
-                        OpenQuest.ShowQuest();
-                        break;
-                    case '7':
-                        //저장하기 제작
-                        break;
-                    default:
-                        break;
+                    switch (menuIntKey)
+                    {
+                        case 1:
+                            player.ShowInfo();
+                            break;
+                        case 2:
+                            battle.RunBattle(false);
+                            break;
+                        case 3:
+                            battle.RunBattle(true);
+                            break;
+                        case 4:
+                            Shop.ShopInput();
+                            break;
+                        case 5:
+                            Inventory.InventoryInput();
+                            break;
+                        case 6:
+                            OpenQuest.ShowQuest();
+                            break;
+                        case 7:
+                            //저장하기 제작
+                            break;
+                        default:
+                            Console.WriteLine($">> {menuKey}");
+                            Tool.WrongMsg();
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($">> {menuKey}");
+                    Tool.WrongMsg();
+                    Console.ReadKey(true);
                 }
             }
-            /*/Battle 사용법
-            MonsterList monsterList = new MonsterList(); //캐릭터와 몬스터 리스트의 인자값이 필요해서 선행으로 생성해줘야 합니다.
-            //그 외 다른 방법으로도 인자값을 넣을 수 있으면 상관없음.
-            Battle battle = new Battle(player,monsterList); //배틀 생성. 생성될때 배틀장면이 한번 작동합니다.
-            battle.RunBattle(player,monsterList);//생성한 뒤에 다른곳에 배틀장면이 필요하면 이렇게 부르면 됩니다.
-            */
         }
     }
     public class Character
@@ -102,9 +108,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                 {
                     Console.WriteLine($"{name}님이 맞으십니까?");
                     Console.WriteLine();
-                    Tool.ColorTxt("1", Tool.color5);
+                    Tool.ColorTxt("1", Tool.cyan);
                     Console.WriteLine(".네");
-                    Tool.ColorTxt("2", Tool.color5);
+                    Tool.ColorTxt("2", Tool.cyan);
                     Console.WriteLine(".아니오");
                     Console.WriteLine();
                     char /*string*/ yes = Console.ReadKey(true).KeyChar;//Console.ReadLine();
@@ -137,9 +143,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                     Console.Clear();
                     Console.WriteLine($"{Tool.Josa(job, "이", "가")} 맞으십니까?");
                     Console.WriteLine();
-                    Tool.ColorTxt("1", Tool.color5);
+                    Tool.ColorTxt("1", Tool.cyan);
                     Console.WriteLine(".네");
-                    Tool.ColorTxt("2", Tool.color5);
+                    Tool.ColorTxt("2", Tool.cyan);
                     Console.WriteLine(".아니오");
                     Console.WriteLine();
                     char /*string*/ yes = Console.ReadKey(true).KeyChar;//Console.ReadLine();
@@ -287,21 +293,21 @@ namespace _6TxtRpg // 이쪽에 만들기
         public void ShortInfo() //전투에 사용할 정보창
         {
             Console.Write($"Lv.");
-            Tool.ColorTxt(level.ToString(), Tool.color4);
+            Tool.ColorTxt(level.ToString(), Tool.yellow);
             Console.Write($" {name} the {job}  HP ");
             if (hp >= maxHp * 0.5f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color3); }
+            { Tool.ColorTxt(hp.ToString(), Tool.green); }
             else if (hp <= maxHp * 0.5f && hp >= maxHp * 0.1f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color4); }
+            { Tool.ColorTxt(hp.ToString(), Tool.yellow); }
             else if (hp <= maxHp * 0.1f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color2); }
+            { Tool.ColorTxt(hp.ToString(), Tool.red); }
             Console.Write(" MP ");
             if (mp >= maxMp * 0.5f)
-            { Tool.ColorTxt(mp.ToString(), Tool.color5); }
+            { Tool.ColorTxt(mp.ToString(), Tool.cyan); }
             else if (mp <= maxMp * 0.5f && hp >= maxHp * 0.1f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color4); }
+            { Tool.ColorTxt(hp.ToString(), Tool.yellow); }
             else if (mp <= maxMp * 0.1f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color2); }
+            { Tool.ColorTxt(hp.ToString(), Tool.yellow); }
             Console.WriteLine();
             Console.WriteLine();
             BuffList.PrintBuff();
@@ -315,9 +321,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in WarriorSkill)
                 {
                     number++;
-                    Tool.ColorTxt(number.ToString(), Tool.color4);
+                    Tool.ColorTxt(number.ToString(), Tool.yellow);
                     Console.Write($" {skills.name} MP ");
-                    Tool.ColorTxt(skills.mp.ToString(), Tool.color5);
+                    Tool.ColorTxt(skills.mp.ToString(), Tool.cyan);
                     Console.WriteLine();
                 }
             }
@@ -326,9 +332,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in MageSkill)
                 {
                     number++;
-                    Tool.ColorTxt(number.ToString(), Tool.color4);
+                    Tool.ColorTxt(number.ToString(), Tool.yellow);
                     Console.Write($" {skills.name} MP ");
-                    Tool.ColorTxt(skills.mp.ToString(), Tool.color5);
+                    Tool.ColorTxt(skills.mp.ToString(), Tool.cyan);
                     Console.WriteLine();
                 }
             }
@@ -337,9 +343,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in BanditSkill)
                 {
                     number++;
-                    Tool.ColorTxt(number.ToString(), Tool.color4);
+                    Tool.ColorTxt(number.ToString(), Tool.yellow);
                     Console.Write($" {skills.name} MP ");
-                    Tool.ColorTxt(skills.mp.ToString(), Tool.color5);
+                    Tool.ColorTxt(skills.mp.ToString(), Tool.cyan);
                     Console.WriteLine();
                 }
             }
@@ -424,9 +430,6 @@ namespace _6TxtRpg // 이쪽에 만들기
             }
             return cri;
         }
-
-
-
     }
     public class Skills //스킬 정보
     {
@@ -590,15 +593,9 @@ namespace _6TxtRpg // 이쪽에 만들기
             {
                 Console.WriteLine("마나가 부족합니다!");
             }
-
         }
-
-
-
     }
 }
-
-
 public class Intro
 {
     public void IntroA(int stage)
@@ -606,32 +603,33 @@ public class Intro
         //Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
         Console.Write($"{TxtR.player.job} {TxtR.player.name}님. ");
         Console.Write("스파르타 던전에 오신 것을 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
-        Tool.ColorTxt("1", Tool.color5);
+        Tool.ColorTxt("1", Tool.cyan);
         Console.Write(".상태 보기\n");
         Console.WriteLine("-----------------------------------------------------");
-        Tool.ColorTxt("2", Tool.color5);
+        Tool.ColorTxt("2", Tool.cyan);
         Console.Write(".전투 시작 (현재 진행 : ");
-        Tool.ColorTxt(stage.ToString(), Tool.color4);
+        Tool.ColorTxt(stage.ToString(), Tool.cyan);
         Console.WriteLine(" 층)");
-        Tool.ColorTxt("3", Tool.color5);
+        Tool.ColorTxt("3", Tool.cyan);
         Console.Write(".");
         if (stage <= 1)
         { Console.WriteLine("연습하기"); }
         else
         {
-            Tool.ColorTxt((stage - 1).ToString(), Tool.color4);
+            Tool.ColorTxt((stage - 1).ToString(), Tool.yellow);
             Console.WriteLine("층에서 연습");
         }
-        Tool.ColorTxt("4", Tool.color5);
+        Tool.ColorTxt("4", Tool.cyan);
         Console.Write(".상점\n");
-        Tool.ColorTxt("5", Tool.color5);
+        Tool.ColorTxt("5", Tool.cyan);
         Console.Write(".인벤토리\n");
-        Tool.ColorTxt("6", Tool.color5);
+        Tool.ColorTxt("6", Tool.cyan);
         Console.WriteLine(".퀘스트");
         Console.WriteLine("-----------------------------------------------------");
-        Tool.ColorTxt("7", Tool.color5);
+        Tool.ColorTxt("7", Tool.cyan);
         Console.WriteLine(".저장하기");
-        Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
+        Console.Write("\n원하시는 행동을 입력해주세요.");
+        Console.WriteLine();
     }
 }
 

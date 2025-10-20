@@ -69,14 +69,14 @@ namespace _6TxtRpg
         {
 
             Console.Write($"Lv.");
-            Tool.ColorTxt(level.ToString(), Tool.color4);
+            Tool.ColorTxt(level.ToString(), Tool.yellow);
             Console.Write($" {name}  HP ");
             if (hp >= maxHP * 0.5f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color3); }
+            { Tool.ColorTxt(hp.ToString(), Tool.green); }
             else if (hp <= maxHP * 0.5f && hp >= maxHP * 0.1f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color4); }
+            { Tool.ColorTxt(hp.ToString(), Tool.yellow); }
             else if (hp <= maxHP * 0.1f)
-            { Tool.ColorTxt(hp.ToString(), Tool.color2); }
+            { Tool.ColorTxt(hp.ToString(), Tool.red); }
             Console.WriteLine();
         }
         public void Damaged(float damage)                   //몬스터 데미지 받는 함수       사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
@@ -85,7 +85,7 @@ namespace _6TxtRpg
             {
                 this.hp -= damage - this.armor;
                 Console.Write($"{Tool.Josa(name.ToString(), "이", "가")} ");
-                Tool.ColorTxt((damage - this.armor).ToString(), Tool.color2);
+                Tool.ColorTxt((damage - this.armor).ToString(), Tool.red);
                 Console.WriteLine("의 피해를 받았습니다");
                 CheckHp();
             }
@@ -126,7 +126,7 @@ namespace _6TxtRpg
             public override void DropItem()             
             {
                 Inventory.GetItem(ItemPreset.dropItemList[0]);
-                Tool.ColorTxt(Tool.Josa(this.name,"이 ","가 ")+ Tool.Josa(ItemPreset.dropItemList[0].Name, "을", "를")+" 드랍했습니다",Tool.color5);     
+                Tool.ColorTxt(Tool.Josa(this.name,"이 ","가 ")+ Tool.Josa(ItemPreset.dropItemList[0].Name, "을", "를")+" 드랍했습니다",Tool.cyan);     
             }
         }
         public class Spider : Monster
@@ -147,7 +147,7 @@ namespace _6TxtRpg
             public override void DropItem()
             {
                 Inventory.GetItem(ItemPreset.dropItemList[1]);
-                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[1].Name, "을", "를") + " 드랍했습니다", Tool.color5);
+                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[1].Name, "을", "를") + " 드랍했습니다", Tool.cyan);
             }
         }
 
@@ -168,7 +168,7 @@ namespace _6TxtRpg
             public override void DropItem()
             {
                 Inventory.GetItem(ItemPreset.dropItemList[2]);
-                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[2].Name, "을", "를") + " 드랍했습니다", Tool.color5);
+                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[2].Name, "을", "를") + " 드랍했습니다", Tool.cyan);
             }
         }
         public class WolfKing : Monster
@@ -191,7 +191,7 @@ namespace _6TxtRpg
             public override void DropItem()
             {
                 Inventory.GetItem(ItemPreset.dropItemList[3]);
-                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[3].Name, "을", "를") + " 드랍했습니다", Tool.color5);
+                Tool.ColorTxt(Tool.Josa(this.name, "이 ", "가 ") + Tool.Josa(ItemPreset.dropItemList[3].Name, "을", "를") + " 드랍했습니다", Tool.cyan);
             }
         }
 
@@ -255,7 +255,7 @@ namespace _6TxtRpg
             float actualDamage = player.BlowPlayer(damage, player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name,"을","를")} 사용했습니다!!");
             Console.Write($"플레이어는 ");
-            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Tool.ColorTxt(actualDamage.ToString(), Tool.red);
             Console.WriteLine("의 데미지를 입었습니다");
         }
     }
@@ -269,7 +269,7 @@ namespace _6TxtRpg
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.Write($"플레이어는 ");
-            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Tool.ColorTxt(actualDamage.ToString(), Tool.red);
             Console.WriteLine("의 데미지를 입었습니다");
 
             //플레이어 피해를 입는 함수
@@ -284,7 +284,7 @@ namespace _6TxtRpg
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.Write($"플레이어는 ");
-            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Tool.ColorTxt(actualDamage.ToString(), Tool.red);
             Console.WriteLine("의 데미지를 입었습니다");
         }
     }
@@ -297,7 +297,7 @@ namespace _6TxtRpg
             float actualDamage = player.BlowPlayer(damage,player);
             Console.WriteLine($"{Tool.Josa(monster.name.ToString(), "이", "가")} {Tool.Josa(this.Name, "을", "를")} 사용했습니다!!");
             Console.Write($"플레이어는 ");
-            Tool.ColorTxt(actualDamage.ToString(), Tool.color2);
+            Tool.ColorTxt(actualDamage.ToString(), Tool.red);
             Console.WriteLine("의 데미지를 입었습니다");
         }
     }

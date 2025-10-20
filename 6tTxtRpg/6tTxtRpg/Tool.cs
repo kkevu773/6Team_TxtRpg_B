@@ -9,20 +9,19 @@ namespace _6tTxtRpg
     public static class Tool//유틸용 함수. Tool.메서드();나 Tool.변수명; 으로 쓰면 됨.
     {
         //색상 테마용
-        public static ConsoleColor color1 = ConsoleColor.White;//기본색상
-        public static ConsoleColor color2 = ConsoleColor.Red;//치명타 색상
-        public static ConsoleColor color3 = ConsoleColor.Green;//승리할 때 색상
-        public static ConsoleColor color4 = ConsoleColor.Yellow;//꾸미기용 색상
-        public static ConsoleColor color5 = ConsoleColor.Cyan;//선택숫자 색상
+        public static ConsoleColor white = ConsoleColor.White;//기본색상
+        public static ConsoleColor red = ConsoleColor.Red;//치명타 색상
+        public static ConsoleColor green = ConsoleColor.Green;//승리할 때 색상
+        public static ConsoleColor yellow = ConsoleColor.Yellow;//꾸미기용 색상
+        public static ConsoleColor cyan = ConsoleColor.Cyan;//선택숫자 색상
         public static void ColorTxt(string inputText, ConsoleColor inputColor) //단문을 특정색상으로 바꿔줌
         {
             Console.ForegroundColor = inputColor;
             Console.Write(inputText);
-            Console.ForegroundColor = color1;
+            Console.ForegroundColor = white;
         }
         public static void WrongMsg()//잘못된 키 입력시 나오는 함수
         {
-            Console.WriteLine();
             Console.WriteLine("잘못된 입력입니다");
             Console.ReadKey(true);
         }//키 입력이 잘못될 시 나오는 메세지
