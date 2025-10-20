@@ -264,8 +264,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine();
                 BuffList.PrintBuff();
                 Console.WriteLine("나가시려면 0을 눌러주세요.");
-                string output = Console.ReadLine();
-                if (output == "0")
+                if (Console.ReadKey().KeyChar == '0')
                 {
                     Console.Clear();
                     break;
