@@ -71,7 +71,12 @@ namespace _6TxtRpg
             Console.Write($"Lv.");
             Tool.ColorTxt(level.ToString(), Tool.color4);
             Console.Write($" {name}  HP ");
-            Tool.ColorTxt(hp.ToString(),Tool.color4);
+            if (hp >= maxHP * 0.5f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color3); }
+            else if (hp <= maxHP * 0.5f && hp >= maxHP * 0.1f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color4); }
+            else if (hp <= maxHP * 0.1f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color2); }
             Console.WriteLine();
         }
         public void Damaged(float damage)                   //몬스터 데미지 받는 함수       사용할때 호출하면 몬스터가 사망하고 isDead가 트루로 바뀜
@@ -97,6 +102,7 @@ namespace _6TxtRpg
                 hp = 0;
                 isDead = true;
                 Console.WriteLine($"{Tool.Josa(name.ToString(), "이", "가")} 사망하였습니다.");
+                Console.WriteLine();
                 DropItem();
             }
         }
@@ -120,11 +126,9 @@ namespace _6TxtRpg
             public override void DropItem()             
             {
                 Inventory.GetItem(ItemPreset.dropItemList[0]);
-                Tool.ColorTxt(Tool.Josa(this.name,"이 ","가 ")+ Tool.Josa(ItemPreset.dropItemList[0].Name, "을", "를")+" 드랍했습니다",Tool.color5);
-                
+                Tool.ColorTxt(Tool.Josa(this.name,"이 ","가 ")+ Tool.Josa(ItemPreset.dropItemList[0].Name, "을", "를")+" 드랍했습니다",Tool.color5);     
             }
         }
-
         public class Spider : Monster
         {
             public Spider(int level)

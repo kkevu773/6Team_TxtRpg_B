@@ -22,9 +22,9 @@ namespace _6TxtRpg
         private bool isPractice_;
         bool isBattle = false; //전투상태인지 체크.
         bool isBoss = false;
-        Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
+        public Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
         int startHp;//데미지 깎기 전 Hp를 저장하기 위한 변수.
-        enum Phase//bool로 처리하다가 너무 많아질거 같아서 enum으로 바꿨음.
+        public enum Phase//bool로 처리하다가 너무 많아질거 같아서 enum으로 바꿨음.
         {
             Waiting,
             CharATK,
@@ -51,19 +51,23 @@ namespace _6TxtRpg
             isBattle = true;//반복구문을 위한 bool값 재생.
             currentPhase = Phase.Waiting;//페이즈를 대기 페이즈로 세팅.
             Console.Clear();//맨 처음만 여기에서 한번 콘솔을 지워줌.
-            Tool.ColorTxt($" {monNum}마리의 몬스터가 당신에게 덤벼든다!!", Tool.color2);//반복구문안에 들어가면 계속 뜰테니 밖으로 뺌.
+            Tool.ColorTxt($"{monNum}마리의 몬스터가 당신에게 덤벼든다!!", Tool.color2);//반복구문안에 들어가면 계속 뜰테니 밖으로 뺌.
             Console.WriteLine();
             Console.WriteLine();
             while (isBattle) //여기서부터 반복구문
             {
                 if (currentPhase == Phase.CharATK)//플레이어 공격페이즈일때
                 {
-                    BattleMsg("Battle!!", Tool.color2); //글자 표시됨.
+                    BattleMsg(" Battle!!", Tool.color2); //글자 표시됨.
                     BuffList.UpdateBuff();
+                }
+                if (currentPhase == Phase.CharATKFin)//플레이어 공격페이즈일때
+                {
+                    BattleMsg("몬스터의 반격!", Tool.color2); //글자 표시됨.
                 }
                 if (currentPhase != Phase.MonsterATK)//몬스터 공격페이즈가 아닐때
                 {
-                    if (currentPhase != Phase.CharATK && currentPhase != Phase.CharATKFin && currentPhase != Phase.Waiting)//플레이어 공격페이즈가 아닐때
+                    if (currentPhase != Phase.CharATKFin && currentPhase != Phase.Waiting)//플레이어 공격페이즈가 아닐때
                     { Console.WriteLine(); }//한줄 띄움(Battle!! 글자에 맞춰서 보기좋게 출력되도록 처리한거임.)
                     ShowMon();//몬스터 상태 출력
                     Console.WriteLine();
@@ -71,23 +75,14 @@ namespace _6TxtRpg
                 }
                 if (currentPhase == Phase.Waiting)//선택페이즈
                 {
-                    Tool.ColorTxt("1", Tool.color5);
-                    Console.WriteLine(".공격");
-                    Tool.ColorTxt("2", Tool.color5);
-                    Console.WriteLine(".스킬사용");
-                    Tool.ColorTxt("3", Tool.color5);
-                    Console.WriteLine(".관찰");
-                    Tool.ColorTxt("4", Tool.color5);
-                    Console.WriteLine(".도망");
-                    Console.WriteLine();
-                    BattleMenuKey();
+                    chooseMonMenu();
                 }
                 else if (currentPhase == Phase.CharATK)//공격페이즈
                 {
                     Tool.ColorTxt("0", Tool.color5);
                     Console.WriteLine(".취소");
                     Console.WriteLine();
-                    AtkMenu();
+                    chooseMonMenu();
                 }
                 else if (currentPhase == Phase.CharATKFin)
                 { NextButton("다음", "", Phase.MonsterATK); }
@@ -137,10 +132,11 @@ namespace _6TxtRpg
         {
             for (int i = 0; i < monNum; ++i)
             {
-
-                if (currentPhase == Phase.CharATK)
-                { Tool.ColorTxt((i + 1).ToString(), Tool.color5); }
-                Console.Write(" ");
+                if (currentPhase == Phase.Waiting)
+                {
+                    Tool.ColorTxt((i + 1).ToString(), Tool.color5);
+                    Console.Write(" ");
+                }
                 if (battleMon.monsterList[i].isDead)//사망시 Dead표시
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -184,7 +180,7 @@ namespace _6TxtRpg
             if (Stage % 5 == 0 && !isPractice_)
             {
                 if (monsterList_.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
-                { monsterList_.AddMonster(new Monster.WolfKing()); }   
+                { monsterList_.AddMonster(new Monster.WolfKing()); }
             }
             battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
             if (Stage % 5 == 0 && !isPractice_)
@@ -213,57 +209,27 @@ namespace _6TxtRpg
             Console.WriteLine(msg);
             Console.Write(">> ");
         }
-        void BattleMenuKey()//배틀 매뉴 함수. 역시 가독성을 위해 뺐다.
+        void chooseMonMenu()//몬스터 공격 선택 함수
         {
-            TypeMsg("원하시는 행동을 입력해주세요.");
-            switch (Console.ReadKey().KeyChar) //숫자만 눌러도 작동하게 ReadKey로 처리했습니다.
-            {
-                case '1'://공격키
-                    currentPhase = Phase.CharATK;//몬스터 이름앞에 숫자가 나옴.
-                    break;
-                case '2':
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    character_.SkillList();
-                    Console.ReadKey(true);
-                    break;
-                case '3'://관찰키
-                    Console.Clear();
-                    for (int i = 0; i < monNum; ++i)
-                    {
-                        battleMon.monsterList[i].ShowInfo();
-                        Console.WriteLine();
-                    }
-                    Console.WriteLine("아무키나 눌러주세요.");
-                    Console.Write(">> ");
-                    Console.ReadKey(true);
-                    break;
-                case '4'://도망
-                    currentPhase = Phase.CharRun;
-                    isBattle = false;
-                    break;
-                default:
-                    Console.WriteLine();
-                    Tool.WrongMsg();
-                    break;
-            }
-        }
-        void AtkMenu()//몬스터 공격 선택 함수
-        {
-
+            Tool.ColorTxt("0", Tool.color5);
+            Console.WriteLine(".도망");
+            Console.WriteLine();
             TypeMsg("대상을 선택해주세요.");
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             char inputChar = keyInfo.KeyChar;
             if (int.TryParse(inputChar.ToString(), out int monIndex))
             {
                 if (monIndex == 0)
-                { currentPhase = Phase.Waiting; }
+                {
+                    currentPhase = Phase.CharRun;
+                    isBattle = false;
+                }
                 else if (monIndex >= 1 && monIndex <= battleMon.monsterList.Count)
                 { CharAtk(monIndex - 1); }
                 else
                 {
-                    Console.WriteLine(); 
-                    Tool.WrongMsg(); 
+                    Console.WriteLine();
+                    Tool.WrongMsg();
                 }
             }
         }
@@ -274,66 +240,151 @@ namespace _6TxtRpg
                 if (battleMon.monsterList[num].isDead) //만약 몬스터가 죽었을 때
                 {
                     Console.WriteLine();
-                    Tool.WrongMsg(); 
+                    Tool.WrongMsg();
                 }
                 else
                 {
-                    Console.Clear();
-                    BattleMsg("Battle!!", Tool.color2);
+                    currentPhase = Phase.CharATK;
                     float beforehit = battleMon.monsterList[num].hp;
                     int error = (int)Math.Ceiling((float)character_.damage * 0.1f); //오차범위 처리.
                     int charDamage = random.Next(character_.damage - error, character_.damage + error + 1);
-                    Console.WriteLine($"{character_.name}의 공격!");
-                    character_.PlayerCri();
-                    Console.WriteLine();
-                    Console.Write($"Lv.");
-                    Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
-                    Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
-                    Tool.ColorTxt(charDamage.ToString(), Tool.color2);
-                    Console.Write(")");
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    battleMon.monsterList[num].Damaged(charDamage);
-                    Console.WriteLine();
-                    if (battleMon.monsterList[num].isDead)
-                    { Console.WriteLine(); }
-                    Console.Write($"Lv.");
-                    Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
-                    Console.Write($" {battleMon.monsterList[num].name}");
-                    Console.WriteLine();
-                    Console.Write($"HP ");
-                    Tool.ColorTxt(beforehit.ToString(), Tool.color4);
-                    Console.Write(" -> ");
-                    if (battleMon.monsterList[num].isDead)
+                    bool isSelectMove = true;
+                    bool isAttack = false;
+                    while (isSelectMove)
                     {
-                        Tool.ColorTxt("Dead", Tool.color2);
-                        character_.exp += battleMon.monsterList[num].exp;
+                        Console.Clear();
+                        BattleMsg("Battle!!", Tool.color2);
+                        ShowMon();//몬스터 상태 출력
                         Console.WriteLine();
-                        Tool.ColorTxt(battleMon.monsterList[num].exp.ToString(), Tool.color5);
-                        Console.WriteLine("의 경험치를 획득하였습니다.");
-                        character_.levelUp();
-
-                        if (battleMon.monsterList[num].name == "고블린"
-                            && OpenQuest.QuestList.Any(quest => quest.QuestName == "마을을 위협하는 고블린 처치"
-                            && quest.IsStart))
+                        ShowChar();//플레이어 상태 출력
+                        Tool.ColorTxt("1", Tool.color5);
+                        Console.WriteLine(".일반공격");
+                        Tool.ColorTxt("2", Tool.color5);
+                        Console.WriteLine(".스킬사용");
+                        Tool.ColorTxt("3", Tool.color5);
+                        Console.WriteLine(".관찰");
+                        Tool.ColorTxt("4", Tool.color5);
+                        Console.WriteLine(".다시 선택");
+                        switch (Console.ReadKey(true).KeyChar)
                         {
-                            Quest? targetQuest = OpenQuest.QuestList.FirstOrDefault(quest => quest.QuestName == "마을을 위협하는 고블린 처치");
-                            targetQuest?.Trigger();
+                            case '1'://일반공격
+                                Console.Clear();
+                                Console.WriteLine($"{character_.name}의 공격!");
+                                character_.PlayerCri();
+                                Console.WriteLine();
+                                Console.Write($"Lv.");
+                                Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
+                                Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
+                                Tool.ColorTxt(charDamage.ToString(), Tool.color2);
+                                Console.Write(")");
+                                Console.WriteLine();
+                                Console.WriteLine();
+                                battleMon.monsterList[num].Damaged(charDamage);
+                                Console.WriteLine();
+                                if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                                { Console.WriteLine(); }
+                                isSelectMove = false;
+                                isAttack = true;
+                                break;
+                            case '2':
+                                Console.Clear();
+                                BattleMsg("Battle!!", Tool.color2);
+                                ShowMon();//몬스터 상태 출력
+                                Console.WriteLine();
+                                ShowChar();//플레이어 상태 출력
+                                if (character_.job == "농부")
+                                {
+                                    Console.Clear();
+                                    character_.SkillList();
+                                    Console.WriteLine();
+                                    Console.WriteLine($"{character_.name}의 공격!");
+                                    character_.PlayerCri();
+                                    Console.Write($"Lv.");
+                                    Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
+                                    Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
+                                    Tool.ColorTxt(charDamage.ToString(), Tool.color2);
+                                    Console.Write(")");
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                    battleMon.monsterList[num].Damaged(charDamage);
+                                    Console.WriteLine();
+                                    if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                                    { Console.WriteLine(); }
+                                }
+                                else
+                                {
+                                    character_.SkillList();
+                                    Console.WriteLine();
+                                    Console.WriteLine("원하는 스킬을 사용해주세요.");
+                                    Console.Write(">> ");
+                                    character_.UseSkill(battleMon.monsterList[num]);
+                                    Console.WriteLine();
+                                    if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                                    { Console.WriteLine(); }
+                                }
+                                isSelectMove = false;
+                                isAttack = true;
+                                break;
+                            case '3':
+                                Console.WriteLine();
+                                battleMon.monsterList[num].ShowInfo();
+                                Console.WriteLine();
+                                Console.WriteLine("아무키나 눌러주세요.");
+                                Console.Write(">> ");
+                                Console.ReadKey(true);
+                                break;
+                            case '4':
+                                currentPhase = Phase.Waiting;
+                                isSelectMove = false;
+                                break;
+                            default:
+                                break;
                         }
                     }
-                    else
+                    if (isAttack)
                     {
-                        Console.Write($"Hp ");
-                        Tool.ColorTxt(battleMon.monsterList[num].hp.ToString(), Tool.color2);
+                        Console.Write($"Lv.");
+                        Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
+                        Console.Write($" {battleMon.monsterList[num].name}");
                         Console.WriteLine();
+                        Console.Write($"HP ");
+                        Tool.ColorTxt(beforehit.ToString(), Tool.color4);
+                        Console.Write(" -> ");
+                        if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                        {
+                            if (!battleMon.monsterList[num].isDead && battleMon.monsterList[num].hp <= 0)
+                            { battleMon.monsterList[num].isDead = true; }
+                            Tool.ColorTxt("Dead", Tool.color2);
+                            character_.exp += battleMon.monsterList[num].exp;
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            Tool.ColorTxt(battleMon.monsterList[num].exp.ToString(), Tool.color5);
+                            Console.WriteLine("의 경험치를 획득하였습니다.");
+                            character_.levelUp();
+
+                            if (battleMon.monsterList[num].name == "고블린"
+                                && OpenQuest.QuestList.Any(quest => quest.QuestName == "마을을 위협하는 고블린 처치"
+                                && quest.IsStart))
+                            {
+                                Quest? targetQuest = OpenQuest.QuestList.FirstOrDefault(quest => quest.QuestName == "마을을 위협하는 고블린 처치");
+                                targetQuest?.Trigger();
+                            }
+                        }
+                        else
+                        {
+                            Console.Write($"Hp ");
+                            Tool.ColorTxt(battleMon.monsterList[num].hp.ToString(), Tool.color2);
+                            Console.WriteLine();
+                        }
+                        isAttack = false;
+                        NextButton("다음", "", Phase.CharATKFin);
                     }
-                    NextButton("다음", "", Phase.CharATKFin);
                 }
             }
             else
             {
                 Console.WriteLine();
-                Tool.WrongMsg(); 
+                Tool.WrongMsg();
             }
         }
         void NextButton(string message, string typeMsg, Phase nextPhase)
@@ -402,7 +453,9 @@ namespace _6TxtRpg
             Console.Write($"LV. ");
             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
             Console.WriteLine($" {character_.name}");
-            Console.Write($"HP {startHp} -> ");
+            Console.Write($"HP ");
+                Tool.ColorTxt(startHp.ToString(), Tool.color4);
+            Console.Write($" -> ");
             if (startHp == character_.hp)
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color3); }
             else
