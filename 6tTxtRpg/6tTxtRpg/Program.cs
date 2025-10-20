@@ -46,7 +46,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.GetItem(ItemPreset.itemList[1]);
                         Inventory.GetItem(ItemPreset.dropItemList[0]);
                         Inventory.GetItem(ItemPreset.dropItemList[0]);
-                        Inventory.GetItem(ItemPreset.dropItemList[0]);
+                        Inventory.GetItem(ItemPreset.dropItemList[0]);                        
                         Shop.ShopInput();
                         break;
                     case '5':
@@ -54,6 +54,25 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Inventory.GetItem(ItemPreset.itemList[2]);
                         Inventory.GetItem(ItemPreset.itemList[3]);
                         Inventory.GetItem(ItemPreset.itemList[6]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
+                        
                         Inventory.InventoryInput();
                         break;
                     case '6':
