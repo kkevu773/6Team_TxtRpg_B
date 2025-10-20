@@ -35,6 +35,7 @@ namespace _6tTxtRpg
             while (flag) // 상점 선택지(구매,판매,떠나기)
             {
                 Console.Clear();
+                Console.WriteLine("================상점================");
                 Console.WriteLine("1.구매");
                 Console.WriteLine("2.판매");
                 Console.WriteLine("3.강화");
