@@ -102,6 +102,7 @@ namespace _6TxtRpg
                 hp = 0;
                 isDead = true;
                 Console.WriteLine($"{Tool.Josa(name.ToString(), "이", "가")} 사망하였습니다.");
+                Console.WriteLine();
                 DropItem();
             }
         }
@@ -125,11 +126,9 @@ namespace _6TxtRpg
             public override void DropItem()             
             {
                 Inventory.GetItem(ItemPreset.dropItemList[0]);
-                Tool.ColorTxt(Tool.Josa(this.name,"이 ","가 ")+ Tool.Josa(ItemPreset.dropItemList[0].Name, "을", "를")+" 드랍했습니다",Tool.color5);
-                
+                Tool.ColorTxt(Tool.Josa(this.name,"이 ","가 ")+ Tool.Josa(ItemPreset.dropItemList[0].Name, "을", "를")+" 드랍했습니다",Tool.color5);     
             }
         }
-
         public class Spider : Monster
         {
             public Spider(int level)

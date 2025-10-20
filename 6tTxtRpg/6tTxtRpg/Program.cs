@@ -462,9 +462,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                 player.mp -= mp;
                 if (player.input == "1") //힘껏치기
                 {
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                     damage = player.PlayerCri() * state;
                     actualDamage = player.BlowMonster(damage, monster);
-                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine();
                     Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
 
                 }
@@ -472,6 +473,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 {
                     player.defense = (int)(player.defense * state);
                     Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine();
                     Console.WriteLine($"{player.name}의 방어력이 {player.defense}가 되었습니다!");
                 }
             }
@@ -487,6 +489,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     //actualDamage = player.BlowMonster(damage, monster);
                     
                     Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine();
                     monster.Damaged(damage);
                     // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                 }
@@ -497,12 +500,14 @@ namespace _6TxtRpg // 이쪽에 만들기
                     {
                         player.hp = player.maxHp;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine();
                         Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
                     }
                     else
                     {
                         player.hp += heal;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine();
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }
                 }
@@ -524,6 +529,7 @@ namespace _6TxtRpg // 이쪽에 만들기
 
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine("치명적인 일격으로 공격했습니다!");
+                        Console.WriteLine();
                         monster.Damaged(damage);
                         // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
@@ -532,6 +538,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         damage = player.PlayerCri() * state;
                         actualDamage = player.BlowMonster(damage, monster);
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine();
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
                 }
@@ -545,6 +552,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         player.hp = player.maxHp;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine();
                         monster.Damaged(damage);
                         Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
                     }
@@ -553,6 +561,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         player.hp += heal;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine();
                         monster.Damaged(damage);
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }

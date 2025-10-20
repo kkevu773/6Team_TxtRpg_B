@@ -317,6 +317,8 @@ namespace _6TxtRpg
                                     Console.Write(">> ");
                                     character_.UseSkill(battleMon.monsterList[num]);
                                     Console.WriteLine();
+                                    if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                                    { Console.WriteLine(); }
                                 }
                                 isSelectMove = false;
                                 isAttack = true;
