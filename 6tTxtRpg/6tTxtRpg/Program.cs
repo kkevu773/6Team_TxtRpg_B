@@ -128,7 +128,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine();
                 string input = Console.ReadLine();
                 job = input;
-                if (job == "전사" || job == "마법사" || job == "도적"|| job == "농부")
+                if (job == "전사" || job == "마법사" || job == "도적" || job == "농부")
                 {
                     Console.WriteLine($"{job}이 맞으십니까?");
                     string yes = Console.ReadLine();
@@ -182,13 +182,13 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.defense = 0;
                     this.CriticalChance = 20;
                     break;
-                case "농부": // 히든직업: 꾸준함과 생존력, 유틸리티형 (가장 낮은 치명타)
-                    this.maxHp = 75; // 전사 다음으로 높은 체력 (높은 지구력)
-                    this.hp = 75;
-                    this.maxMp = 60; // 마법사 다음으로 높은 마나/스태미너 (유틸리티/지속성)
-                    this.mp = 60;
-                    this.damage = 18; // 낮은 기본 공격력
-                    this.defense = 3; // 비전사 직업 중 가장 높은 방어력 (안정성)
+                case "농부": // 히든직업: 최고의 생존력(HP/방어력)과 최저의 MP (노 스킬 콘셉트)
+                    this.maxHp = 85; // 전사보다 약간 낮은 고체력
+                    this.hp = 85;
+                    this.maxMp = 30; // 가장 낮은 마력/스태미너 (노 스킬)
+                    this.mp = 30;
+                    this.damage = 20; // 낮은 기본 공격력 (단순 노동으로 얻은 힘)
+                    this.defense = 4; // 비전사 직업 중 가장 높은 방어력
                     this.CriticalChance = 5; // 가장 낮은 치명타 (운에 의존하지 않음)
                     break;
             }
@@ -229,15 +229,14 @@ namespace _6TxtRpg // 이쪽에 만들기
                     defense += 2;
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
-                else if (job == "농부")
+                else if (job == "농부")// 농부 (히든 - 노 스킬): 생존력과 방어력에 극단적으로 집중
                 {
-                    maxHp += 20; // 높은 생존력 증가
+                    maxHp += 25; // 전사와 동일한 최대 HP 증가 (최고의 지구력)
                     hp = maxHp;
-                    maxMp += 15; // 유틸리티 사용을 위한 적절한 마나 증가
+                    maxMp += 5;  // 도적과 동일한 최소 MP 증가 (스킬 부재 반영)
                     mp = maxMp;
-                    damage += 5; // 가장 낮은 대미지 증가
-                    defense += 3; // 높은 방어력 증가 (전사와 동일)
-                    maxHp += 10;
+                    damage += 7; // 마법사보다는 높고 도적보다는 낮은 공격력 증가 (성실함)
+                    defense += 4; // 모든 직업 중 가장 높은 방어력 증가 (극강의 단단함)
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
                 if (OpenQuest.QuestList.Any(quest => quest.QuestName == "더욱 더 강해지기!"
@@ -304,14 +303,14 @@ namespace _6TxtRpg // 이쪽에 만들기
             }
             else if (job == "농부")
             {
-                Console.WriteLine("농부는 곡괭이를 휘두르는 것 밖에 못 합니다.");
+                Console.WriteLine("농부는 그런 거 모릅니다.");
             }
         }
         public void UseSkill(Skills skill, Monster monster)
         {
             if (job == "전사")
             {
-                skill.UseWarriorSkills(TxtR.player,monster);
+                skill.UseWarriorSkills(TxtR.player, monster);
             }
         }
         public float BlowPlayer(float damage, Character player) //몬스터가 캐릭터를 공격하는 메서드
@@ -366,7 +365,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         float actualDamage;
         float defense;
         int heal;
-        
+
 
 
         public Skills(string name, float state, int mp)
@@ -397,7 +396,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             if (player.mp >= mp)
             {
-                        player.mp -= mp;
+                player.mp -= mp;
                 switch (Console.ReadKey().KeyChar)
                 {
                     case '1':
@@ -429,7 +428,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                         break;
                     case '2':
-                            heal = (int)(player.maxHp * state);
+                        heal = (int)(player.maxHp * state);
                         if (player.hp + heal >= player.maxHp)
                         {
                             player.hp = player.maxHp;
@@ -452,7 +451,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             if (player.mp >= mp)
             {
                 player.mp -= mp;
-                
+
                 switch (Console.ReadKey().KeyChar)
                 {
                     case '1':
