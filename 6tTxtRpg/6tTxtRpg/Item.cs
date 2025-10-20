@@ -431,6 +431,11 @@ namespace _6TxtRpg
                 {
                     invenPage = maxPage - 1;
                 }
+
+                if(Inven.Count == 0)
+                {
+                    invenPage = 0;
+                }
             }
             else 
             {
