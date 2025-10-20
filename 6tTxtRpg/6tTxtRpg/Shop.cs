@@ -245,7 +245,7 @@ namespace _6tTxtRpg
 
     public class ShopPreset
     {
-        public static List<List<Item>> shopItemList= new List<List<Item>>()
+        public static List<List<Item>> shopItemList= new List<List<Item>>() // 딕셔너리 추천? (피드백)
         {
             new List<Item>(){ItemPreset.itemList[0], ItemPreset.itemList[0], ItemPreset.itemList[0]}
         };
