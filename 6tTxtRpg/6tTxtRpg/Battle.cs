@@ -303,7 +303,7 @@ namespace _6TxtRpg
                             Console.WriteLine();
                             Console.WriteLine();
                             character_.SkillList();
-                            character_.UseSkill(battleMon.monsterList[num]);
+                            //character_.UseSkill(battleMon.monsterList[num]);
                             break;
                         default:
                             break;
