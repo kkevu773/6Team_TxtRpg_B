@@ -51,15 +51,19 @@ namespace _6TxtRpg
             isBattle = true;//반복구문을 위한 bool값 재생.
             currentPhase = Phase.Waiting;//페이즈를 대기 페이즈로 세팅.
             Console.Clear();//맨 처음만 여기에서 한번 콘솔을 지워줌.
-            Tool.ColorTxt($" {monNum}마리의 몬스터가 당신에게 덤벼든다!!", Tool.color2);//반복구문안에 들어가면 계속 뜰테니 밖으로 뺌.
+            Tool.ColorTxt($"{monNum}마리의 몬스터가 당신에게 덤벼든다!!", Tool.color2);//반복구문안에 들어가면 계속 뜰테니 밖으로 뺌.
             Console.WriteLine();
             Console.WriteLine();
             while (isBattle) //여기서부터 반복구문
             {
                 if (currentPhase == Phase.CharATK)//플레이어 공격페이즈일때
                 {
-                    BattleMsg("Battle!!", Tool.color2); //글자 표시됨.
+                    BattleMsg(" Battle!!", Tool.color2); //글자 표시됨.
                     BuffList.UpdateBuff();
+                }
+                if (currentPhase == Phase.CharATKFin)//플레이어 공격페이즈일때
+                {
+                    BattleMsg("몬스터의 반격!", Tool.color2); //글자 표시됨.
                 }
                 if (currentPhase != Phase.MonsterATK)//몬스터 공격페이즈가 아닐때
                 {
@@ -113,7 +117,7 @@ namespace _6TxtRpg
             }
             else if (currentPhase == Phase.CharRun)
             {
-                Console.WriteLine($"{Tool.Josa(character_.name, "은", "는")} 열심히 도망갔다!");
+                Console.WriteLine($" {Tool.Josa(character_.name, "은", "는")} 열심히 도망갔다!");
                 Console.WriteLine();
                 BattleResult();
             }
@@ -129,8 +133,10 @@ namespace _6TxtRpg
             for (int i = 0; i < monNum; ++i)
             {
                 if (currentPhase == Phase.Waiting)
-                { Tool.ColorTxt((i + 1).ToString(), Tool.color5); }
-                Console.Write(" ");
+                {
+                    Tool.ColorTxt((i + 1).ToString(), Tool.color5);
+                    Console.Write(" ");
+                }
                 if (battleMon.monsterList[i].isDead)//사망시 Dead표시
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -251,9 +257,6 @@ namespace _6TxtRpg
                         ShowMon();//몬스터 상태 출력
                         Console.WriteLine();
                         ShowChar();//플레이어 상태 출력
-                        Console.WriteLine($"{character_.name}의 공격!");
-                        character_.PlayerCri();
-                        Console.WriteLine();
                         Tool.ColorTxt("1", Tool.color5);
                         Console.WriteLine(".일반공격");
                         Tool.ColorTxt("2", Tool.color5);
@@ -265,6 +268,9 @@ namespace _6TxtRpg
                         switch (Console.ReadKey(true).KeyChar)
                         {
                             case '1'://일반공격
+                                Console.Clear();
+                                Console.WriteLine($"{character_.name}의 공격!");
+                                character_.PlayerCri();
                                 Console.WriteLine();
                                 Console.Write($"Lv.");
                                 Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
@@ -282,10 +288,16 @@ namespace _6TxtRpg
                                 break;
                             case '2':
                                 Console.Clear();
+                                BattleMsg("Battle!!", Tool.color2);
+                                ShowMon();//몬스터 상태 출력
+                                Console.WriteLine();
+                                ShowChar();//플레이어 상태 출력
                                 character_.SkillList();
                                 if (character_.job == "농부")
                                 {
                                     Console.WriteLine();
+                                    Console.WriteLine($"{character_.name}의 공격!");
+                                    character_.PlayerCri();
                                     Console.Write($"Lv.");
                                     Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
                                     Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
@@ -437,7 +449,9 @@ namespace _6TxtRpg
             Console.Write($"LV. ");
             Tool.ColorTxt(character_.level.ToString(), Tool.color4);
             Console.WriteLine($" {character_.name}");
-            Console.Write($"HP {startHp} -> ");
+            Console.Write($"HP ");
+                Tool.ColorTxt(startHp.ToString(), Tool.color4);
+            Console.Write($"-> ");
             if (startHp == character_.hp)
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color3); }
             else

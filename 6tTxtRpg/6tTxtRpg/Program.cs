@@ -1,6 +1,7 @@
 ﻿using _6tTxtRpg;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -274,7 +275,24 @@ namespace _6TxtRpg // 이쪽에 만들기
         }
         public void ShortInfo() //전투에 사용할 정보창
         {
-            Console.WriteLine($"Lv.{level} {name} the {job}  HP: {hp} MP: {mp}");
+            Console.Write($"Lv.");
+            Tool.ColorTxt(level.ToString(), Tool.color4);
+            Console.Write($" {name} the {job}  HP ");
+            if (hp >= maxHp * 0.5f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color3); }
+            else if (hp <= maxHp * 0.5f && hp >= maxHp * 0.1f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color4); }
+            else if (hp <= maxHp * 0.1f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color2); }
+            Console.Write(" MP ");
+            if (mp >= maxMp * 0.5f)
+            { Tool.ColorTxt(mp.ToString(), Tool.color5); }
+            else if (mp <= maxMp * 0.5f && hp >= maxHp * 0.1f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color4); }
+            else if (mp <= maxMp * 0.1f)
+            { Tool.ColorTxt(hp.ToString(), Tool.color2); }
+            Console.WriteLine();
+            Console.WriteLine();
             BuffList.PrintBuff();
         }
         public void SkillList() //스킬리스트 출력
@@ -286,8 +304,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in WarriorSkill)
                 {
                     number++;
-                    Tool.ColorTxt(number.ToString(), Tool.color5);
-                    Console.WriteLine($" {skills.name} 소모 MP:{skills.mp}");
+                    Tool.ColorTxt(number.ToString(), Tool.color4);
+                    Console.Write($" {skills.name} MP ");
+                    Tool.ColorTxt(skills.mp.ToString(), Tool.color5);
+                    Console.WriteLine();
                 }
             }
             else if (job == "마법사")
@@ -295,8 +315,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in MageSkill)
                 {
                     number++;
-                    Tool.ColorTxt(number.ToString(), Tool.color5);
-                    Console.WriteLine($" {skills.name} 소모 MP:{skills.mp}");
+                    Tool.ColorTxt(number.ToString(), Tool.color4);
+                    Console.Write($" {skills.name} MP ");
+                    Tool.ColorTxt(skills.mp.ToString(), Tool.color5);
+                    Console.WriteLine();
                 }
             }
             else if (job == "도적")
@@ -304,8 +326,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in BanditSkill)
                 {
                     number++;
-                    Tool.ColorTxt(number.ToString(), Tool.color5);
-                    Console.WriteLine($" {skills.name} 소모 MP:{skills.mp}");
+                    Tool.ColorTxt(number.ToString(), Tool.color4);
+                    Console.Write($" {skills.name} MP ");
+                    Tool.ColorTxt(skills.mp.ToString(), Tool.color5);
+                    Console.WriteLine();
                 }
             }
             else if (job == "농부")
@@ -317,6 +341,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public void UseSkill(Monster monster)
         {
             input = Console.ReadLine();
+            Console.Clear();
             if (job == "전사")
             {
                 if (input == "1")
@@ -327,7 +352,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                 {
                     WarriorSkill[1].UseWarriorSkills(TxtR.player, monster);
                 }
-
             }
             else if (job == "마법사")
             {
@@ -435,7 +459,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             if (player.mp >= mp)
             {
-                        player.mp -= mp;
+                player.mp -= mp;
                 if (player.input == "1") //힘껏치기
                 {
                     damage = player.PlayerCri() * state;
@@ -500,7 +524,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
                     else //크리 안터지면 다른 일반 공격스킬과 같음
-                    { 
+                    {
                         damage = player.PlayerCri() * state;
                         actualDamage = player.BlowMonster(damage, monster);
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
