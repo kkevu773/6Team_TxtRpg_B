@@ -200,9 +200,12 @@ namespace _6TxtRpg
                     case Status.BonusDef:
                         break;
                 }
-
-                Console.WriteLine($"{Name} 장비, {temp.Name} 장비 해제");
-                Inventory.Inven.Find(it => it == temp).IsUsing = false;
+               
+                if(temp != this)
+                {
+                    Inventory.Inven.Find(it => it == temp).IsUsing = false;
+                    Console.WriteLine($"{Name} 장비, {temp.Name} 장비 해제");
+                }               
             }
         }
 
@@ -495,6 +498,9 @@ namespace _6TxtRpg
         public static void InventoryInput()
         {
             bool flag = true;
+
+            invenPage = 0;
+
             Console.Clear();
             PrintInventory();
 
@@ -540,7 +546,7 @@ namespace _6TxtRpg
                     Inventory.Inven[(input + invenPage * 9) - 1].UseItem();
 
                     //사용 후 아이템 페이지가 줄어들면
-                    if (Inventory.Inven.Count - invenPage * 9 == 0 && Inventory.Inven.Count < invenNum)
+                    if (Inventory.Inven.Count - invenPage * 9 == 0 && Inven.Count < invenNum && Inven.Count != 0)
                     {
                         invenPage--;
                     }
