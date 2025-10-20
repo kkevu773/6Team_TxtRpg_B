@@ -455,7 +455,7 @@ namespace _6TxtRpg
             Console.WriteLine($" {character_.name}");
             Console.Write($"HP ");
                 Tool.ColorTxt(startHp.ToString(), Tool.color4);
-            Console.Write($"-> ");
+            Console.Write($" -> ");
             if (startHp == character_.hp)
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color3); }
             else

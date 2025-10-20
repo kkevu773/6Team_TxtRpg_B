@@ -606,6 +606,7 @@ public class Intro
         Console.Write("스파르타 던전에 오신 것을 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
         Tool.ColorTxt("1", Tool.color5);
         Console.Write(".상태 보기\n");
+        Console.WriteLine("-----------------------------------------------------");
         Tool.ColorTxt("2", Tool.color5);
         Console.Write(".전투 시작 (현재 진행 : ");
         Tool.ColorTxt(stage.ToString(), Tool.color4);
@@ -625,7 +626,7 @@ public class Intro
         Console.Write(".인벤토리\n");
         Tool.ColorTxt("6", Tool.color5);
         Console.WriteLine(".퀘스트");
-        Console.WriteLine();
+        Console.WriteLine("-----------------------------------------------------");
         Tool.ColorTxt("7", Tool.color5);
         Console.WriteLine(".저장하기");
         Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
