@@ -432,7 +432,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             if (player.mp >= mp)
             {
                         player.mp -= mp;
-                if (player.input == "1")
+                if (player.input == "1") //힘껏치기
                 {
                     damage = player.PlayerCri() * state;
                     actualDamage = player.BlowMonster(damage, monster);
@@ -440,7 +440,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
 
                 }
-                else if (player.input == "2")
+                else if (player.input == "2") //단단해지기
                 {
                     player.defense = (int)(player.defense * state);
                     Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
@@ -453,17 +453,17 @@ namespace _6TxtRpg // 이쪽에 만들기
             if (player.mp >= mp)
             {
                 player.mp -= mp;
-                if (player.input == "1")
+                if (player.input == "1") //화염구
                 {
                     damage = player.PlayerCri() * state;
                     actualDamage = player.BlowMonster(damage, monster);
                     Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                     Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                 }
-                else if (player.input == "2")
+                else if (player.input == "2") //회복
                 {
                     heal = (int)(player.maxHp * state);
-                    if (player.hp + heal >= player.maxHp)
+                    if (player.hp + heal >= player.maxHp) //회복량+기존체력이 최대체력보다 높을시 최대체력값으로 설정
                     {
                         player.hp = player.maxHp;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
@@ -484,10 +484,10 @@ namespace _6TxtRpg // 이쪽에 만들기
             {
                 player.mp -= mp;
 
-                if (player.input == "1")
+                if (player.input == "1") //암살
                 {
                     int holy = random.Next(1, 101);
-                    if (holy <= 70)
+                    if (holy <= 70) //스킬자체 크리티컬시스템을 넣어 이론상 4배딜 가능
                     {
                         damage = player.PlayerCri() * state * 2;
                         actualDamage = player.BlowMonster(damage, monster);
@@ -495,19 +495,19 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Console.WriteLine("치명적인 일격으로 공격했습니다!");
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
-                    else
-                    {
+                    else //크리 안터지면 다른 일반 공격스킬과 같음
+                    { 
                         damage = player.PlayerCri() * state;
                         actualDamage = player.BlowMonster(damage, monster);
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
                 }
-                else if (player.input == "2")
+                else if (player.input == "2") //흡혈
                 {
                     damage = player.PlayerCri() * state;
                     actualDamage = player.BlowMonster(damage, monster);
-                    int heal = (int)(actualDamage * 0.2f);
+                    int heal = (int)(actualDamage * 0.2f); //넣은 데미지의 20%만큼 회복
                     if (player.hp + heal >= player.maxHp)
                     {
                         player.hp = player.maxHp;
