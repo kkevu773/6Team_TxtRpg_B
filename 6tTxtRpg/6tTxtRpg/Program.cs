@@ -59,6 +59,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                     case '6':
                         OpenQuest.ShowQuest();
                         break;
+                    case '7':
+                        //저장하기 제작
+                        break;
                     default:
                         break;
                 }
@@ -126,7 +129,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine();
                 string input = Console.ReadLine();
                 job = input;
-                if (job == "전사" || job == "마법사" || job == "도적")
+                if (job == "전사" || job == "마법사" || job == "도적" || job == "농부")
                 {
                     Console.WriteLine($"{job}이 맞으십니까?");
                     string yes = Console.ReadLine();
@@ -161,7 +164,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.damage = 25;
                     this.defense = 5;
                     this.CriticalChance = 10;
-
                     break;
                 case "마법사": //마법사값을 받았을경우 스텟
                     this.maxHp = 50;
@@ -180,6 +182,15 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.damage = 35;
                     this.defense = 0;
                     this.CriticalChance = 20;
+                    break;
+                case "농부": // 히든직업: 최고의 생존력(HP/방어력)과 최저의 MP (노 스킬 콘셉트)
+                    this.maxHp = 85; // 전사보다 약간 낮은 고체력
+                    this.hp = 85;
+                    this.maxMp = 30; // 가장 낮은 마력/스태미너 (노 스킬)
+                    this.mp = 30;
+                    this.damage = 20; // 낮은 기본 공격력 (단순 노동으로 얻은 힘)
+                    this.defense = 4; // 비전사 직업 중 가장 높은 방어력
+                    this.CriticalChance = 5; // 가장 낮은 치명타 (운에 의존하지 않음)
                     break;
             }
         }
@@ -217,6 +228,16 @@ namespace _6TxtRpg // 이쪽에 만들기
                     mp = maxMp;
                     damage += 13;
                     defense += 2;
+                    Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
+                }
+                else if (job == "농부")// 농부 (히든 - 노 스킬): 생존력과 방어력에 극단적으로 집중
+                {
+                    maxHp += 25; // 전사와 동일한 최대 HP 증가 (최고의 지구력)
+                    hp = maxHp;
+                    maxMp += 5;  // 도적과 동일한 최소 MP 증가 (스킬 부재 반영)
+                    mp = maxMp;
+                    damage += 7; // 마법사보다는 높고 도적보다는 낮은 공격력 증가 (성실함)
+                    defense += 4; // 모든 직업 중 가장 높은 방어력 증가 (극강의 단단함)
                     Console.WriteLine($"축하합니다! {name}님이 레벨 {level}이 되셨습니다!");
                 }
                 if (OpenQuest.QuestList.Any(quest => quest.QuestName == "더욱 더 강해지기!"
@@ -285,8 +306,12 @@ namespace _6TxtRpg // 이쪽에 만들기
                     Console.WriteLine($"스킬이름:{number} {skills.name} 소모MP:{skills.mp}");
                 }
             }
+            else if (job == "농부")
+            {
+                Console.WriteLine("농부는 그런 거 모릅니다.");
+            }
         }
-        public void UseSkill(Monster monster)
+        public void UseSkill(Skills skill, Monster monster)
         {
             input = Console.ReadLine();
             if (job == "전사")
@@ -376,7 +401,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         float actualDamage;
         float defense;
         int heal;
-        
+
 
 
         public Skills(string name, float state, int mp)
@@ -536,6 +561,9 @@ public class Intro
         Console.Write(".인벤토리\n");
         Tool.ColorTxt("6", Tool.color5);
         Console.WriteLine(".퀘스트");
+        Console.WriteLine();
+        Tool.ColorTxt("7", Tool.color5);
+        Console.WriteLine(".저장하기");
         Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
     }
 }
