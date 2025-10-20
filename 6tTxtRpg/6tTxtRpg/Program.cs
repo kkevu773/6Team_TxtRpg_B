@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -289,14 +290,14 @@ namespace _6TxtRpg // 이쪽에 만들기
             }
             else if (job == "마법사")
             {
-                foreach (var skills in MageSkill)
+                foreach (Skills skills in MageSkill)
                 {
                     Console.WriteLine($"스킬이름:{skills.name} 소모MP:{skills.mp}");
                 }
             }
             else if (job == "도적")
             {
-                foreach (var skills in BanditSkill)
+                foreach (Skills skills in BanditSkill)
                 {
                     Console.WriteLine($"스킬이름:{skills.name} 소모MP:{skills.mp}");
                 }
@@ -304,6 +305,13 @@ namespace _6TxtRpg // 이쪽에 만들기
             else if (job == "농부")
             {
                 Console.WriteLine("농부는 곡괭이를 휘두르는 것 밖에 못 합니다.");
+            }
+        }
+        public void UseSkill(Skills skill, Monster monster)
+        {
+            if (job == "전사")
+            {
+                skill.UseWarriorSkills(TxtR.player,monster);
             }
         }
         public float BlowPlayer(float damage, Character player) //몬스터가 캐릭터를 공격하는 메서드
@@ -358,7 +366,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         float actualDamage;
         float defense;
         int heal;
-        ConsoleKeyInfo key;
+        
 
 
         public Skills(string name, float state, int mp)
@@ -412,15 +420,15 @@ namespace _6TxtRpg // 이쪽에 만들기
             if (player.mp >= mp)
             {
                 player.mp -= mp;
-                switch (name)
+                switch (Console.ReadKey().KeyChar)
                 {
-                    case "화염구":
+                    case '1':
                         damage = player.PlayerCri() * state;
                         actualDamage = player.BlowMonster(damage, monster);
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                         break;
-                    case "회복":
+                    case '2':
                             heal = (int)(player.maxHp * state);
                         if (player.hp + heal >= player.maxHp)
                         {
@@ -445,9 +453,9 @@ namespace _6TxtRpg // 이쪽에 만들기
             {
                 player.mp -= mp;
                 
-                switch (name)
+                switch (Console.ReadKey().KeyChar)
                 {
-                    case "암살":
+                    case '1':
                         int holy = random.Next(1, 101);
                         if (holy <= 70)
                         {
@@ -465,7 +473,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                             Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                         }
                         break;
-                    case "흡혈":
+                    case '2':
                         damage = player.PlayerCri() * state;
                         actualDamage = player.BlowMonster(damage, monster);
                         int heal = (int)(actualDamage * 0.2f);
