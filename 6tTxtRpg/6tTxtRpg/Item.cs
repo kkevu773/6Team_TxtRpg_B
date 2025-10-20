@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace _6TxtRpg
 {
     public enum ItemType { Head, Body, Weapon, ExtraWeapon, HpPotion, MpPotion, Buff, Etc }
-    public enum Status { Hp, Mp, Exp, Level, Atk, Def, BonusHp, BonusMp, BonusAtk, BonusDef , None}
+    public enum Status { Hp, Mp, Exp, Level, Atk, Def, BonusHp, BonusMp, BonusAtk, BonusDef, None }
 
     public class Item
     {
@@ -25,7 +25,7 @@ namespace _6TxtRpg
         public int Enchant;
 
         //생성
-        public Item(string name, int enchant,Status effectStatus, int effectNum, int amount, ItemType type, int price, string itemScript)
+        public Item(string name, int enchant, Status effectStatus, int effectNum, int amount, ItemType type, int price, string itemScript)
         {
             Name = name;
             EffectStatus = effectStatus;
@@ -111,7 +111,7 @@ namespace _6TxtRpg
 
 
             //아이템 수치 적용
-            if(Type != ItemType.Buff)
+            if (Type != ItemType.Buff)
             {
                 switch (EffectStatus)
                 {
@@ -150,7 +150,7 @@ namespace _6TxtRpg
                         break;
                 }
             }
-            
+
             // 장비 사용 중  처리
             if (Type == ItemType.Weapon ||
                 Type == ItemType.ExtraWeapon ||
@@ -203,7 +203,7 @@ namespace _6TxtRpg
 
                 Console.WriteLine($"{Name} 장비, {temp.Name} 장비 해제");
                 Inventory.Inven.Find(it => it == temp).IsUsing = false;
-            }           
+            }
         }
 
         public void AddAmount(int num)
@@ -263,7 +263,7 @@ namespace _6TxtRpg
 
         public void EnchantItem()
         {
-            if(Enchant < 3)
+            if (Enchant < 3)
             {
                 Enchant++;
 
@@ -297,7 +297,7 @@ namespace _6TxtRpg
             else
             {
                 Console.WriteLine("오류: 최대 강화 입니다.");
-            }        
+            }
         }
 
     }
@@ -318,7 +318,7 @@ namespace _6TxtRpg
             {
                 Inventory.Inven.Find(targetItem => targetItem == item).Amount++;
 
-                if(item.Amount <= 0)
+                if (item.Amount <= 0)
                 {
                     Inventory.Inven.Remove(item);
                 }
@@ -367,7 +367,7 @@ namespace _6TxtRpg
             int num = 1;
             foreach (KeyValuePair<ItemType, Item> item in equipments)
             {
-                Console.WriteLine("[{0}: {1}]", item.Key.ToString(), (item.Value == null ? "빈칸" : item.Value.Name + " {+ " + item.Value.Enchant + "} (해제: -" +num+")" ));
+                Console.WriteLine("[{0}: {1}]", item.Key.ToString(), (item.Value == null ? "빈칸" : item.Value.Name + " {+ " + item.Value.Enchant + "} (해제: -" + num + ")"));
                 num++;
             }
 
@@ -472,7 +472,7 @@ namespace _6TxtRpg
 
                 int input = (int.TryParse(inputChar.ToString(), out int value)) ? value : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
 
-                if(input == 0)
+                if (input == 0)
                 {
                     // 인벤토리 떠나기
                     flag = false;
@@ -520,7 +520,7 @@ namespace _6TxtRpg
                     Console.WriteLine("잘못된 입력입니다.");
                     PrintInventory();
                 }
-            }      
+            }
         }
     }
 
@@ -544,7 +544,9 @@ namespace _6TxtRpg
         };
 
         public static List<Item> testItemList = new List<Item>() {
-            new Item("TestItem:이름", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다.") 
+            new Item("쓸만한 방패", 0, Status.Def, 5, 1, ItemType.ExtraWeapon, 500, "테스트 아이템입니다."),
+            new Item("소형 체력포션", 0, Status.Hp, 10, 1, ItemType.HpPotion, 100, "테스트 아이템입니다."),
+              new Item("소형 마나포션", 0, Status.Mp, 10, 1, ItemType.MpPotion, 100, "테스트 아이템입니다.")
         };
 
 

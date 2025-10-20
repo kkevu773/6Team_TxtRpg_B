@@ -18,7 +18,7 @@ namespace _6tTxtRpg
 "쓸만한 방패",
 "5 G",
         5, // 목표 개수 (고블린 5마리)
-        ItemPreset.itemList[0], // 보상 아이템 (임시)
+        ItemPreset.testItemList[0], // 보상 아이템 (임시)
         1, // 보상 아이템 개수
         5 //골드
     ),
@@ -30,10 +30,10 @@ namespace _6tTxtRpg
 자네가 가진 장비 중 하나를 골라 착용해 보게. 
 장비를 착용해야 비로소 모험가다운 모습을 갖출 수 있지 않겠나!",
 "장비 1개 착용",
-"초급 포션",
+"소형 체력 포션",
 "10 G",
         1, // 목표 개수 (장비 1개 착용)
-        ItemPreset.itemList[1], // 보상 아이템 (임시)
+        ItemPreset.testItemList[1], // 보상 아이템 (임시)
         3, // 보상 아이템 개수
         10//골드
     ),
@@ -45,10 +45,10 @@ namespace _6tTxtRpg
 더 깊은 던전과 더 강한 몬스터를 상대하기 위해서는 스스로 강해져야 해! 
 끊임없이 수련하여 목표 레벨을 달성하게!",
 "레벨 5 달성",
-"경험치 물약 (소)",
+"소형 마나 포션",
 "50 G",
         5, // 목표 개수 (레벨 5 달성)
-        ItemPreset.itemList[2], // 보상 아이템 (임시)
+        ItemPreset.testItemList[2], // 보상 아이템 (임시)
         1, // 보상 아이템 개수
         50
     )
@@ -62,17 +62,17 @@ namespace _6tTxtRpg
         static void QuestMenu()
         {
             Console.Clear();
-            int i = 0;
+            int index = 0;
             foreach (var quest in QuestList)
             {
-                if (i > 10)
+                if (index > 10)
                 { return; }
-                Tool.ColorTxt($"{i + 1} ", Tool.color5);
-                Console.Write(QuestList[i].QuestName);
-                if (QuestList[i].IsStart)
+                Tool.ColorTxt($"{index + 1} ", Tool.color5);
+                Console.Write(QuestList[index].QuestName);
+                if (QuestList[index].IsStart)
                 { Tool.ColorTxt(" - 진행 중", Tool.color4); }
                 Console.WriteLine();
-                ++i;
+                ++index;
             }
             Console.WriteLine();
             Tool.ColorTxt($"0 ", Tool.color5);
@@ -131,9 +131,11 @@ namespace _6tTxtRpg
                                 {
                                     //TODO:보상템 맞춰서 인벤에 넣어야 되는데 함수를 모름.
                                     //QuestList[questNum - 1].RewardItem;
+                                    for (int i = 0; i < QuestList[questNum - 1].RewardAmount; ++i)
+                                    { Inventory.GetItem(QuestList[questNum - 1].RewardItem); }
                                     TxtR.player.gold+=QuestList[questNum - 1].RewardGold;
                                     Console.WriteLine();
-                                    Tool.ColorTxt($"{Tool.Josa(QuestList[questNum - 1].QuestName,"을","를")} 완료했습니다.\n{Tool.Josa(QuestList[questNum -1].QuestReward,"과","와")} {Tool.Josa(QuestList[questNum - 1].QuestReward2, "을", "를")} 얻었습니다.",Tool.color4);
+                                    Tool.ColorTxt($"{Tool.Josa(QuestList[questNum - 1].QuestName,"을","를")} 완료했습니다.\n{QuestList[questNum - 1].QuestReward} {Tool.Josa($"{QuestList[questNum -1].RewardAmount}개","과","와")} {Tool.Josa(QuestList[questNum - 1].QuestReward2, "을", "를")} 얻었습니다.",Tool.color4);
                                     Console.ReadKey(true);
                                     isOn = false;
                                     QuestList.RemoveAt(questNum - 1);
