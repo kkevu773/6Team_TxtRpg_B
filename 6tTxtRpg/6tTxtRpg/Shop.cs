@@ -1,11 +1,4 @@
-﻿using _6TxtRpg;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using _6tTxtRpg;
 namespace _6tTxtRpg
 {
     public class Shop

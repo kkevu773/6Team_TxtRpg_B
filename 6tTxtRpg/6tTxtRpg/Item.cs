@@ -1,12 +1,5 @@
 ﻿using _6tTxtRpg;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace _6TxtRpg
+namespace _6tTxtRpg
 {
     public enum ItemType { Head, Body, Weapon, ExtraWeapon, HpPotion, MpPotion, Buff, Etc }
     public enum Status { Hp, Mp, Exp, Level, Atk, Def, BonusHp, BonusMp, BonusAtk, BonusDef, None }

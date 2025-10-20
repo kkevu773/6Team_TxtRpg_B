@@ -1,21 +1,8 @@
 ﻿using _6tTxtRpg;
-using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace _6TxtRpg
+namespace _6tTxtRpg
 {
     public abstract class Monster       //몬스터 기본 클래스
     {
-
         public string name;
         public float damage;
         public float armor;

@@ -1,24 +1,12 @@
 ﻿using _6tTxtRpg;
-using _6TxtRpg;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace _6TxtRpg // 이쪽에 만들기
+namespace _6tTxtRpg // 이쪽에 만들기
 {
     internal class TxtR //쉬운 디버깅을 위해 위로 뻈습니다.
     {
         public static Character player = new Character();
         public static bool isLoad = false;
+        static int stageCopy;
 
         public static void Main(string[] args)
         {
@@ -41,8 +29,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                         player = SaveLoad.LoadCharacter();
                         Inventory.Inven = SaveLoad.LoadInven();
                         Inventory.equipments = SaveLoad.LoadEquip();
-                        battle.Stage = (int)SaveLoad.LoadStage();
+                        stageCopy = (int)SaveLoad.LoadStage();
                         OpenQuest.QuestList = SaveLoad.LoadQuest();
+                        battle.Update(player,monsterList);
                         isLoad = true;
                         break;
                     case '2':
@@ -51,7 +40,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         break;
                 }
             }
-            if(!isLoad)
+            if (!isLoad)
             {
                 player.YourName();
                 player.YourJob();
@@ -99,6 +88,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                             Inventory.equipments = SaveLoad.LoadEquip();
                             battle.Stage = (int)SaveLoad.LoadStage();
                             OpenQuest.QuestList = SaveLoad.LoadQuest();
+                            battle.Update(player, monsterList);
                             break;
                         default:
                             Console.WriteLine($">> {menuKey}");
@@ -485,11 +475,15 @@ namespace _6TxtRpg // 이쪽에 만들기
         public int mp; //스킬사용시 소모mp
         Random random = new Random(); //랜덤함수
         float damage;
+        //public float Damage { get { return damage; } set { damage = value; } }
         float actualDamage;
+        //public float ActualDamage { get { return actualDamage; }set { actualDamage = value; } }
         float defense;
+        //public  float Defense { get { return defense; }set { defense = value; } }
         int heal;
+        //public int Heal { get { return heal; }set { heal = value; } }
 
-
+        //public Skills(){}//불러오기를 위한 기본생성자
 
         public Skills(string name, float state, int mp)
         {
@@ -644,10 +638,10 @@ namespace _6TxtRpg // 이쪽에 만들기
     public static class SaveLoad
     {
         public static string saveFolderName = "SaveFile";
+        static string characterFile = "Character.json";
         static string invenFile = "inven.json";
         static string equipFile = "Equip.json";
         static string stageFile = "Stage.json";
-        static string characterFile = "Character.json";
         static string questFile = "Quest.json";
 
         static string? fullPath;
@@ -742,7 +736,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             Console.WriteLine("퀘스트 진행상황이 저장되었습니다.");
             Console.ReadKey(true);
         }
-        public static Character? LoadCharacter()
+        public static Character LoadCharacter()
         {
             fullPath = Path.Combine(saveFolderName, characterFile);
             if (!Directory.Exists(saveFolderName))

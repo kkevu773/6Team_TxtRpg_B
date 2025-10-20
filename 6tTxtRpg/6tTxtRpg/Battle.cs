@@ -1,6 +1,5 @@
 using _6tTxtRpg;
-using System.Threading;
-namespace _6TxtRpg
+namespace _6tTxtRpg
 {
     class Battle // 전투기능 작업
     {
@@ -35,14 +34,19 @@ namespace _6TxtRpg
             CharRun,
             Unknown,
         }
-        private readonly Character character_;
+        private Character character_;
         private MonsterList monsterList_;
         public Battle(Character character, MonsterList monsters) //반드시 받아야 되는 인자값을 위해 생성자로 만듬.
         {
             character_ = character;
             monsterList_ = monsters;
         }//RunBattle 메서드 작동.
-        //처음에는 생성자에 로직을 냅다 다 넣었다가 전투가 필요한 부분에 넣기 쉽게 메서드로 뺐음.
+        //처음에는 생성자에 로직을 냅다 다 넣었다가 전투가 필요한 부분에 넣기 쉽게 메서드로 뺐음
+        public void Update(Character character, MonsterList monsters)
+        {
+            character_ = character;
+            monsterList_ = monsters;
+        }
         public void RunBattle(bool isPractice)//외부에서 막 쓰라고 public으로 처리했다.
         {
             isPractice_ = isPractice;

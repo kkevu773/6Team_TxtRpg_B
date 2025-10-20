@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using _6tTxtRpg;
 namespace _6tTxtRpg
 {
     public static class Tool//유틸용 함수. Tool.메서드();나 Tool.변수명; 으로 쓰면 됨.

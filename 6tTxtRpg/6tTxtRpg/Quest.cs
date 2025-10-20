@@ -1,6 +1,4 @@
-﻿using _6TxtRpg;
-using System.Reflection.Metadata.Ecma335;
-
+﻿using _6tTxtRpg;
 namespace _6tTxtRpg
 {
     public static class OpenQuest
