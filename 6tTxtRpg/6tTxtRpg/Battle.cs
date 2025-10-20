@@ -117,7 +117,7 @@ namespace _6TxtRpg
             }
             else if (currentPhase == Phase.CharRun)
             {
-                Console.WriteLine($" {Tool.Josa(character_.name, "은", "는")} 열심히 도망갔다!");
+                Console.WriteLine($"{Tool.Josa(character_.name, "은", "는")} 열심히 도망갔다!");
                 Console.WriteLine();
                 BattleResult();
             }
@@ -292,9 +292,10 @@ namespace _6TxtRpg
                                 ShowMon();//몬스터 상태 출력
                                 Console.WriteLine();
                                 ShowChar();//플레이어 상태 출력
-                                character_.SkillList();
                                 if (character_.job == "농부")
                                 {
+                                    Console.Clear();
+                                    character_.SkillList();
                                     Console.WriteLine();
                                     Console.WriteLine($"{character_.name}의 공격!");
                                     character_.PlayerCri();
@@ -312,11 +313,14 @@ namespace _6TxtRpg
                                 }
                                 else
                                 {
+                                    character_.SkillList();
                                     Console.WriteLine();
                                     Console.WriteLine("원하는 스킬을 사용해주세요.");
                                     Console.Write(">> ");
                                     character_.UseSkill(battleMon.monsterList[num]);
                                     Console.WriteLine();
+                                    if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                                    { Console.WriteLine(); }
                                 }
                                 isSelectMove = false;
                                 isAttack = true;
@@ -451,7 +455,7 @@ namespace _6TxtRpg
             Console.WriteLine($" {character_.name}");
             Console.Write($"HP ");
                 Tool.ColorTxt(startHp.ToString(), Tool.color4);
-            Console.Write($"-> ");
+            Console.Write($" -> ");
             if (startHp == character_.hp)
             { Tool.ColorTxt(character_.hp.ToString(), Tool.color3); }
             else

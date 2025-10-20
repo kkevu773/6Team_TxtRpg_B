@@ -1,4 +1,5 @@
 ﻿using _6tTxtRpg;
+using _6TxtRpg;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -102,22 +103,32 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.Write("이름을 입력해주세요(1~6 글자 제한)");
-                Console.WriteLine();
+                Console.Clear();
+                Console.WriteLine("이름을 입력해주세요(1~6 글자 제한)");
+                Console.Write(">> ");
                 name = Console.ReadLine();
+                Console.Clear();
                 if (name.Length <= 6)
                 {
-                    Console.WriteLine($"{name}님 이 맞으십니까?");
-                    string yes = Console.ReadLine();
-                    if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
+                    Console.WriteLine($"{name}님이 맞으십니까?");
+                    Console.WriteLine();
+                    Tool.ColorTxt("1", Tool.color5);
+                    Console.WriteLine(".네");
+                    Tool.ColorTxt("2", Tool.color5);
+                    Console.WriteLine(".아니오");
+                    Console.WriteLine();
+                    char /*string*/ yes = Console.ReadKey(true).KeyChar;//Console.ReadLine();
+                    if (yes == '1')//(yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
                         Console.Clear();
                         break;
                     }
                     else
                     {
-                        Console.Clear();
+                        //Console.Clear();
                         Console.WriteLine("다시 입력해주세요.");
+                        Console.ReadKey(true);
+
                     }
                 }
             }
@@ -126,15 +137,23 @@ namespace _6TxtRpg // 이쪽에 만들기
         {
             while (true)
             {
-                Console.Write("직업을 선택해주세요(전사, 마법사, 도적)");
-                Console.WriteLine();
+                Console.Clear();
+                Console.WriteLine("직업을 선택해주세요(전사, 마법사, 도적)");
+                Console.Write(">> ");
                 string input = Console.ReadLine();
                 job = input;
                 if (job == "전사" || job == "마법사" || job == "도적" || job == "농부")
                 {
-                    Console.WriteLine($"{job}이 맞으십니까?");
-                    string yes = Console.ReadLine();
-                    if (yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
+                    Console.Clear();
+                    Console.WriteLine($"{Tool.Josa(job, "이", "가")} 맞으십니까?");
+                    Console.WriteLine();
+                    Tool.ColorTxt("1", Tool.color5);
+                    Console.WriteLine(".네");
+                    Tool.ColorTxt("2", Tool.color5);
+                    Console.WriteLine(".아니오");
+                    Console.WriteLine();
+                    char /*string*/ yes = Console.ReadKey(true).KeyChar;//Console.ReadLine();
+                    if (yes == '1')//(yes == "네" || yes == "예" || yes == "ㅇㅇ" || yes == "ㅇ")
                     {
                         Console.Clear();
                         SetState(); //직업을 정함과 동시에 메서드 호출로 스탯 세팅
@@ -144,6 +163,8 @@ namespace _6TxtRpg // 이쪽에 만들기
                     else
                     {
                         Console.WriteLine("다시 입력해주세요.");
+                        Console.ReadKey(true);
+                        Console.Clear();
                     }
                 }
 
@@ -254,7 +275,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine($"Name: {name} {job}"); //이름, 직업
+                Console.WriteLine($"Name: {job} {name}"); //이름, 직업
                 Console.WriteLine($"Level: {level}"); //레벨
                 Console.WriteLine($"Hp: {hp}/{maxHp}"); //체력/최대체력
                 Console.WriteLine($"Mp: {mp}/{maxMp}"); //마나/최대마나
@@ -462,9 +483,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                 player.mp -= mp;
                 if (player.input == "1") //힘껏치기
                 {
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                     damage = player.PlayerCri() * state;
                     actualDamage = player.BlowMonster(damage, monster);
-                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine();
                     Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
 
                 }
@@ -472,6 +494,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 {
                     player.defense = (int)(player.defense * state);
                     Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine();
                     Console.WriteLine($"{player.name}의 방어력이 {player.defense}가 되었습니다!");
                 }
             }
@@ -489,8 +512,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                 {
                     damage = player.PlayerCri() * state;
                     //actualDamage = player.BlowMonster(damage, monster);
-                    
+
                     Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine();
                     monster.Damaged(damage);
                     // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                 }
@@ -501,12 +525,14 @@ namespace _6TxtRpg // 이쪽에 만들기
                     {
                         player.hp = player.maxHp;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine();
                         Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
                     }
                     else
                     {
                         player.hp += heal;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine();
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }
                 }
@@ -532,6 +558,7 @@ namespace _6TxtRpg // 이쪽에 만들기
 
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         Console.WriteLine("치명적인 일격으로 공격했습니다!");
+                        Console.WriteLine();
                         monster.Damaged(damage);
                         // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
@@ -540,6 +567,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         damage = player.PlayerCri() * state;
                         actualDamage = player.BlowMonster(damage, monster);
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine();
                         Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                     }
                 }
@@ -553,6 +581,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         player.hp = player.maxHp;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine();
                         monster.Damaged(damage);
                         Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
                     }
@@ -561,6 +590,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                         player.hp += heal;
                         Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                         // Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine();
                         monster.Damaged(damage);
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }
@@ -583,10 +613,12 @@ public class Intro
 {
     public void IntroA(int stage)
     {
-        Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
-        Console.Write("스파르타 던전에 오신 여러분 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
+        //Console.WriteLine("스파르타 텍스트 알피지에 오신 것을 환영합니다.");
+        Console.Write($"{TxtR.player.job} {TxtR.player.name}님. ");
+        Console.Write("스파르타 던전에 오신 것을 환영합니다.\n이제 전투를 시작할 수 있습니다.\n\n");
         Tool.ColorTxt("1", Tool.color5);
         Console.Write(".상태 보기\n");
+        Console.WriteLine("-----------------------------------------------------");
         Tool.ColorTxt("2", Tool.color5);
         Console.Write(".전투 시작 (현재 진행 : ");
         Tool.ColorTxt(stage.ToString(), Tool.color4);
@@ -606,7 +638,7 @@ public class Intro
         Console.Write(".인벤토리\n");
         Tool.ColorTxt("6", Tool.color5);
         Console.WriteLine(".퀘스트");
-        Console.WriteLine();
+        Console.WriteLine("-----------------------------------------------------");
         Tool.ColorTxt("7", Tool.color5);
         Console.WriteLine(".저장하기");
         Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
