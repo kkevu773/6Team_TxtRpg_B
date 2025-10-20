@@ -74,10 +74,8 @@ namespace _6TxtRpg
                     Tool.ColorTxt("1", Tool.color5);
                     Console.WriteLine(".공격");
                     Tool.ColorTxt("2", Tool.color5);
-                    Console.WriteLine(".스킬사용");
-                    Tool.ColorTxt("3", Tool.color5);
                     Console.WriteLine(".관찰");
-                    Tool.ColorTxt("4", Tool.color5);
+                    Tool.ColorTxt("3", Tool.color5);
                     Console.WriteLine(".도망");
                     Console.WriteLine();
                     BattleMenuKey();
@@ -184,7 +182,7 @@ namespace _6TxtRpg
             if (Stage % 5 == 0 && !isPractice_)
             {
                 if (monsterList_.monsterList.FirstOrDefault(mon => mon.name == "울부짖는 늑대왕") == null)
-                { monsterList_.AddMonster(new Monster.WolfKing()); }   
+                { monsterList_.AddMonster(new Monster.WolfKing()); }
             }
             battleMon.monsterList = monsterList_.GetMonsters().ToList();//몬스터 리스트 복제.
             if (Stage % 5 == 0 && !isPractice_)
@@ -221,13 +219,7 @@ namespace _6TxtRpg
                 case '1'://공격키
                     currentPhase = Phase.CharATK;//몬스터 이름앞에 숫자가 나옴.
                     break;
-                case '2':
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    character_.SkillList();
-                    Console.ReadKey(true);
-                    break;
-                case '3'://관찰키
+                case '2'://관찰키
                     Console.Clear();
                     for (int i = 0; i < monNum; ++i)
                     {
@@ -238,7 +230,7 @@ namespace _6TxtRpg
                     Console.Write(">> ");
                     Console.ReadKey(true);
                     break;
-                case '4'://도망
+                case '3'://도망
                     currentPhase = Phase.CharRun;
                     isBattle = false;
                     break;
@@ -262,8 +254,8 @@ namespace _6TxtRpg
                 { CharAtk(monIndex - 1); }
                 else
                 {
-                    Console.WriteLine(); 
-                    Tool.WrongMsg(); 
+                    Console.WriteLine();
+                    Tool.WrongMsg();
                 }
             }
         }
@@ -274,10 +266,13 @@ namespace _6TxtRpg
                 if (battleMon.monsterList[num].isDead) //만약 몬스터가 죽었을 때
                 {
                     Console.WriteLine();
-                    Tool.WrongMsg(); 
+                    Tool.WrongMsg();
                 }
                 else
                 {
+                    Console.Clear();
+
+
                     Console.Clear();
                     BattleMsg("Battle!!", Tool.color2);
                     float beforehit = battleMon.monsterList[num].hp;
@@ -286,15 +281,34 @@ namespace _6TxtRpg
                     Console.WriteLine($"{character_.name}의 공격!");
                     character_.PlayerCri();
                     Console.WriteLine();
-                    Console.Write($"Lv.");
-                    Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
-                    Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
-                    Tool.ColorTxt(charDamage.ToString(), Tool.color2);
-                    Console.Write(")");
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    battleMon.monsterList[num].Damaged(charDamage);
-                    Console.WriteLine();
+                    Tool.ColorTxt("1", Tool.color5);
+                    Console.WriteLine(".일반공격");
+                    Tool.ColorTxt("2", Tool.color5);
+                    Console.WriteLine(".스킬사용");
+                    switch (Console.ReadKey(true).KeyChar)
+                    {
+                        case '1'://일반공격
+                            Console.WriteLine();
+                            Console.Write($"Lv.");
+                            Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
+                            Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
+                            Tool.ColorTxt(charDamage.ToString(), Tool.color2);
+                            Console.Write(")");
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            battleMon.monsterList[num].Damaged(charDamage);
+                            Console.WriteLine();
+                            break;
+                        case '2':
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            character_.SkillList();
+                            character_.UseSkill(battleMon.monsterList[num]);
+                            break;
+                        default:
+                            break;
+                    }
+
                     if (battleMon.monsterList[num].isDead)
                     { Console.WriteLine(); }
                     Console.Write($"Lv.");
@@ -333,7 +347,7 @@ namespace _6TxtRpg
             else
             {
                 Console.WriteLine();
-                Tool.WrongMsg(); 
+                Tool.WrongMsg();
             }
         }
         void NextButton(string message, string typeMsg, Phase nextPhase)
