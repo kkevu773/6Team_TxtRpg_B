@@ -450,8 +450,8 @@ namespace _6TxtRpg // 이쪽에 만들기
                     player.MageSkill.Add(new Skills("회복", 0.2f, 15));
                     break;
                 case "도적":
-                    player.BanditSkill.Add(new Skills("암살", 1.3f, 20));
-                    player.BanditSkill.Add(new Skills("흡혈", 0.8f, 15));
+                    player.BanditSkill.Add(new Skills("암살", 1.3f, 7));
+                    player.BanditSkill.Add(new Skills("흡혈", 0.8f, 10));
                     break;
             }
         }
@@ -474,6 +474,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                     Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
                     Console.WriteLine($"{player.name}의 방어력이 {player.defense}가 되었습니다!");
                 }
+            }
+            else
+            {
+                Console.WriteLine("마나가 부족합니다!");
             }
         }
         public void UseMageSkills(Character player, Monster monster) //마법사스킬 사용 메서드
@@ -506,6 +510,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }
                 }
+            }
+            else
+            {
+                Console.WriteLine("마나가 부족합니다!");
             }
         }
         public void UseBanditSkills(Character player, Monster monster) //도적스킬 사용 메서드
@@ -557,6 +565,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                         Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
                     }
                 }
+            }
+            else
+            {
+                Console.WriteLine("마나가 부족합니다!");
             }
 
         }
