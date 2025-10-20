@@ -22,9 +22,9 @@ namespace _6TxtRpg
         private bool isPractice_;
         bool isBattle = false; //전투상태인지 체크.
         bool isBoss = false;
-        Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
+        public Phase currentPhase = Phase.Unknown;//페이즈 체크용 변수
         int startHp;//데미지 깎기 전 Hp를 저장하기 위한 변수.
-        enum Phase//bool로 처리하다가 너무 많아질거 같아서 enum으로 바꿨음.
+        public enum Phase//bool로 처리하다가 너무 많아질거 같아서 enum으로 바꿨음.
         {
             Waiting,
             CharATK,
@@ -275,14 +275,37 @@ namespace _6TxtRpg
                                 Console.WriteLine();
                                 battleMon.monsterList[num].Damaged(charDamage);
                                 Console.WriteLine();
+                                if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                                { Console.WriteLine(); }
                                 isSelectMove = false;
                                 isAttack = true;
                                 break;
                             case '2':
-                                Console.WriteLine();
-                                Console.WriteLine();
+                                Console.Clear();
                                 character_.SkillList();
-                                character_.UseSkill(battleMon.monsterList[num]);
+                                if (character_.job == "농부")
+                                {
+                                    Console.WriteLine();
+                                    Console.Write($"Lv.");
+                                    Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
+                                    Console.Write($" {Tool.Josa(battleMon.monsterList[num].name, "을", "를")} 맞췄습니다. (데미지 : ");
+                                    Tool.ColorTxt(charDamage.ToString(), Tool.color2);
+                                    Console.Write(")");
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                    battleMon.monsterList[num].Damaged(charDamage);
+                                    Console.WriteLine();
+                                    if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
+                                    { Console.WriteLine(); }
+                                }
+                                else
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("원하는 스킬을 사용해주세요.");
+                                    Console.Write(">> ");
+                                    character_.UseSkill(battleMon.monsterList[num]);
+                                    Console.WriteLine();
+                                }
                                 isSelectMove = false;
                                 isAttack = true;
                                 break;
@@ -304,8 +327,6 @@ namespace _6TxtRpg
                     }
                     if (isAttack)
                     {
-                        if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
-                        { Console.WriteLine(); }
                         Console.Write($"Lv.");
                         Tool.ColorTxt(battleMon.monsterList[num].level.ToString(), Tool.color4);
                         Console.Write($" {battleMon.monsterList[num].name}");
@@ -315,8 +336,11 @@ namespace _6TxtRpg
                         Console.Write(" -> ");
                         if (battleMon.monsterList[num].isDead || battleMon.monsterList[num].hp <= 0)
                         {
+                            if (!battleMon.monsterList[num].isDead && battleMon.monsterList[num].hp <= 0)
+                            { battleMon.monsterList[num].isDead = true; }
                             Tool.ColorTxt("Dead", Tool.color2);
                             character_.exp += battleMon.monsterList[num].exp;
+                            Console.WriteLine();
                             Console.WriteLine();
                             Tool.ColorTxt(battleMon.monsterList[num].exp.ToString(), Tool.color5);
                             Console.WriteLine("의 경험치를 획득하였습니다.");

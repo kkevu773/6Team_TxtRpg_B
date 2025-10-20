@@ -281,13 +281,14 @@ namespace _6TxtRpg // 이쪽에 만들기
         public void SkillList() //스킬리스트 출력
         {
             int number = 0;
-            Console.WriteLine("=====스킬리스트=====");
+            //Console.WriteLine("=====스킬리스트=====");
             if (job == "전사")
             {
                 foreach (Skills skills in WarriorSkill)
                 {
                     number++;
-                    Console.WriteLine($"스킬이름:{number} {skills.name} 소모MP:{skills.mp}");
+                    Tool.ColorTxt(number.ToString(), Tool.color5);
+                    Console.WriteLine($" {skills.name} 소모 MP:{skills.mp}");
                 }
             }
             else if (job == "마법사")
@@ -295,7 +296,8 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in MageSkill)
                 {
                     number++;
-                    Console.WriteLine($"스킬이름:{number} {skills.name} 소모MP:{skills.mp}");
+                    Tool.ColorTxt(number.ToString(), Tool.color5);
+                    Console.WriteLine($" {skills.name} 소모 MP:{skills.mp}");
                 }
             }
             else if (job == "도적")
@@ -303,12 +305,14 @@ namespace _6TxtRpg // 이쪽에 만들기
                 foreach (Skills skills in BanditSkill)
                 {
                     number++;
-                    Console.WriteLine($"스킬이름:{number} {skills.name} 소모MP:{skills.mp}");
+                    Tool.ColorTxt(number.ToString(), Tool.color5);
+                    Console.WriteLine($" {skills.name} 소모 MP:{skills.mp}");
                 }
             }
             else if (job == "농부")
             {
-                Console.WriteLine("농부는 그런 거 모릅니다.");
+                Console.WriteLine("농부는 그런거 모릅니다.");
+                Console.WriteLine("농부는 곡괭이를 아무렇게나 휘둘렀습니다.");
             }
         }
         public void UseSkill(Monster monster)
