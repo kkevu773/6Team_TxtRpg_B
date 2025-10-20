@@ -200,9 +200,12 @@ namespace _6TxtRpg
                     case Status.BonusDef:
                         break;
                 }
-
-                Console.WriteLine($"{Name} 장비, {temp.Name} 장비 해제");
-                Inventory.Inven.Find(it => it == temp).IsUsing = false;
+               
+                if(temp != this)
+                {
+                    Inventory.Inven.Find(it => it == temp).IsUsing = false;
+                    Console.WriteLine($"{Name} 장비, {temp.Name} 장비 해제");
+                }               
             }
         }
 
