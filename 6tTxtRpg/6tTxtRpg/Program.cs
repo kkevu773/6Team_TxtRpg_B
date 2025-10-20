@@ -403,7 +403,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         }
         public void UseSkill(Monster monster)
         {
-            input = Console.ReadLine();
+            input = Console.ReadKey(true).KeyChar.ToString();
             Console.Clear();
             if (job == "전사")
             {
