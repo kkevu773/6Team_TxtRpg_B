@@ -90,6 +90,7 @@ namespace _6TxtRpg // 이쪽에 만들기
         public List<Skills> MageSkill = new List<Skills>();//마법사 스킬리스트
         public List<Skills> BanditSkill = new List<Skills>();//도적 스킬리스트
         Random random = new Random(); //랜덤함수
+        public string input; //입력값 저장용 변수
         public Character() //생성자
         {
         }
@@ -258,34 +259,69 @@ namespace _6TxtRpg // 이쪽에 만들기
         }
         public void SkillList() //스킬리스트 출력
         {
+            int number = 0;
             Console.WriteLine("=====스킬리스트=====");
             if (job == "전사")
             {
                 foreach (Skills skills in WarriorSkill)
                 {
-                    Console.WriteLine($"스킬이름:{skills.name} 소모MP:{skills.mp}");
+                    number++;
+                    Console.WriteLine($"스킬이름:{number} {skills.name} 소모MP:{skills.mp}");
                 }
             }
             else if (job == "마법사")
             {
                 foreach (Skills skills in MageSkill)
                 {
-                    Console.WriteLine($"스킬이름:{skills.name} 소모MP:{skills.mp}");
+                    number++;
+                    Console.WriteLine($"스킬이름:{number} {skills.name} 소모MP:{skills.mp}");
                 }
             }
             else if (job == "도적")
             {
                 foreach (Skills skills in BanditSkill)
                 {
-                    Console.WriteLine($"스킬이름:{skills.name} 소모MP:{skills.mp}");
+                    number++;
+                    Console.WriteLine($"스킬이름:{number} {skills.name} 소모MP:{skills.mp}");
                 }
             }
         }
-        public void UseSkill(Skills skill, Monster monster)
+        public void UseSkill(Monster monster)
         {
+            input = Console.ReadLine();
             if (job == "전사")
             {
-                skill.UseWarriorSkills(TxtR.player,monster);
+                if (input == "1")
+                {
+                    WarriorSkill[0].UseWarriorSkills(TxtR.player, monster);
+                }
+                else if (input == "2")
+                {
+                    WarriorSkill[1].UseWarriorSkills(TxtR.player, monster);
+                }
+
+            }
+            else if (job == "마법사")
+            {
+                if (input == "1")
+                {
+                    MageSkill[0].UseMageSkills(TxtR.player, monster);
+                }
+                else if (input == "2")
+                {
+                    MageSkill[1].UseMageSkills(TxtR.player, monster);
+                }
+            }
+            else if (job == "도적")
+            {
+                if (input == "1")
+                {
+                    BanditSkill[0].UseBanditSkills(TxtR.player, monster);
+                }
+                else if (input == "2")
+                {
+                    BanditSkill[1].UseBanditSkills(TxtR.player, monster);
+                }
             }
         }
         public float BlowPlayer(float damage, Character player) //몬스터가 캐릭터를 공격하는 메서드
@@ -372,20 +408,19 @@ namespace _6TxtRpg // 이쪽에 만들기
             if (player.mp >= mp)
             {
                         player.mp -= mp;
-                switch (Console.ReadKey().KeyChar)
+                if (player.input == "1")
                 {
-                    case '1':
-                        damage = player.PlayerCri() * state;
-                        actualDamage = player.BlowMonster(damage, monster);
-                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
-                        break;
-                    case '2':
-                        player.defense = (int)(player.defense * state);
-                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                        Console.WriteLine($"{player.name}의 방어력이 {player.defense}가 되었습니다!");
-                        break;
+                    damage = player.PlayerCri() * state;
+                    actualDamage = player.BlowMonster(damage, monster);
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
 
+                }
+                else if (player.input == "2")
+                {
+                    player.defense = (int)(player.defense * state);
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine($"{player.name}의 방어력이 {player.defense}가 되었습니다!");
                 }
             }
         }
@@ -394,31 +429,29 @@ namespace _6TxtRpg // 이쪽에 만들기
             if (player.mp >= mp)
             {
                 player.mp -= mp;
-                switch (Console.ReadKey().KeyChar)
+                if (player.input == "1")
                 {
-                    case '1':
-                        damage = player.PlayerCri() * state;
-                        actualDamage = player.BlowMonster(damage, monster);
-                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
-                        break;
-                    case '2':
-                            heal = (int)(player.maxHp * state);
-                        if (player.hp + heal >= player.maxHp)
-                        {
-                            player.hp = player.maxHp;
-                            Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                            Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
-                        }
-                        else
-                        {
-                            player.hp += heal;
-                            Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                            Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
-                        }
-                        break;
+                    damage = player.PlayerCri() * state;
+                    actualDamage = player.BlowMonster(damage, monster);
+                    Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                    Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
                 }
-
+                else if (player.input == "2")
+                {
+                    heal = (int)(player.maxHp * state);
+                    if (player.hp + heal >= player.maxHp)
+                    {
+                        player.hp = player.maxHp;
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
+                    }
+                    else
+                    {
+                        player.hp += heal;
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
+                    }
+                }
             }
         }
         public void UseBanditSkills(Character player, Monster monster) //도적스킬 사용 메서드
@@ -426,46 +459,45 @@ namespace _6TxtRpg // 이쪽에 만들기
             if (player.mp >= mp)
             {
                 player.mp -= mp;
-                
-                switch (Console.ReadKey().KeyChar)
+
+                if (player.input == "1")
                 {
-                    case '1':
-                        int holy = random.Next(1, 101);
-                        if (holy <= 70)
-                        {
-                            damage = player.PlayerCri() * state * 2;
-                            actualDamage = player.BlowMonster(damage, monster);
-                            Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                            Console.WriteLine("치명적인 일격으로 공격했습니다!");
-                            Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
-                        }
-                        else
-                        {
-                            damage = player.PlayerCri() * state;
-                            actualDamage = player.BlowMonster(damage, monster);
-                            Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                            Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
-                        }
-                        break;
-                    case '2':
+                    int holy = random.Next(1, 101);
+                    if (holy <= 70)
+                    {
+                        damage = player.PlayerCri() * state * 2;
+                        actualDamage = player.BlowMonster(damage, monster);
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine("치명적인 일격으로 공격했습니다!");
+                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                    }
+                    else
+                    {
                         damage = player.PlayerCri() * state;
                         actualDamage = player.BlowMonster(damage, monster);
-                        int heal = (int)(actualDamage * 0.2f);
-                        if (player.hp + heal >= player.maxHp)
-                        {
-                            player.hp = player.maxHp;
-                            Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                            Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
-                            Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
-                        }
-                        else
-                        {
-                            player.hp += heal;
-                            Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
-                            Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
-                            Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
-                        }
-                        break;
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                    }
+                }
+                else if (player.input == "2")
+                {
+                    damage = player.PlayerCri() * state;
+                    actualDamage = player.BlowMonster(damage, monster);
+                    int heal = (int)(actualDamage * 0.2f);
+                    if (player.hp + heal >= player.maxHp)
+                    {
+                        player.hp = player.maxHp;
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine($"{player.name}의 체력이 최대치가 되었습니다!");
+                    }
+                    else
+                    {
+                        player.hp += heal;
+                        Console.WriteLine($"{Tool.Josa(player.name, "이", "가")} {Tool.Josa(this.name, "을", "를")} 사용했습니다!!");
+                        Console.WriteLine($"{monster.name}에게 {actualDamage}의 피해를 입혔습니다!");
+                        Console.WriteLine($"{player.name}의 체력이 {heal}만큼 회복되었습니다!");
+                    }
                 }
             }
 
