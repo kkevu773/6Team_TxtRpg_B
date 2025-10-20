@@ -88,7 +88,11 @@ namespace _6tTxtRpg
                     return;
                 }
                 else if (questNum > QuestList.Count)
-                { return; }
+                {
+                    Console.WriteLine($">> {questNum}");
+                    Tool.WrongMsg();
+                    Console.ReadKey(true);
+                }
                 else
                 {
                     isOn = true;
