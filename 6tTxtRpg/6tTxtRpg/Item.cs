@@ -303,6 +303,9 @@ namespace _6TxtRpg
     }
     public class Inventory
     {
+
+        public static int invenPage = 0;
+
         public static Dictionary<ItemType, Item?> equipments = new Dictionary<ItemType, Item?>() {
             { ItemType.Head, null },
             { ItemType.Body, null },
@@ -363,6 +366,8 @@ namespace _6TxtRpg
         public static void PrintInventory()
         {
             //장비 출력
+            List<Item> printItemList = Inven.GetRange(invenPage * 9, (Inven.Count-invenPage*9 >= 9 ? 9 : (Inven.Count - invenPage * 9)));
+
             Console.WriteLine("================= 장비 ================");
             int num = 1;
             foreach (KeyValuePair<ItemType, Item> item in equipments)
@@ -374,9 +379,9 @@ namespace _6TxtRpg
             //인벤 출력
             Console.WriteLine("================= 인벤토리 ================");
 
-            for (int i = 0; i < Inven.Count; i++)
+            for (int i = 0; i < printItemList.Count; i++)
             {
-                Item itemInven = Inven[i];
+                Item itemInven = printItemList[i];
                 string itemEffect = "";
                 switch (itemInven.EffectStatus)
                 {
@@ -410,6 +415,31 @@ namespace _6TxtRpg
                         break;
                 }
                 Console.WriteLine($"{i + 1}.[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect} [{itemInven.Price}G]");
+            }
+
+        }
+
+        public static void moveInvenPage(bool next)
+        {
+            int maxPage = (Inven.Count() / 9) + (Inven.Count() % 9 > 0 ? 1 : 0);
+
+            if (next)
+            {
+                invenPage++;
+
+                if (invenPage >= maxPage -1)
+                {
+                    invenPage = maxPage - 1;
+                }
+            }
+            else 
+            {
+                invenPage--;
+
+                if (invenPage < 0)
+                {
+                    invenPage = 0;
+                }
             }
 
         }
@@ -465,10 +495,26 @@ namespace _6TxtRpg
 
             while (flag)
             {
-                Console.WriteLine("0.나가기\n사용 할 아이템의 번호를 입력해주세요.");
+                Console.WriteLine($"0.나가기\n이전페이지[<] {invenPage + 1}/{(Inven.Count() / 9) + (Inven.Count() % 9 > 0 ? 1 : 0)} [>]다음페이지\n사용 할 아이템의 번호를 입력해주세요.");
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 char inputChar = keyInfo.KeyChar;
+
+                if(keyInfo.Key == ConsoleKey.LeftArrow)
+                {
+                    moveInvenPage(false);
+                    Console.Clear();
+                    PrintInventory();
+                    continue;
+
+                }
+                else if (keyInfo.Key == ConsoleKey.RightArrow)
+                {
+                    moveInvenPage(true);
+                    Console.Clear();
+                    PrintInventory();
+                    continue;
+                }
 
                 int input = (int.TryParse(inputChar.ToString(), out int value)) ? value : -99; // 입력을 정수로 변환, 실패시 정수 -1 반환
 
@@ -479,12 +525,20 @@ namespace _6TxtRpg
                     Console.Clear();
                     break;
                 }
-                else if (input <= Inventory.Inven.Count && input > 0)
+                else if (input <= (Inventory.Inven.Count - invenPage * 9) && input > 0)
                 {
                     //인벤토리의 아이템 사용
-                    string usedItemName = Inventory.Inven[input - 1].Name;
-                    Console.Clear();
-                    Inventory.Inven[input - 1].UseItem();
+                    string usedItemName = Inventory.Inven[(input + invenPage * 9) - 1].Name;
+                    Console.Clear(); // 아이템 사용 메세지 출력 위헤 먼저 삭제
+                    int invenNum = Inventory.Inven.Count;
+
+                    Inventory.Inven[(input + invenPage * 9) - 1].UseItem();
+
+                    //사용 후 아이템 페이지가 줄어들면
+                    if (Inventory.Inven.Count - invenPage * 9 == 0 && Inventory.Inven.Count < invenNum)
+                    {
+                        invenPage--;
+                    }
                     PrintInventory();
                     //이후 인벤토리 출력갱신 필요
                 }
@@ -527,20 +581,19 @@ namespace _6TxtRpg
     public class ItemPreset
     {
         public static List<Item> itemList = new List<Item>() {
-            new Item("TestItem", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트무기", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트무기2", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트보조무기", 0, Status.Atk, 999, 1, ItemType.ExtraWeapon, 999, "테스트 아이템입니다."),
-            new Item("테스트투구", 0, Status.Atk, 999, 1, ItemType.Head, 999, "테스트 아이템입니다."),
-            new Item("테스트갑옷", 0, Status.Atk, 999, 1, ItemType.Body, 999, "테스트 아이템입니다."),
-            new Item("테스트버프", 3, Status.Def, 999, 1, ItemType.Buff, 999, "테스트 아이템입니다.")
+            new Item("강철검", 0, Status.Atk, 5, 1, ItemType.Weapon, 100, "강철로 만들어진 검입니다."),
+            new Item("강철도끼", 0, Status.Atk, 7, 1, ItemType.Weapon, 150, "강철로 만들어진 도끼입니다."),
+            new Item("버클러", 0, Status.Def, 5, 1, ItemType.ExtraWeapon, 200, "동그란 소형 방패입니다."),
+            new Item("가죽투구", 0, Status.Def, 3, 1, ItemType.Head, 150, "몬스터의 가죽으로 만든 투구입니다."),
+            new Item("가죽갑옷", 0, Status.Def, 6, 1, ItemType.Body, 200, "질긴 가죽을 덧댄 갑옷입니다."),
+            new Item("분노의 영약", 3, Status.Atk, 10, 1, ItemType.Buff, 100, "일시적으로 공격력이 상승하는 물약입니다.")
         };
 
         public static List<Item> dropItemList = new List<Item>() {
-            new Item("고블린드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "고블린의 드랍아이템"),
-            new Item("거미드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
-            new Item("늑대드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템"),
-            new Item("늑대왕드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대왕의 드랍아이템")
+            new Item("고블린의 귀", 0, Status.None, 0, 1, ItemType.Etc, 1, "고블린 토벌의 증표로 사용됩니다."),
+            new Item("거미의 독샘", 0, Status.None, 0, 1, ItemType.Etc, 3, "거미 토벌의 증표로 사용됩니다."),
+            new Item("늑대의 송곳니", 0, Status.None, 0, 1, ItemType.Etc, 9, "늑대 토벌의 증표로 사용됩니다."),
+            new Item("늑대왕의 발톱", 0, Status.None, 0, 1, ItemType.Etc, 20, "늑대왕 토벌의 증표로 사용됩니다.")
         };
 
         public static List<Item> testItemList = new List<Item>() {
