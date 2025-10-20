@@ -67,15 +67,15 @@ namespace _6tTxtRpg
             {
                 if (index > 10)
                 { return; }
-                Tool.ColorTxt($"{index + 1} ", Tool.color5);
+                Tool.ColorTxt($"{index + 1} ", Tool.cyan);
                 Console.Write(QuestList[index].QuestName);
                 if (QuestList[index].IsStart)
-                { Tool.ColorTxt(" - 진행 중", Tool.color4); }
+                { Tool.ColorTxt(" - 진행 중", Tool.yellow); }
                 Console.WriteLine();
                 ++index;
             }
             Console.WriteLine();
-            Tool.ColorTxt($"0 ", Tool.color5);
+            Tool.ColorTxt($"0 ", Tool.cyan);
             Console.WriteLine("뒤로 가기");
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             char inputChar = keyInfo.KeyChar;
@@ -95,34 +95,35 @@ namespace _6tTxtRpg
                     while (isOn)
                     {
                         Console.Clear();
-                        Tool.ColorTxt($" - {QuestList[questNum - 1].QuestName}", Tool.color4);
+                        Tool.ColorTxt($" - {QuestList[questNum - 1].QuestName}", Tool.yellow);
                         if (QuestList[questNum - 1].IsStart)
-                        { Tool.ColorTxt(" - 진행 중", Tool.color2);}
+                        { Tool.ColorTxt(" - 진행 중", Tool.red);}
                         Console.WriteLine();
                         Console.WriteLine();
                         Console.WriteLine(QuestList[questNum - 1].QuestInfo);
                         Console.WriteLine();
-                        Tool.ColorTxt($"목표 : {QuestList[questNum - 1].QuestRequire} ({QuestList[questNum - 1].CurrentRequire}/{QuestList[questNum - 1].Require})", Tool.color4);
+                        Tool.ColorTxt($"목표 : {QuestList[questNum - 1].QuestRequire} ({QuestList[questNum - 1].CurrentRequire}/{QuestList[questNum - 1].Require})", Tool.yellow);
                         Console.WriteLine();
                         Console.WriteLine();
-                        Tool.ColorTxt($"보상 : \n\n    {QuestList[questNum - 1].QuestReward} X {QuestList[questNum - 1].RewardAmount}\n    {QuestList[questNum -1].QuestReward2}", Tool.color5);
+                        Tool.ColorTxt($"보상 : \n\n    {QuestList[questNum - 1].QuestReward} X {QuestList[questNum - 1].RewardAmount}\n    {QuestList[questNum -1].QuestReward2}", Tool.cyan);
                         Console.WriteLine();
                         Console.WriteLine();
                         if (!QuestList[questNum - 1].IsStart)
                         {
-                            Tool.ColorTxt($"1 ", Tool.color5);
+                            Tool.ColorTxt($"1 ", Tool.cyan);
                             Console.WriteLine("수락");
                         }
                         else if (QuestList[questNum - 1].IsStart)
                         {
-                            Tool.ColorTxt($"1 ", Tool.color5);
+                            Tool.ColorTxt($"1 ", Tool.cyan);
                             Console.WriteLine("완료");
                         }
-                        Tool.ColorTxt($"0 ", Tool.color5);
+                        Tool.ColorTxt($"0 ", Tool.cyan);
                         Console.WriteLine("뒤로 가기");
-                        switch (Console.ReadKey(true).KeyChar)
+                        string questMenu = Console.ReadKey(true).KeyChar.ToString();
+                        switch (questMenu)
                         {
-                            case '1':
+                            case "1":
                                 if (!QuestList[questNum - 1].IsStart)
                                 {
                                     QuestList[questNum - 1].IsStart = true;
@@ -135,7 +136,7 @@ namespace _6tTxtRpg
                                     { Inventory.GetItem(QuestList[questNum - 1].RewardItem); }
                                     TxtR.player.gold+=QuestList[questNum - 1].RewardGold;
                                     Console.WriteLine();
-                                    Tool.ColorTxt($"{Tool.Josa(QuestList[questNum - 1].QuestName,"을","를")} 완료했습니다.\n{QuestList[questNum - 1].QuestReward} {Tool.Josa($"{QuestList[questNum -1].RewardAmount}개","과","와")} {Tool.Josa(QuestList[questNum - 1].QuestReward2, "을", "를")} 얻었습니다.",Tool.color4);
+                                    Tool.ColorTxt($"{Tool.Josa(QuestList[questNum - 1].QuestName,"을","를")} 완료했습니다.\n{QuestList[questNum - 1].QuestReward} {Tool.Josa($"{QuestList[questNum -1].RewardAmount}개","과","와")} {Tool.Josa(QuestList[questNum - 1].QuestReward2, "을", "를")} 얻었습니다.",Tool.yellow);
                                     Console.ReadKey(true);
                                     isOn = false;
                                     QuestList.RemoveAt(questNum - 1);
@@ -143,15 +144,16 @@ namespace _6tTxtRpg
                                 else
                                 {
                                     Console.WriteLine();
-                                    Tool.ColorTxt($"아직 조건이 완료되지 않았습니다. ", Tool.color2);
+                                    Tool.ColorTxt($"아직 조건이 완료되지 않았습니다. ", Tool.red);
                                     Console.WriteLine();
                                     Console.ReadKey(true);
                                 }
                                     break;
-                            case '0':
+                            case "0":
                                 isOn = false;
                                 break;
                             default:
+                                Console.WriteLine($">> {questMenu}");
                                 Tool.WrongMsg();
                                 break;
                         }
