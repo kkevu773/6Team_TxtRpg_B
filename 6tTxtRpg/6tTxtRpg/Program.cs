@@ -31,7 +31,7 @@ namespace _6TxtRpg // 이쪽에 만들기
             {
                 Console.Clear();
                 intro.IntroA(battle.Stage);
-                switch (Console.ReadKey().KeyChar)//디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
+                switch (Console.ReadKey().KeyChar) //디버깅하려고 임시로 넣은거라 로직 바꾸셔도 됩니다.
                 {
                     case '1':
                         player.ShowInfo();
@@ -42,39 +42,10 @@ namespace _6TxtRpg // 이쪽에 만들기
                     case '3':
                         battle.RunBattle(true);
                         break;
-                    case '4':
-                        player.level = 1;
-                        player.gold = 10000;
-                        Inventory.GetItem(ItemPreset.itemList[1]);
-                        Inventory.GetItem(ItemPreset.dropItemList[0]);
-                        Inventory.GetItem(ItemPreset.dropItemList[0]);
-                        Inventory.GetItem(ItemPreset.dropItemList[0]);                        
+                    case '4':                     
                         Shop.ShopInput();
                         break;
-                    case '5':
-                        Inventory.GetItem(ItemPreset.itemList[1]);
-                        Inventory.GetItem(ItemPreset.itemList[2]);
-                        Inventory.GetItem(ItemPreset.itemList[3]);
-                        Inventory.GetItem(ItemPreset.itemList[6]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        Inventory.Inven.Add(ItemPreset.testItemList[1]);
-                        
+                    case '5':                                         
                         Inventory.InventoryInput();
                         break;
                     case '6':

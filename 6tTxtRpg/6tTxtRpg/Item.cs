@@ -581,20 +581,19 @@ namespace _6TxtRpg
     public class ItemPreset
     {
         public static List<Item> itemList = new List<Item>() {
-            new Item("TestItem", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트무기", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트무기2", 0, Status.Atk, 999, 1, ItemType.Weapon, 999, "테스트 아이템입니다."),
-            new Item("테스트보조무기", 0, Status.Atk, 999, 1, ItemType.ExtraWeapon, 999, "테스트 아이템입니다."),
-            new Item("테스트투구", 0, Status.Atk, 999, 1, ItemType.Head, 999, "테스트 아이템입니다."),
-            new Item("테스트갑옷", 0, Status.Atk, 999, 1, ItemType.Body, 999, "테스트 아이템입니다."),
-            new Item("테스트버프", 3, Status.Def, 999, 1, ItemType.Buff, 999, "테스트 아이템입니다.")
+            new Item("강철검", 0, Status.Atk, 5, 1, ItemType.Weapon, 100, "강철로 만들어진 검입니다."),
+            new Item("강철도끼", 0, Status.Atk, 7, 1, ItemType.Weapon, 150, "강철로 만들어진 도끼입니다."),
+            new Item("버클러", 0, Status.Def, 5, 1, ItemType.ExtraWeapon, 200, "동그란 소형 방패입니다."),
+            new Item("가죽투구", 0, Status.Def, 3, 1, ItemType.Head, 150, "몬스터의 가죽으로 만든 투구입니다."),
+            new Item("가죽갑옷", 0, Status.Def, 6, 1, ItemType.Body, 200, "질긴 가죽을 덧댄 갑옷입니다."),
+            new Item("분노의 영약", 3, Status.Atk, 10, 1, ItemType.Buff, 100, "일시적으로 공격력이 상승하는 물약입니다.")
         };
 
         public static List<Item> dropItemList = new List<Item>() {
-            new Item("고블린드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "고블린의 드랍아이템"),
-            new Item("거미드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "거미의 드랍아이템"),
-            new Item("늑대드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대의 드랍아이템"),
-            new Item("늑대왕드랍", 0, Status.None, 0, 1, ItemType.Etc, 0, "늑대왕의 드랍아이템")
+            new Item("고블린의 귀", 0, Status.None, 0, 1, ItemType.Etc, 1, "고블린 토벌의 증표로 사용됩니다."),
+            new Item("거미의 독샘", 0, Status.None, 0, 1, ItemType.Etc, 3, "거미 토벌의 증표로 사용됩니다."),
+            new Item("늑대의 송곳니", 0, Status.None, 0, 1, ItemType.Etc, 9, "늑대 토벌의 증표로 사용됩니다."),
+            new Item("늑대왕의 발톱", 0, Status.None, 0, 1, ItemType.Etc, 20, "늑대왕 토벌의 증표로 사용됩니다.")
         };
 
         public static List<Item> testItemList = new List<Item>() {
