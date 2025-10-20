@@ -190,7 +190,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                     this.mp = 30;
                     this.damage = 20; // 낮은 기본 공격력 (단순 노동으로 얻은 힘)
                     this.defense = 4; // 비전사 직업 중 가장 높은 방어력
-                    this.CriticalChance = 5; // 가장 낮은 치명타 (운에 의존하지 않음)
+                    this.CriticalChance = 50; //스킬이 없어 운에 의존한다.
                     break;
             }
         }
