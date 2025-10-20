@@ -22,7 +22,7 @@ namespace _6tTxtRpg
             RemainTurn = remainTurn;
         }
         
-        public void StatUp()
+        public void StatUp() // 실제 수치를 조정하면 버그가 날 확률 높아짐. (피드백)
         {
             switch(EffectStatus)
             {
@@ -33,7 +33,7 @@ namespace _6tTxtRpg
                 case Status.Mp:
                     TxtR.player.mp += EffectNum;
                     if (TxtR.player.mp > TxtR.player.maxMp) TxtR.player.mp = TxtR.player.maxMp;
-                    break;
+                    break; 
                 case Status.Exp:
                     // 여기에 케릭터 경험치 획득 메소드 연결
                     break;
