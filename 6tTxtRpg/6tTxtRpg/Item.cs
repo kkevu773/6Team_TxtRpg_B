@@ -306,14 +306,14 @@ namespace _6TxtRpg
 
         public static int invenPage = 0;
 
-        public static Dictionary<ItemType, Item?> equipments = new Dictionary<ItemType, Item?>() {
+        public static Dictionary<ItemType, Item?> equipments = new Dictionary<ItemType, Item?>() {//TODO:저장
             { ItemType.Head, null },
             { ItemType.Body, null },
             { ItemType.Weapon, null },
             { ItemType.ExtraWeapon, null },
         };
 
-        public static List<Item> Inven = new List<Item>() { };
+        public static List<Item> Inven = new List<Item>() { };//TODO:저장
 
         public static void GetItem(Item item)
         {

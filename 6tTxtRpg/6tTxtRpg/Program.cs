@@ -8,25 +8,55 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace _6TxtRpg // 이쪽에 만들기
 {
     internal class TxtR //쉬운 디버깅을 위해 위로 뻈습니다.
     {
         public static Character player = new Character();
-
+        public static bool isLoad = false;
 
         public static void Main(string[] args)
         {
+            Console.CursorVisible = false;
             Console.ForegroundColor = Tool.white;
-            player.YourName();
-            player.YourJob();
-            var intro = new Intro();
             MonsterList monsterList = new MonsterList();
             Battle battle = new Battle(player, monsterList);
-
+            if (Directory.Exists(SaveLoad.saveFolderName))
+            {
+                Console.WriteLine("이전 파일이 있습니다. \n저장정보를 불러오시겠습니까?");
+                Console.WriteLine();
+                Tool.ColorTxt("1", Tool.cyan);
+                Console.Write(".예\n");
+                Tool.ColorTxt("2", Tool.cyan);
+                Console.Write(".아니요\n");
+                switch (Console.ReadKey(true).KeyChar)
+                {
+                    case '1':
+                        Console.WriteLine();
+                        player = SaveLoad.LoadCharacter();
+                        Inventory.Inven = SaveLoad.LoadInven();
+                        Inventory.equipments = SaveLoad.LoadEquip();
+                        battle.Stage = (int)SaveLoad.LoadStage();
+                        OpenQuest.QuestList = SaveLoad.LoadQuest();
+                        isLoad = true;
+                        break;
+                    case '2':
+                    default:
+                        isLoad = false;
+                        break;
+                }
+            }
+            if(!isLoad)
+            {
+                player.YourName();
+                player.YourJob();
+            }
+            var intro = new Intro();
             while (true)
             {
                 Console.Clear();
@@ -55,7 +85,20 @@ namespace _6TxtRpg // 이쪽에 만들기
                             OpenQuest.ShowQuest();
                             break;
                         case 7:
-                            //저장하기 제작
+                            Console.WriteLine();
+                            SaveLoad.SaveCharacter(player);
+                            SaveLoad.SaveInven(Inventory.Inven);
+                            SaveLoad.SaveEquip(Inventory.equipments);
+                            SaveLoad.SaveStage(battle.Stage);
+                            SaveLoad.SaveQuest(OpenQuest.QuestList);
+                            break;
+                        case 8:
+                            Console.WriteLine();
+                            player = SaveLoad.LoadCharacter();
+                            Inventory.Inven = SaveLoad.LoadInven();
+                            Inventory.equipments = SaveLoad.LoadEquip();
+                            battle.Stage = (int)SaveLoad.LoadStage();
+                            OpenQuest.QuestList = SaveLoad.LoadQuest();
                             break;
                         default:
                             Console.WriteLine($">> {menuKey}");
@@ -102,7 +145,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.Clear();
                 Console.WriteLine("이름을 입력해주세요(1~6 글자 제한)");
                 Console.Write(">> ");
+                Console.CursorVisible = true;
                 name = Console.ReadLine();
+                Console.CursorVisible = false;
                 Console.Clear();
                 if (name.Length <= 6)
                 {
@@ -136,7 +181,9 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.Clear();
                 Console.WriteLine("직업을 선택해주세요(전사, 마법사, 도적)");
                 Console.Write(">> ");
+                Console.CursorVisible = true;
                 string input = Console.ReadLine();
+                Console.CursorVisible = false;
                 job = input;
                 if (job == "전사" || job == "마법사" || job == "도적" || job == "농부")
                 {
@@ -288,7 +335,6 @@ namespace _6TxtRpg // 이쪽에 만들기
                     break;
                 }
             }
-
         }
         public void ShortInfo() //전투에 사용할 정보창
         {
@@ -595,6 +641,194 @@ namespace _6TxtRpg // 이쪽에 만들기
             }
         }
     }
+    public static class SaveLoad
+    {
+        public static string saveFolderName = "SaveFile";
+        static string invenFile = "inven.json";
+        static string equipFile = "Equip.json";
+        static string stageFile = "Stage.json";
+        static string characterFile = "Character.json";
+        static string questFile = "Quest.json";
+
+        static string? fullPath;
+        public static void SaveCharacter(Character player)
+        {
+            fullPath = Path.Combine(saveFolderName, characterFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                // 이 코드가 없으면 저장 함수에서 오류가 발생합니다.
+                Directory.CreateDirectory(saveFolderName);
+                Console.WriteLine($"저장 폴더를 생성했습니다.");
+                Console.WriteLine();
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string playerData = JsonSerializer.Serialize(player, options);
+            File.WriteAllText(fullPath, playerData);
+            Console.WriteLine("플레이어의 정보가 저장되었습니다.");
+        }
+        public static void SaveInven(List<Item> inven)
+        {
+            fullPath = Path.Combine(saveFolderName, invenFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                // 이 코드가 없으면 저장 함수에서 오류가 발생합니다.
+                Directory.CreateDirectory(saveFolderName);
+                Console.WriteLine($"저장 폴더를 생성했습니다.");
+                Console.WriteLine();
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string invenData = JsonSerializer.Serialize(inven, options);
+            File.WriteAllText(fullPath, invenData);
+            Console.WriteLine("인벤토리가 저장되었습니다.");
+        }
+        public static void SaveEquip(Dictionary<ItemType, Item?> equip)
+        {
+            fullPath = Path.Combine(saveFolderName, equipFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                // 이 코드가 없으면 저장 함수에서 오류가 발생합니다.
+                Directory.CreateDirectory(saveFolderName);
+                Console.WriteLine($"저장 폴더를 생성했습니다.");
+                Console.WriteLine();
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string equipData = JsonSerializer.Serialize(equip, options);
+            File.WriteAllText(fullPath, equipData);
+            Console.WriteLine("장착 정보가 저장되었습니다.");
+        }
+        public static void SaveStage(int stage)//장착장비 딕셔너리도 저장해야됨
+        {
+            fullPath = Path.Combine(saveFolderName, stageFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                // 이 코드가 없으면 저장 함수에서 오류가 발생합니다.
+                Directory.CreateDirectory(saveFolderName);
+                Console.WriteLine($"저장 폴더를 생성했습니다.");
+                Console.WriteLine();
+            }
+            string stageData = JsonSerializer.Serialize(stage);
+            File.WriteAllText(fullPath, stageData);
+            Console.WriteLine("스테이지가 저장되었습니다.");
+        }
+        internal static void SaveQuest(List<Quest> quests)
+        {
+            fullPath = Path.Combine(saveFolderName, questFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                // 이 코드가 없으면 저장 함수에서 오류가 발생합니다.
+                Directory.CreateDirectory(saveFolderName);
+                Console.WriteLine($"저장 폴더를 생성했습니다.");
+                Console.WriteLine();
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string questData = JsonSerializer.Serialize(quests, options);
+            File.WriteAllText(fullPath, questData);
+            Console.WriteLine("퀘스트 진행상황이 저장되었습니다.");
+            Console.ReadKey(true);
+        }
+        public static Character? LoadCharacter()
+        {
+            fullPath = Path.Combine(saveFolderName, characterFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                Console.WriteLine($"저장된 파일이 없습니다.");
+                Console.ReadKey(true);
+                return null;
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string characterData = File.ReadAllText(fullPath);
+            Console.WriteLine("캐릭터 정보를 불러왔습니다.");
+            return JsonSerializer.Deserialize<Character>(characterData, options);
+        }
+        public static List<Item>? LoadInven()
+        {
+            fullPath = Path.Combine(saveFolderName, invenFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                Console.WriteLine($"저장된 파일이 없습니다.");
+                Console.ReadKey(true);
+                return null;
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string InvenData = File.ReadAllText(fullPath);
+            Console.WriteLine("인벤토리를 불러왔습니다.");
+            return JsonSerializer.Deserialize<List<Item>>(InvenData, options);
+        }
+        public static Dictionary<ItemType, Item?>? LoadEquip()
+        {
+            fullPath = Path.Combine(saveFolderName, equipFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                Console.WriteLine($"저장된 파일이 없습니다.");
+                Console.ReadKey(true);
+                return null;
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string equipData = File.ReadAllText(fullPath);
+            Console.WriteLine("장착정보를 불러왔습니다.");
+            return JsonSerializer.Deserialize<Dictionary<ItemType, Item?>>(equipData, options);
+        }
+        public static int? LoadStage()
+        {
+            fullPath = Path.Combine(saveFolderName, stageFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                Console.WriteLine($"저장된 파일이 없습니다.");
+                Console.ReadKey(true);
+                return null;
+            }
+            string stageData = File.ReadAllText(fullPath);
+            Console.WriteLine("스테이지를 불러왔습니다.");
+            Console.ReadKey(true);
+            return JsonSerializer.Deserialize<int>(stageData);
+        }
+        internal static List<Quest>? LoadQuest()
+        {
+            fullPath = Path.Combine(saveFolderName, questFile);
+            if (!Directory.Exists(saveFolderName))
+            {
+                Console.WriteLine($"저장된 파일이 없습니다.");
+                Console.ReadKey(true);
+                return null;
+            }
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            };
+            string questData = File.ReadAllText(fullPath);
+            Console.WriteLine("퀘스트 진행상황을 불러왔습니다.");
+            return JsonSerializer.Deserialize<List<Quest>>(questData, options);
+        }
+    }
 }
 public class Intro
 {
@@ -628,6 +862,8 @@ public class Intro
         Console.WriteLine("-----------------------------------------------------");
         Tool.ColorTxt("7", Tool.cyan);
         Console.WriteLine(".저장하기");
+        Tool.ColorTxt("8", Tool.cyan);
+        Console.WriteLine(".불러오기");
         Console.Write("\n원하시는 행동을 입력해주세요.");
         Console.WriteLine();
     }
