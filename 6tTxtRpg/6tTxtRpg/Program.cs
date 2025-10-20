@@ -311,7 +311,7 @@ namespace _6TxtRpg // 이쪽에 만들기
                 Console.WriteLine("농부는 그런 거 모릅니다.");
             }
         }
-        public void UseSkill(Skills skill, Monster monster)
+        public void UseSkill(Monster monster)
         {
             input = Console.ReadLine();
             if (job == "전사")
