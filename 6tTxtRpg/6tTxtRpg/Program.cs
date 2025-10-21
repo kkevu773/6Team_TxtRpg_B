@@ -1,4 +1,5 @@
 ﻿using _6tTxtRpg;
+using System;
 using System.Text.Json;
 namespace _6tTxtRpg // 이쪽에 만들기
 {
@@ -852,7 +853,16 @@ public class Intro
         Tool.ColorTxt("5", Tool.cyan);
         Console.Write(".인벤토리\n");
         Tool.ColorTxt("6", Tool.cyan);
-        Console.WriteLine(".퀘스트");
+        Console.Write(".퀘스트");
+        for (int i = 0; i < OpenQuest.QuestList.Count; ++i)
+        {
+            if (OpenQuest.QuestList[i].IsStart && OpenQuest.QuestList[i].CurrentRequire >= OpenQuest.QuestList[i].Require)
+            { 
+                Tool.ColorTxt(" - 완료 가능", Tool.yellow);
+                break;
+            }
+        }
+        Console.WriteLine();
         Console.WriteLine("-----------------------------------------------------");
         Tool.ColorTxt("7", Tool.cyan);
         Console.WriteLine(".저장하기");
