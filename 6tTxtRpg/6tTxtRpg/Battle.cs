@@ -160,21 +160,23 @@ namespace _6tTxtRpg
             else if (isPractice_)
             { copyStage = Stage - 1; }
             if (copyStage <= 1)
-            { monNum = (byte)random.Next(1, 2); }
+            { monNum = (byte)random.Next(1, 2); }//1마리
             else if (copyStage <= 3 && Stage > 1)
-            { monNum = (byte)random.Next(1, 3); }
+            { monNum = (byte)random.Next(1, 3); }//2마리
             else if (copyStage <= 5 && Stage > 3)
-            { monNum = (byte)random.Next(1, 4); }
+            { monNum = (byte)random.Next(1, 4); }//3마리
             else if (copyStage <= 10 && Stage > 5)
-            { monNum = (byte)random.Next(1, 5); }
+            { monNum = (byte)random.Next(1, 5); }//4마리
             else if (copyStage <= 15 && Stage > 10)
-            { monNum = (byte)random.Next(1, 6); }
+            { monNum = (byte)random.Next(1, 6); }//5마리
             else if (copyStage <= 25 && Stage > 15)
-            { monNum = (byte)random.Next(1, 7); }
+            { monNum = (byte)random.Next(1, 7); }//6마리
             else if (copyStage <= 50 && Stage > 25)
-            { monNum = (byte)random.Next(1, 8); }
-            else if (copyStage > 50)
-            { monNum = (byte)random.Next(1, 9); }
+            { monNum = (byte)random.Next(1, 8); }//7마리
+            else if (copyStage <= 100 && Stage > 50)
+            { monNum = (byte)random.Next(1, 9); }//8마리
+            else if (copyStage > 100)
+            { monNum = (byte)random.Next(1, 10); }//9마리
 
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.

@@ -91,6 +91,11 @@ namespace _6tTxtRpg // 이쪽에 만들기
                             OpenQuest.QuestList = SaveLoad.LoadQuest();
                             battle.Update(player, monsterList);
                             break;
+                        case 9:
+                            Console.WriteLine("게임을 종료합니다.");
+                            Console.ReadKey(true);
+                            Environment.Exit(0);
+                            break;
                         default:
                             Console.WriteLine($">> {menuKey}");
                             Tool.WrongMsg();
@@ -868,6 +873,9 @@ public class Intro
         Console.WriteLine(".저장하기");
         Tool.ColorTxt("8", Tool.cyan);
         Console.WriteLine(".불러오기");
+        Console.WriteLine("-----------------------------------------------------");
+        Tool.ColorTxt("9", Tool.cyan);
+        Console.WriteLine(".종료하기");
         Console.Write("\n원하시는 행동을 입력해주세요.");
         Console.WriteLine();
     }
