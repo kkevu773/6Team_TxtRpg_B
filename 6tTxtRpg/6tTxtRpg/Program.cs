@@ -92,6 +92,9 @@ namespace _6tTxtRpg // 이쪽에 만들기
                             battle.Update(player, monsterList);
                             break;
                         case 9:
+                            Console.WriteLine("게임을 종료합니다.");
+                            Console.ReadKey(true);
+                            Environment.Exit(0);
                             break;
                         default:
                             Console.WriteLine($">> {menuKey}");
