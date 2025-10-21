@@ -173,8 +173,10 @@ namespace _6tTxtRpg
             { monNum = (byte)random.Next(1, 7); }
             else if (copyStage <= 50 && Stage > 25)
             { monNum = (byte)random.Next(1, 8); }
-            else if (copyStage > 50)
+            else if (copyStage <= 100 && Stage > 50)
             { monNum = (byte)random.Next(1, 9); }
+            else if (copyStage > 100)
+            { monNum = (byte)random.Next(1, 10); }
 
             //등장 몬스터 수 지정. 작은 수니까 byte로 처리했다. 0~3까지 계산.
             for (int i = 0; i < monNum; ++i)//몬스터 수만큼 반복.
