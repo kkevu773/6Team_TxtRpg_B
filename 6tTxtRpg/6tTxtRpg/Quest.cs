@@ -218,7 +218,6 @@ namespace _6tTxtRpg
                 Console.WriteLine($"{Tool.Josa(QuestName, "을", "를")} 완료했습니다.");
                 IsFinish = true;
             }
-            Console.WriteLine();
         }
     }
 }

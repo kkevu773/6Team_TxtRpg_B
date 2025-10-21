@@ -143,7 +143,6 @@ namespace _6tTxtRpg
                         break;
                 }
             }
-
             // 장비 사용 중  처리
             if (Type == ItemType.Weapon ||
                 Type == ItemType.ExtraWeapon ||
@@ -158,7 +157,6 @@ namespace _6tTxtRpg
                     Quest? targetQuest = OpenQuest.QuestList.FirstOrDefault(quest => quest.QuestName == "장비를 장착해보자");
                     targetQuest?.Trigger();
                 }
-                Console.WriteLine("퀘스트처리if문 동작");
             }
 
             //이전 장비 수치 제거
