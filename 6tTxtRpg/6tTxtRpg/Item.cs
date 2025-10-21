@@ -408,7 +408,10 @@ namespace _6tTxtRpg
                     case Status.BonusDef:
                         break;
                 }
-                Console.WriteLine($"{i + 1}.[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect} [{itemInven.Price}G]");
+                Tool.ColorTxt((i + 1).ToString(), Tool.cyan);
+                Console.Write($".[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect} [");
+                Tool.ColorTxt(itemInven.Price.ToString() + "G", Tool.yellow);
+                Console.WriteLine("]");
             }
 
         }

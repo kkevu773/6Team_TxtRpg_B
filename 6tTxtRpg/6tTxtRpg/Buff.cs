@@ -161,6 +161,10 @@ namespace _6tTxtRpg
                 string outLine = ($"[{buff.Name}/{buff.EffectStatus} +{buff.EffectNum} ({buff.RemainTurn})]");
                 Console.WriteLine(outLine);
             }
+            if(buffList.Count == 0)
+            {
+                Console.WriteLine(" ");
+            }
             Console.WriteLine("==================================================");
         }
     }

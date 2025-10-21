@@ -12,7 +12,10 @@ namespace _6tTxtRpg
             for (int i = 0; i < shopItemList.Count; i++)
             {
                 Item itemShop = shopItemList[i];
-                Console.WriteLine($"{i + 1}.[{itemShop.Name}] : [{itemShop.Price}]G");
+                Tool.ColorTxt((i + 1).ToString(), Tool.cyan);
+                Console.Write($".[{itemShop.Name}] : [");
+                Tool.ColorTxt(itemShop.Price.ToString() + "G", Tool.yellow);
+                Console.WriteLine("]");              
             }
         }
 
@@ -29,11 +32,15 @@ namespace _6tTxtRpg
             {
                 Console.Clear();
                 Console.WriteLine("================상점================");
-                Console.WriteLine("1.구매");
-                Console.WriteLine("2.판매");
-                Console.WriteLine("3.강화");
-                Console.WriteLine("0.떠나기");
-                Console.WriteLine("원하는 행동의 번호를 입력해 주세요.");
+                Tool.ColorTxt("1", Tool.cyan);
+                Console.WriteLine(".구매");
+                Tool.ColorTxt("2", Tool.cyan);
+                Console.WriteLine(".판매");
+                Tool.ColorTxt("3", Tool.cyan);
+                Console.WriteLine(".강화");
+                Tool.ColorTxt("0", Tool.red);
+                Console.WriteLine(".떠나기");
+                Console.WriteLine("원하시는 행동의 번호를 입력해 주세요.");
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 char inputChar = keyInfo.KeyChar;
@@ -55,7 +62,9 @@ namespace _6tTxtRpg
                         //PrintShop(TxtR.player.level - 1);   // 플레이어 레벨에 따라 상점 선정
                         PrintShop(0);   //레벨업 구현 전까지 임시 적용
                         Console.WriteLine("구매 할 아이템의 번호를 입력해주세요.");
-                        Console.WriteLine("나가기는 0번");
+                        Console.Write("나가기는 ");
+                        Tool.ColorTxt("0", Tool.red);
+                        Console.WriteLine("번");
 
                         keyInfo = Console.ReadKey();
                         inputChar = keyInfo.KeyChar;
@@ -128,11 +137,16 @@ namespace _6tTxtRpg
                                 case Status.BonusDef:
                                     break;
                             }
-                            Console.WriteLine($"{i + 1}.[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect} [{itemInven.Price}G]");
+                            Tool.ColorTxt((i+1).ToString(), Tool.cyan); 
+                            Console.Write($".[{itemInven.Name}]+{itemInven.Enchant}: [{itemInven.Amount}] {(itemInven.IsUsing == true ? "[E]" : " ")} / {itemEffect} [");
+                            Tool.ColorTxt(itemInven.Price.ToString() + "G", Tool.yellow);
+                            Console.WriteLine("]");
                         }
 
                         Console.WriteLine("\n판매 할 아이템의 번호를 입력해주세요.\n판매금액은 가격의 80% 입니다.");
-                        Console.WriteLine("나가기는 0번입니다.");
+                        Console.Write("나가기는 ");
+                        Tool.ColorTxt("0", Tool.red);
+                        Console.WriteLine("번");
 
                         //keyInfo = Console.ReadKey();
                         //inputChar = keyInfo.KeyChar;
@@ -190,12 +204,20 @@ namespace _6tTxtRpg
                     reqAmount = 1;
                     break;
             }
-            Console.WriteLine($"강화에는 다음 아이템이 필요합니다. [{reqItem.Name} : {reqAmount}] ");
+            Console.Write($"강화에는 다음 아이템이 필요합니다. [");
+            Tool.ColorTxt(reqItem.Name, Tool.green);
+            Console.Write("] : [");
+            Tool.ColorTxt(reqAmount.ToString(), Tool.red);
+            Console.WriteLine("]");
 
             //인벤토리에 강화소재 보유 시
             if(Inventory.Inven.Contains(reqItem) && Inventory.Inven.Find(t => t == reqItem).Amount >= reqAmount && item.Enchant < 3)
             {
-                Console.WriteLine("강화 하시겠습니까?\n1.예\n2.아니오");
+                Console.WriteLine("강화 하시겠습니까?");
+                Tool.ColorTxt("1", Tool.cyan);
+                Console.WriteLine(". 예");
+                Tool.ColorTxt("2", Tool.cyan);
+                Console.WriteLine(". 아니오");
                 char inputChar = Console.ReadKey().KeyChar;
 
                 if(inputChar == '1')
@@ -219,7 +241,8 @@ namespace _6tTxtRpg
             else
             {
                 Console.Clear();
-                Console.WriteLine("강화 불가.");
+                Tool.ColorTxt("강화 불가", Tool.red);
+                Console.WriteLine("");
             }
         }
 
@@ -249,8 +272,11 @@ namespace _6tTxtRpg
                 {
                     Console.WriteLine($"{i + 1}. [{echantableItemList[i].Name}] [+{echantableItemList[i].Enchant}]");
                 }
-
-                Console.WriteLine("강화 할 아이템의 번호를 입력해주세요.\n0.떠나기");
+                Console.WriteLine("================강화================");
+                Console.WriteLine("\n강화 할 아이템의 번호를 입력해주세요.");
+                Console.Write("나가기는 ");
+                Tool.ColorTxt("0", Tool.red);
+                Console.WriteLine("번");
 
                 char inputChar = Console.ReadKey().KeyChar;
                 int input = (int.TryParse(inputChar.ToString(), out int value)) ? value : -1; // 입력을 정수로 변환, 실패시 정수 -1 반환
